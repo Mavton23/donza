@@ -1,0 +1,223 @@
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+
+const AuthContext = createContext();
+
+export const AuthProvider = ({ children }) => {
+  const [authState, setAuthState] = useState({
+    isAuthenticated: null,
+    user: null,
+    loading: true,
+    error: null
+  });
+  const navigate = useNavigate();
+
+  // Carrega usuário do localStorage
+  const loadUserFromStorage = useCallback(() => {
+    const userString = localStorage.getItem("user");
+    return userString ? JSON.parse(userString) : null;
+  }, []);
+
+  // Atualiza usuário no estado e localStorage
+  const updateUser = useCallback((userData) => {
+    const updatedUser = { ...authState.user, ...userData };
+    localStorage.setItem("user", JSON.stringify(updatedUser));
+    setAuthState(prev => ({
+      ...prev,
+      user: updatedUser
+    }));
+    return updatedUser;
+  }, [authState.user]);
+
+  // Verificar autenticação ao inicializar
+  const checkAuth = useCallback(() => {
+    try {
+      const token = localStorage.getItem("token");
+      const user = loadUserFromStorage();
+      
+      if (!token || !user) {
+        setAuthState(prev => ({ ...prev, isAuthenticated: false, loading: false }));
+        return false;
+      }
+
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      setAuthState({ 
+        isAuthenticated: true,
+        user,
+        loading: false,
+        error: null
+      });
+      return true;
+    } catch (error) {
+      console.error("Auth validation error:", error);
+      setAuthState(prev => ({
+        ...prev,
+        isAuthenticated: false,
+        loading: false,
+        error: "Failed to validate session"
+      }));
+      return false;
+    }
+  }, [loadUserFromStorage]);
+
+  const completeProfile = async (profileData) => {
+    try {
+      setAuthState(prev => ({ ...prev, loading: true }));
+      
+      const response = await axios.post("http://localhost:5000/api/auth/complete-profile", profileData);
+      const updatedUser = updateUser({
+        ...response.data.user,
+        profileCompleted: true,
+      });
+      
+      toast.success("Profile completed successfully!");
+      return updatedUser;
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || 
+                         error.response?.data?.errors?.join(', ') || 
+                         "Failed to complete profile";
+      toast.error(errorMessage);
+      throw error;
+    } finally {
+      setAuthState(prev => ({ ...prev, loading: false }));
+    }
+  };
+
+  // Atualizar perfil
+  const updateProfile = async (profileData) => {
+    try {
+      setAuthState(prev => ({ ...prev, loading: true }));
+      
+      const response = await axios.put("/api/auth/complete-profile", profileData);
+      const updatedUser = updateUser(response.data.user);
+      
+      toast.success("Profile updated successfully!");
+      return updatedUser;
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || 
+                         "Failed to update profile";
+      toast.error(errorMessage);
+      throw error;
+    } finally {
+      setAuthState(prev => ({ ...prev, loading: false }));
+    }
+  };
+
+  // Efeito para verificar autenticação ao montar
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
+  // Login tradicional
+  const login = async (credentials) => {
+    try {
+      setAuthState(prev => ({ ...prev, loading: true, error: null }));
+      
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/login", 
+        credentials
+      );
+
+      const { data } = response;
+      
+      if (!data.success) {
+        throw new Error(data.message || "Login failed");
+      }
+
+      const { userId, username, email, role, status, avatarUrl, accessToken, refreshToken } = data.data;
+
+      const user = { 
+        userId, 
+        username, 
+        email, 
+        role,
+        status,
+        avatarUrl,
+        profileCompleted: data.data.profileCompleted || false,
+        isVerified: data.data.isVerified || false
+      };
+
+      localStorage.setItem("token", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+      localStorage.setItem("user", JSON.stringify(user));
+      
+      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+      
+      setAuthState({
+        isAuthenticated: true,
+        user,
+        loading: false,
+        error: null
+      });
+
+      return user;
+      
+    } catch (error) {
+      const errorMessage = error.response?.data?.error?.message || 
+                     error.response?.data?.message || 
+                     error.message || 
+                     "Falha no login";
+      
+      setAuthState(prev => ({
+        ...prev,
+        loading: false,
+        error: errorMessage
+      }));
+      
+      throw error;
+    }
+  };
+
+  // Logout
+  const logout = useCallback(async () => {
+    try {
+      const refreshToken = localStorage.getItem("refreshToken");
+      if (refreshToken) {
+        await axios.post("http://localhost:5000/api/auth/logout", { refreshToken });
+      }
+    } catch (error) {
+      console.error("Logout error:", error);
+    } finally {
+      localStorage.removeItem("token");
+      localStorage.removeItem("refreshToken");
+      localStorage.removeItem("user");
+      delete axios.defaults.headers.common["Authorization"];
+      
+      setAuthState({
+        isAuthenticated: false,
+        user: null,
+        loading: false,
+        error: null
+      });
+      
+      navigate("/login");
+    }
+  }, [navigate]);
+
+  return (
+    <AuthContext.Provider
+    value={{
+      ...authState,
+      currentUser: authState.user, // Adicionado alias para compatibilidade
+      login,
+      logout,
+      checkAuth,
+      completeProfile,
+      updateProfile,
+      updateUser
+    }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+};

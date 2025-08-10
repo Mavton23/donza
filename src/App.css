@@ -1,0 +1,81 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+.message-bubble {
+  position: relative;
+  word-break: break-word;
+}
+
+.message-bubble:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  bottom: 0;
+}
+
+.current-user .message-bubble:after {
+  border-left-color: #4f46e5; /* Cor do balão do usuário atual */
+  border-right: 0;
+  right: -6px;
+}
+
+.other-user .message-bubble:after {
+  border-right-color: #f3f4f6; /* Cor do balão de outros usuários */
+  border-left: 0;
+  left: -6px;
+}
+
+.dark .other-user .message-bubble:after {
+  border-right-color: #374151; /* Cor escura do balão */
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse-opacity {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.animate-pulse-opacity {
+  animation: pulse-opacity 2s infinite;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
