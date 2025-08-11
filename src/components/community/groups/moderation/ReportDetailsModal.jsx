@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FiAlertTriangle, FiX, FiCheck, FiUser, FiMessageSquare, FiFile, FiTrash2, FiEyeOff, FiUserX } from 'react-icons/fi';
+import { FiAlertTriangle, FiX, FiCheck, FiUser, FiMessageSquare, FiFile } from 'react-icons/fi';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import Avatar from '@/components/common/Avatar';

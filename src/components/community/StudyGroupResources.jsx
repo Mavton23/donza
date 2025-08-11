@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { FiPlus, FiTrash2, FiDownload, FiFile, FiLink } from 'react-icons/fi';
-import api from '../../services/api';
-import LoadingSpinner from '../../components/common/LoadingSpinner';
-import ErrorMessage from '../../components/common/ErrorMessage';
-import { Button } from '../../components/ui/button';
-import Modal from '../../components/common/Modal';
+import api from '@/services/api';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
+import ErrorMessage from '@/components/common/ErrorMessage';
+import { Button } from '@/components/ui/button';
+import Modal from '@/components/common/Modal';
 
 /**
  * Component for managing study group resources (files and links)

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import api from '../../services/api';
+import api from '@/services/api';
 import { PencilIcon, TrashIcon, ChevronUpIcon, ChevronDownIcon } from 'lucide-react';
 
 export default function LessonItem({ lesson, courseId, moduleId, onUpdate, onDelete }) {

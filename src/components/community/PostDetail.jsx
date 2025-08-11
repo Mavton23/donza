@@ -1,24 +1,22 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
-import api from '../../services/api';
+import { useAuth } from '@/contexts/AuthContext';
+import api from '@/services/api';
 import { 
-  FiArrowLeft, FiMessageSquare, FiHeart, FiEdit2, 
+  FiArrowLeft, FiMessageSquare, FiEdit2, 
   FiTrash2, FiMoreVertical, FiExternalLink,
-  FiShare2, FiFlag, FiClock, FiEye,
-  FiThumbsUp, FiAward, FiEdit3, 
-  FiHelpCircle 
+  FiShare2, FiFlag, FiClock, FiEye
 } from 'react-icons/fi';
 import { Pin, BookOpen, AlertCircle, GraduationCap } from 'lucide-react';
-import LoadingSpinner from '../../components/common/LoadingSpinner';
-import ErrorMessage from '../../components/common/ErrorMessage';
-import Avatar from '../../components/common/Avatar';
-import { Badge } from '../../components/ui/badge';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
+import ErrorMessage from '@/components/common/ErrorMessage';
+import Avatar from '@/components/common/Avatar';
+import { Badge } from '@/components/ui/badge';
 import TimeAgo from '../common/TimeAgo';
-import Dropdown from '../../components/common/Dropdown';
+import Dropdown from '@/components/common/Dropdown';
 import CommentsSection from './CommentsSection';
 import ReactionButton from '../common/ReactButton';
-import { Button } from '../../components/ui/button';
+import { Button } from '@/components/ui/button';
 
 const getPostTypeIcon = (type) => {
   const icons = {

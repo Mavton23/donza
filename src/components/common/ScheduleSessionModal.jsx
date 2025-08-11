@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { FiCalendar, FiClock, FiX } from 'react-icons/fi';
-import { Button } from '../../components/ui/button';
-import Modal from '../../components/common/Modal';
-import { Input } from '../../components/ui/input';
-import { Textarea } from '../../components/ui/textarea';
+import { Button } from '@/components/ui/button';
+import Modal from '@/components/common/Modal';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 
 export default function ScheduleSessionModal({ onClose, onSubmit }) {
   const [formData, setFormData] = useState({

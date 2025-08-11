@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
-import api from '../../services/api';
+import { useAuth } from '@/contexts/AuthContext';
+import api from '@/services/api';
 import Icon from '../common/Icon';
 import Dropdown from '../common/Dropdown';
 import LoadingSpinner from '../common/LoadingSpinner';

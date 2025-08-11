@@ -1,4 +1,4 @@
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
 import Avatar from '../common/Avatar';
 import Dropdown from '../common/Dropdown';
 import ThemeToggle from "../common/ThemeToggle";

@@ -1,10 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { FiEye, FiTrash2, FiMessageSquare, FiHeart, FiMoreVertical, FiExternalLink, FiThumbsUp, FiAward, FiEdit3 } from 'react-icons/fi';
 import { Pin, BookOpen, AlertCircle, GraduationCap } from 'lucide-react';
-import Dropdown from '../../components/common/Dropdown';
+import Dropdown from '@/components/common/Dropdown';
 import PostDetail from './PostDetail';
-import Avatar from '../../components/common/Avatar';
-import { Badge } from '../../components/ui/badge';
+import Avatar from '@/components/common/Avatar';
+import { Badge } from '@/components/ui/badge';
 import TimeAgo from '../common/TimeAgo';
 
 const getPostTypeColor = (type) => {

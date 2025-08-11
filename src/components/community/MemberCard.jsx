@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { FiUser, FiMoreVertical, FiUserX, FiMessageSquare, FiEdit2 } from 'react-icons/fi';
 import Dropdown from '@/components/common/Dropdown';
-import { Badge } from '@/components/ui/badge';
 import Avatar from '@/components/common/Avatar';
 import TimeAgo from '../common/TimeAgo';
 

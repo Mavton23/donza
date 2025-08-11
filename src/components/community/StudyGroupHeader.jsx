@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import Icon from '../common/Icon';
-import { Button } from '../../components/ui/button';
+import { Button } from '@/components/ui/button';
 
 export default function StudyGroupHeader({ group, isMember, onJoin, onLeave }) {
   return (

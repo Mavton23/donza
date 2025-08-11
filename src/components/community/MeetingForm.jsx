@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { FiCalendar, FiClock, FiLink } from 'react-icons/fi';
+import { FiCalendar, FiLink } from 'react-icons/fi';
 import api from '@/services/api';
 import { Button } from '@/components/ui/button';
-import LoadingSpinner from '@/components/common/LoadingSpinner';
 import ErrorMessage from '@/components/common/ErrorMessage';
 import DateTimePicker from '@/components/common/DateTimePicker';
 import { Input } from '@/components/ui/input';

@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import Icon from '../common/Icon';
 import { Tooltip } from '../ui/tooltip';
 import { FiUsers, FiMessageSquare, FiLock, FiGlobe, FiUser } from 'react-icons/fi';
 import TimeAgo from '../common/TimeAgo';

@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { 
-  Mail,
-  Heart
+  Mail
 } from "lucide-react";
 import { FaGithub, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
 

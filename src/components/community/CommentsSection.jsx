@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
-import api from '../../services/api';
+import api from '@/services/api';
 import { FiMessageSquare, FiSend, FiTrash2, FiEdit2 } from 'react-icons/fi';
-import LoadingSpinner from '../../components/common/LoadingSpinner';
-import ErrorMessage from '../../components/common/ErrorMessage';
-import Avatar from '../../components/common/Avatar';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
+import ErrorMessage from '@/components/common/ErrorMessage';
+import Avatar from '@/components/common/Avatar';
 import TimeAgo from '../common/TimeAgo';
-import { Button } from '../../components/ui/button';
+import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 
 /**

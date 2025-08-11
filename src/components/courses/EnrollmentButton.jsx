@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import api from '@/services/api';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 

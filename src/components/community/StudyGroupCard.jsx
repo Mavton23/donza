@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import { Clock, Users, Lock, ChevronRight, Tag } from 'lucide-react';
-import { Button } from '../../components/ui/button';
+import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { formatDistanceToNow } from 'date-fns';
-import { cn } from '../../lib/utils';
+import { cn } from '@/lib/utils';
 
 export default function StudyGroupCard({ group, communityId, isMember = false }) {
   const {

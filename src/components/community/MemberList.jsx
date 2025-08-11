@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
-import api from '../../services/api';
+import api from '@/services/api';
 import { FiUser, FiUserX } from 'react-icons/fi';
-import Avatar from '../../components/common/Avatar';
-import { Badge } from '../../components/ui/badge';
-import LoadingSpinner from '../../components/common/LoadingSpinner';
+import Avatar from '@/components/common/Avatar';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
 
 export default function MemberList({ groupId, members = [], currentUserId, canManage }) {
   const [loading, setLoading] = useState(false);

@@ -25,7 +25,7 @@ export default function ThemeToggle() {
     <button
       onClick={() => setDarkMode(!darkMode)}
       className="p-2 rounded-full text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 focus:outline-none transition-colors"
-      aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+      aria-label={darkMode ? 'Mudar para modo claro' : 'Mudar para modo escuro'}
     >
       {darkMode ? (
         <Sun className="h-5 w-5" />

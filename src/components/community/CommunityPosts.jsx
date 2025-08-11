@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
-import api from '../../services/api';
+import { useAuth } from '@/contexts/AuthContext';
+import api from '@/services/api';
 import { FiMessageSquare, FiPlus, FiSearch } from 'react-icons/fi';
-import LoadingSpinner from '../../components/common/LoadingSpinner';
-import EmptyState from '../../components/common/EmptyState';
-import Pagination from '../../components/common/Pagination';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
+import EmptyState from '@/components/common/EmptyState';
+import Pagination from '@/components/common/Pagination';
 import PostCard from './PostCard';
-import { Button } from '../../components/ui/button';
-import { Input } from '../../components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 export default function CommunityPosts() {
   const { communityId } = useParams();

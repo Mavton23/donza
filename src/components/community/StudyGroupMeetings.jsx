@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { format, isPast, isToday } from 'date-fns';
-import api from '../../services/api';
+import api from '@/services/api';
 import LoadingSpinner from '../common/LoadingSpinner';
 import EmptyState from '../common/EmptyState';
-import { Button } from '../../components/ui/button';
+import { Button } from '@/components/ui/button';
 import Icon from '../common/Icon';
 import Modal from '../common/Modal';
 import MeetingForm from './MeetingForm';

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ChevronDown, ChevronRight, CheckCircle, Lock } from 'lucide-react';
-import api from '../../services/api';
-import { useAuth } from '../../contexts/AuthContext';
+import api from '@/services/api';
+import { useAuth } from '@/contexts/AuthContext';
 import LoadingSpinner from '../common/LoadingSpinner';
 
 export default function ModuleList({ isEnrolled, courseId }) {

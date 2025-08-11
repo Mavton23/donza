@@ -5,9 +5,9 @@ import { FiSave, FiTrash2, FiUsers, FiCalendar, FiLock, FiLink } from 'react-ico
 import { toast } from 'sonner';
 import api from '@/services/api';
 import Avatar from '@/components/common/Avatar';
-import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
-import { Textarea } from '@/components/ui/Textarea';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import MemberRoleBadge from '@/utils/MemberRoleBadge';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import ScheduleEditor from '@/utils/ScheduleEditor';

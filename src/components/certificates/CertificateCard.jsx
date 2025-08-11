@@ -1,5 +1,5 @@
 import { Award } from 'lucide-react';
-import {Button} from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 
 export default function CertificateCard({ certificate, onDownload }) {
   if (!certificate) return null;
