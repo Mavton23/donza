@@ -27,20 +27,13 @@ import ContentUploader from '@/components/community/groups/ContentUploader';
 import ContentGallery from '@/components/community/groups/sharedcontent/ContentGallery';
 import ContentPreviewModal from '@/components/community/groups/sharedcontent/ContentPreviewModal';
 import EditContentModal from '@/components/community/groups/sharedcontent/EditContentModal';
-import Leaderboard from '@/components/community/groups/gamification/LeaderBoard';
+import LeaderBoard from '@/components/community/groups/gamification/LeaderBoard';
 import UserStatsCard from '@/components/community/groups/gamification/UserStatCard';
-import NotificationToast from '@/components/community/groups/gamification/NotificationToast';
 import DebateChat from '@/components/community/groups/chat/DebateChat';
-import ReportList from '@/components/community/groups/moderation/ReportList';
 import ReportFilters from '@/components/community/groups/report/ReportFilters';
 import ReportCard from '@/components/community/groups/report/ReportCard';
 import ActivityChart from '@/components/community/groups/report/ActivityChart';
 import TaskCompletionChart from '@/components/community/groups/report/TaskCompletionChart';
-import ModerationLog from '@/components/community/groups/moderation/ModerationLog';
-import ModerationStats from '@/components/community/groups/moderation/ModerationStats';
-import ModerationQuickActions from '@/components/community/groups/moderation/ModerationQuickActions';
-import ModerationGuidelines from '@/components/community/groups/moderation/ModerationGuidelines';
-import SuspiciousActivity from '@/components/community/groups/moderation/SuspiciousActivity';
 import CalendarView from '@/components/community/groups/calendar/CalendarView';
 import CalendarSyncButton from '@/components/community/groups/calendar/CalendarSyncButton';
 import { useRequireGroupMembership } from '@/hooks/useRequireGroupMembership';
@@ -102,7 +95,6 @@ const StudyGroupDetail = () => {
 
         setStats({ ...groupRes.data.data.stats })
         
-        // Ajuste para verificar membership
         if (membershipRes && membershipRes.data.data) {
           setIsMember(true);
           setUserRole(membershipRes.data.data.role || null);
@@ -717,7 +709,7 @@ const handleDownload = async (contentId) => {
               <div className="lg:col-span-2">
                 <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                   <h2 className="text-xl font-semibold mb-4">Classificação do Grupo</h2>
-                  <Leaderboard members={group.members || []} />
+                  <LeaderBoard members={group.members || []} />
                 </div>
               </div>
               <div>
