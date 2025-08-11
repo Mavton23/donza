@@ -27,7 +27,7 @@ import ContentUploader from '@/components/community/groups/ContentUploader';
 import ContentGallery from '@/components/community/groups/sharedcontent/ContentGallery';
 import ContentPreviewModal from '@/components/community/groups/sharedcontent/ContentPreviewModal';
 import EditContentModal from '@/components/community/groups/sharedcontent/EditContentModal';
-import LeaderBoard from '../../components/community/groups/gamification/LeaderBoard';
+// import LeaderBoard from '@/components/community/groups/gamification/LeaderBoard';
 import UserStatsCard from '@/components/community/groups/gamification/UserStatCard';
 import DebateChat from '@/components/community/groups/chat/DebateChat';
 import ReportFilters from '@/components/community/groups/report/ReportFilters';
@@ -709,7 +709,7 @@ const handleDownload = async (contentId) => {
               <div className="lg:col-span-2">
                 <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                   <h2 className="text-xl font-semibold mb-4">Classificação do Grupo</h2>
-                  <LeaderBoard members={group.members || []} />
+                  {/* <LeaderBoard members={group.members || []} /> */}
                 </div>
               </div>
               <div>
