@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND_API_BASE_URL || "http://localhost:5000/api",
+  baseURL: import.meta.env.VITE_BACKEND_API_BASE_URL || "https://donza-api.onrender.com/api",
   timeout: 300000,
   headers: {
     "Content-Type": "application/json",
