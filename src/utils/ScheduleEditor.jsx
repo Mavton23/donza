@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FiPlus, FiTrash2, FiClock, FiCalendar } from 'react-icons/fi';
-import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 export default function ScheduleEditor({ schedule, onChange }) {
   const [newSchedule, setNewSchedule] = useState({
