@@ -27,7 +27,7 @@ import ContentUploader from '@/components/community/groups/ContentUploader';
 import ContentGallery from '@/components/community/groups/sharedcontent/ContentGallery';
 import ContentPreviewModal from '@/components/community/groups/sharedcontent/ContentPreviewModal';
 import EditContentModal from '@/components/community/groups/sharedcontent/EditContentModal';
-import LeaderBoard from '@/components/community/groups/gamification/LeaderBoard';
+import LeaderBoard from '../../components/community/groups/gamification/LeaderBoard';
 import UserStatsCard from '@/components/community/groups/gamification/UserStatCard';
 import DebateChat from '@/components/community/groups/chat/DebateChat';
 import ReportFilters from '@/components/community/groups/report/ReportFilters';
