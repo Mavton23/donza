@@ -12,6 +12,7 @@ export default function Footer() {
       { name: "Início", href: "/" },
       { name: "Cursos", href: "/courses" },
       { name: "Comunidades", href: "/communities" },
+      { name: "Ajuda", href: "/help" },
       { name: "Sobre", href: "/about" },
       { name: "Contato", href: "/contact" },
     ],
@@ -53,7 +54,7 @@ export default function Footer() {
     <footer className="bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         {/* Links principais */}
-        <nav className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+        <nav className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
           {navigation.main.map((item) => (
             <Link
               key={item.name}

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import Footer from "@/components/common/Footer";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useNotification } from "@/contexts/NotificationContext";
 import api from "@/services/api";
 import StatCard from "@/components/cards/StatCard";
@@ -74,7 +74,6 @@ export default function Home() {
     setIsFormOpen(false);
     show('success', 'Depoimento criado com sucesso! Ele será revisado antes de ser publicado. Obrigado');
   } catch (error) {
-    console.error("Erro ao criar depoimento:", error);
     throw error;
   }
 };

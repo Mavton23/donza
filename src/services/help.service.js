@@ -6,10 +6,18 @@ export const fetchHelpData = async () => {
     api.get('/help/popular-topics'),
     api.get('/help/categories')
   ]);
+
+  const normalizedCategories = categories.data.map(cat => ({
+    id: cat.name,
+    name: cat.description,
+    icon: cat.icon,
+    originalId: cat.id
+  }));
+
   return {
     articles: articles.data,
     popularTopics: topics.data,
-    categories: categories.data
+    categories: normalizedCategories
   };
 };
 

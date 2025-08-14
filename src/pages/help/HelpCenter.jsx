@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
-  Search, ChevronRight, LifeBuoy, DollarSign, Mail, MessageSquare, 
+  Search, LifeBuoy, DollarSign, Mail, 
   BookOpen, Video, User, Settings, Users, Award, Building, Home,
-  ChevronDown, ChevronUp, Check, X, Star
+  ChevronDown, ChevronUp
 } from 'lucide-react';
 import { fetchHelpData, searchArticles } from '@/services/help.service';
 import PlatformLoader from '@/components/common/PlatformLoader';
 import HelpCard from './HelpCard';
+import Icon from '@/components/common/Icon';
 
 const HelpCenter = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -132,7 +133,7 @@ const HelpCenter = () => {
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Categorias</h2>
               <nav className="space-y-1">
                 {displayCategories.map((category) => (
-                  <div key={category.id} className="mb-1">
+                  <div key={`category-${category.id}`} className="mb-1">
                     <div
                       onClick={() => toggleCategory(category.id)}
                       className={`flex items-center justify-between px-4 py-3 rounded-lg cursor-pointer transition-colors ${
@@ -142,7 +143,7 @@ const HelpCenter = () => {
                       }`}
                     >
                       <div className="flex items-center">
-                        <span className="mr-3">{category.icon}</span>
+                        <span className="mr-3"><Icon name={category.icon} /></span>
                         {category.name}
                       </div>
                       {expandedCategory === category.id ? (
@@ -159,7 +160,7 @@ const HelpCenter = () => {
                           .slice(0, 5)
                           .map(article => (
                             <Link
-                              key={article.articleId}
+                              key={`${category.id}-${article.articleId}`}
                               to={`/help/article/${article.slug}`}
                               className="block px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400"
                             >
@@ -186,7 +187,7 @@ const HelpCenter = () => {
                 <div className="space-y-3">
                   {popularTopics.map((topic) => (
                     <Link
-                      key={topic.id}
+                      key={`popular-${topic.articleId}`}
                       to={`/help/article/${topic.slug}`}
                       className="flex items-start text-sm text-gray-700 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400"
                     >
@@ -226,7 +227,7 @@ const HelpCenter = () => {
                   <div className="grid gap-6">
                     {searchResults.map((result) => (
                       <HelpCard 
-                        key={result.articleId} 
+                        key={`search-${result.articleId}`}
                         article={result} 
                         showCategory={true} 
                       />
@@ -258,7 +259,7 @@ const HelpCenter = () => {
                   ) : (
                     <div className="grid gap-6">
                       {filteredArticles.map((article) => (
-                        <HelpCard key={article.id} article={article} />
+                        <HelpCard key={`article-${article.articleId}`} article={article} />
                       ))}
                     </div>
                   )}
