@@ -13,17 +13,19 @@ import { Toaster } from "sonner";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <>
-      <AuthProvider>
-        <NotificationProvider>
-          <ReactQueryProvider>
-            <TooltipProvider>
-              <CourseProvider>
-                <App />
-              </CourseProvider>
-            </TooltipProvider>
-          </ReactQueryProvider>
-        </NotificationProvider>
-      </AuthProvider>
+      <BrowserRouter basename="/src">
+        <AuthProvider>
+          <NotificationProvider>
+            <ReactQueryProvider>
+              <TooltipProvider>
+                <CourseProvider>
+                  <App />
+                </CourseProvider>
+              </TooltipProvider>
+            </ReactQueryProvider>
+          </NotificationProvider>
+        </AuthProvider>
+      </BrowserRouter>
     <Toaster richColors />
   </>
 );
