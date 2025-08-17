@@ -13,7 +13,7 @@ import { Toaster } from "sonner";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <>
-      <BrowserRouter basename="/src">
+      <BrowserRouter basename="/">
         <AuthProvider>
           <NotificationProvider>
             <ReactQueryProvider>
