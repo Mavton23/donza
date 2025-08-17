@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import api from "@/services/api";
 
 const AuthContext = createContext();
 
@@ -66,13 +67,12 @@ export const AuthProvider = ({ children }) => {
     try {
       setAuthState(prev => ({ ...prev, loading: true }));
       
-      const response = await axios.post("http://localhost:5000/api/auth/complete-profile", profileData);
+      const response = await api.completeProfile(profileData);
       const updatedUser = updateUser({
         ...response.data.user,
         profileCompleted: true,
       });
       
-      toast.success("Profile completed successfully!");
       return updatedUser;
     } catch (error) {
       const errorMessage = error.response?.data?.message || 
@@ -115,10 +115,7 @@ export const AuthProvider = ({ children }) => {
     try {
       setAuthState(prev => ({ ...prev, loading: true, error: null }));
       
-      const response = await axios.post(
-        "http://localhost:5000/api/auth/login", 
-        credentials
-      );
+      const response = await api.login(credentials);
 
       const { data } = response;
       
@@ -175,7 +172,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const refreshToken = localStorage.getItem("refreshToken");
       if (refreshToken) {
-        await axios.post("http://localhost:5000/api/auth/logout", { refreshToken });
+        await api.logout({ refreshToken });
       }
     } catch (error) {
       console.error("Logout error:", error);

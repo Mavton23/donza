@@ -71,13 +71,14 @@ const ApiService = {
   // Autenticação
   registerInit: (data) => api.post("/auth/register/init", data),
   registerComplete: (data) => api.post("/auth/register/complete", data),
+  completeProfile: (data) => api.post("/auth/complete-profile", data),
   verifyTempToken: (token) => api.get(`/auth/register/verify-token/${token}`),
   resendVerification: (email) => api.post("/auth/resend-verification", { email }),
   verifyEmail: (token) => api.get("/auth/verify-email", { params: { token } }),
   login: (credentials) => api.post("/auth/login", credentials),
   forgotPassword: (data) => axios.post('/api/auth/forgot-password', data),
   resetPassword: (token, data) => axios.post(`/api/auth/reset-password/${token}`, data),
-  logout: () => api.post("/auth/logout"),
+  logout: () => api.post("/auth/logout", { refreshToken }),
   refreshToken: () => api.post("/auth/refresh"),
   getCurrentUser: () => api.get("/users/me"),
 
