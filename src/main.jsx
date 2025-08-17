@@ -13,7 +13,7 @@ import { Toaster } from "sonner";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <>
-      <BrowserRouter>
+      {/* <BrowserRouter> */}
         <AuthProvider>
           <NotificationProvider>
             <ReactQueryProvider>
@@ -25,7 +25,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             </ReactQueryProvider>
           </NotificationProvider>
         </AuthProvider>
-      </BrowserRouter>
+      {/* </BrowserRouter> */}
     <Toaster richColors />
   </>
 );
