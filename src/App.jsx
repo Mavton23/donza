@@ -116,15 +116,13 @@ const AuthenticatedLayout = ({ children }) => {
 
   return (
     <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Sidebar responsivo */}
+      {/* Sidebar */}
       <Sidebar isMobileOpen={isSidebarOpen} setIsMobileOpen={setIsSidebarOpen} />
       
       {/* Conteúdo principal */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Header com botão para abrir o sidebar em mobile */}
         <Header toggleSidebar={() => setIsSidebarOpen(prev => !prev)} />
         
-        {/* Conteúdo da página com padding ajustado para o sidebar */}
         <main className="flex-1 overflow-y-auto pt-16 lg:pt-6 p-4 md:p-6">
           {children}
         </main>
@@ -135,6 +133,7 @@ const AuthenticatedLayout = ({ children }) => {
 
 export default function App() {
   return (
+    <Router basename="/src">
       <Routes>
         {/* Rotas públicas */}
         <Route path="/" element={<Home />} />
@@ -608,5 +607,6 @@ export default function App() {
       </Route>
       
       </Routes>
+    </Router>
   );
 }
