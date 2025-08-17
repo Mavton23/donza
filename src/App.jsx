@@ -87,50 +87,6 @@ import CourseLearningContainer from './pages/courses/CourseLearningContainer';
 import InstitutionReviewDashboard from './components/reviews/InstitutionReviewDashboard';
 import AdminVerifications from './pages/admin/AdminVerifications';
 
-// Componente para rotas protegidas com RBAC
-const ProtectedRoute = ({ children, requiredRoles = [] }) => {
-  const { isAuthenticated, user, loading } = useAuth();
-  const location = useLocation();
-
-  if (loading) return <LoadingSpinner fullScreen />;
-
-  if (!isAuthenticated) {
-    return <AuthRedirectModal redirectPath="/login" state={{ from: location }} />;
-  }
-
-  if (requiredRoles.length > 0 && !requiredRoles.includes(user?.role)) {
-    return (
-      <AuthRedirectModal
-        redirectPath="/dashboard"
-        message="Você não tem permissão para acessar esta área."
-      />
-    );
-  }
-
-  return children;
-};
-
-// Layout para páginas autenticadas
-const AuthenticatedLayout = ({ children }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-  return (
-    <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Sidebar */}
-      <Sidebar isMobileOpen={isSidebarOpen} setIsMobileOpen={setIsSidebarOpen} />
-      
-      {/* Conteúdo principal */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <Header toggleSidebar={() => setIsSidebarOpen(prev => !prev)} />
-        
-        <main className="flex-1 overflow-y-auto pt-16 lg:pt-6 p-4 md:p-6">
-          {children}
-        </main>
-      </div>
-    </div>
-  );
-};
-
 export default function App() {
   return (
     <Router basename="/src">
@@ -610,3 +566,47 @@ export default function App() {
     </Router>
   );
 }
+
+// Componente para rotas protegidas com RBAC
+const ProtectedRoute = ({ children, requiredRoles = [] }) => {
+  const { isAuthenticated, user, loading } = useAuth();
+  const location = useLocation();
+
+  if (loading) return <LoadingSpinner fullScreen />;
+
+  if (!isAuthenticated) {
+    return <AuthRedirectModal redirectPath="/login" state={{ from: location }} />;
+  }
+
+  if (requiredRoles.length > 0 && !requiredRoles.includes(user?.role)) {
+    return (
+      <AuthRedirectModal
+        redirectPath="/dashboard"
+        message="Você não tem permissão para acessar esta área."
+      />
+    );
+  }
+
+  return children;
+};
+
+// Layout para páginas autenticadas
+const AuthenticatedLayout = ({ children }) => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  return (
+    <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
+      {/* Sidebar */}
+      <Sidebar isMobileOpen={isSidebarOpen} setIsMobileOpen={setIsSidebarOpen} />
+      
+      {/* Conteúdo principal */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <Header toggleSidebar={() => setIsSidebarOpen(prev => !prev)} />
+        
+        <main className="flex-1 overflow-y-auto pt-16 lg:pt-6 p-4 md:p-6">
+          {children}
+        </main>
+      </div>
+    </div>
+  );
+};
