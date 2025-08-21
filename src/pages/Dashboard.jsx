@@ -46,9 +46,8 @@ export default function Dashboard() {
         
         setDashboardData(normalizedData);
       } catch (err) {
-        setError('Failed to load dashboard data');
-        toast.error('Failed to load dashboard data. Please try again later.');
-        console.error('Dashboard error:', err);
+        setError('Ocorreu um erro ao carregar os dados');
+        toast.error('Ocorreu um erro ao carregar os dados. Por favor, tente novamente mais tarde.');
       } finally {
         setLoading(false);
       }

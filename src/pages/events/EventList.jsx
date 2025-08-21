@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
-import api from '../../services/api';
-import LoadingSpinner from '../../components/common/LoadingSpinner';
-import EventCard from '../../components/events/EventCard';
-import EventFilters from '../../components/events/EventFilters';
-import Pagination from '../../components/common/Pagination';
-import EmptyState from '../../components/common/EmptyState';
+import { useAuth } from '@/contexts/AuthContext';
+import api from '@/services/api';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
+import EventCard from '@/components/events/EventCard';
+import EventFilters from '@/components/events/EventFilters';
+import Pagination from '@/components/common/Pagination';
+import EmptyState from '@/components/common/EmptyState';
 import { Plus } from 'lucide-react';
 
 export default function EventList() {

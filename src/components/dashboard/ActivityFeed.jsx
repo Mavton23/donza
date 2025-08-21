@@ -19,7 +19,7 @@ export default function ActivityFeed({ activities }) {
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow overflow-hidden">
       <div className="p-6">
         <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-          Recent Activity
+          Atividade Recente
         </h2>
         <div className="space-y-4">
           {activities.map((activity, index) => {
@@ -49,7 +49,7 @@ export default function ActivityFeed({ activities }) {
         </div>
         <div className="mt-4 text-center">
           <button className="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300">
-            View all activity
+            Ver todas atividades
           </button>
         </div>
       </div>

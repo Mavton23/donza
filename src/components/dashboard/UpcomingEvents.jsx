@@ -9,13 +9,13 @@ export default function UpcomingEvents({ events }) {
       <div className="p-6">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-            Upcoming Events
+            Eventos próximos
           </h2>
           <Link
             to="/events"
             className="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300"
           >
-            View All
+            Ver todos
           </Link>
         </div>
 

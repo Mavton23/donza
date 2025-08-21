@@ -9,8 +9,6 @@ export default function DashboardHeader({ user }) {
     return 'Boa noite';
   };
 
-  console.log("USER STATUS: ", user)
-
   const roleDescription = {
     student: 'Pronto para aprender algo novo hoje?',
     instructor: user.status === 'pending' 

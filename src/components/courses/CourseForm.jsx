@@ -125,7 +125,7 @@ export default function CourseForm({ step, courseData, setCourseData, isEditMode
           Imagem de Capa {!isEditMode && '*'}
         </label>
         <FileUpload
-          accept="image/*"
+          accept=".jpg,.jpeg,.png"
           onFileUpload={handleFileUpload}
           preview={coverPreview}
           required={!isEditMode}

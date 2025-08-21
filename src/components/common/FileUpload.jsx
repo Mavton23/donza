@@ -8,14 +8,14 @@ export default function FileUpload({
   onFileUpload,
   preview = null,
   maxSize = 5,
-  disabled = false
+  disabled = false,
+  required = false
 }) {
   const fileInputRef = useRef(null);
   const [previewUrl, setPreviewUrl] = useState(preview);
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Atualiza a pré-visualização quando a prop preview muda
   useEffect(() => {
     if (preview) {
       setPreviewUrl(preview);
@@ -38,12 +38,12 @@ export default function FileUpload({
 
     // Validações
     if (file.size > maxSize * 1024 * 1024) {
-      setError(`File size exceeds ${maxSize}MB limit`);
+      setError(`O tamanho do arquivo excede o limite de ${maxSize}MB`);
       return;
     }
 
     if (!validateFileType(file, accept)) {
-      setError(`Invalid file type. Accepted: ${accept}`);
+      setError(`Tipo de arquivo inválido. Aceito: ${accept}`);
       return;
     }
 
@@ -58,13 +58,12 @@ export default function FileUpload({
       };
       reader.readAsDataURL(file);
 
-      // Chamar callback do parent com o arquivo
       if (onFileUpload) {
         await onFileUpload(file);
       }
     } catch (err) {
-      setError('Failed to process file. Please try again.');
-      console.error('File upload error:', err);
+      setError('Falha ao processar o arquivo. Tente novamente.');
+      console.error('Erro no upload do arquivo:', err);
     } finally {
       setIsUploading(false);
     }
@@ -112,8 +111,9 @@ export default function FileUpload({
           <div className="relative aspect-video">
             <img
               src={previewUrl}
-              alt="Preview"
+              alt="Pré-visualização"
               className="w-full h-full object-cover"
+              required={required}
             />
             {!disabled && (
               <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -121,7 +121,7 @@ export default function FileUpload({
                   type="button"
                   onClick={handleRemove}
                   className="p-2 rounded-full bg-red-500 text-white hover:bg-red-600"
-                  title="Remove image"
+                  title="Remover imagem"
                 >
                   <Icon name="trash-2" size="sm" />
                 </button>
@@ -140,14 +140,18 @@ export default function FileUpload({
                 />
                 <p className="text-sm text-gray-600 dark:text-gray-400">
                   <span className="font-medium text-indigo-600 dark:text-indigo-400">
-                    Click to upload
+                    Clique para enviar
                   </span>{' '}
-                  or drag and drop
+                  ou arraste e solte
                 </p>
                 <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
                   {accept === 'image/*'
-                    ? `PNG, JPG, GIF (max ${maxSize}MB)`
-                    : `File (max ${maxSize}MB)`}
+                    ? `PNG, JPG, GIF (máx ${maxSize}MB)`
+                    : `Arquivo (máx ${maxSize}MB)`
+                  }
+                  {required && (
+                    <span className='text-red-600 ml-1'>*</span>
+                  )}
                 </p>
               </>
             )}
