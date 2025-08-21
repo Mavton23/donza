@@ -137,7 +137,7 @@ export default function CourseCard({
             <span className={`text-sm ${
               course.status === 'archived' ? 'text-gray-400 dark:text-gray-500' : 'text-gray-600 dark:text-gray-300'
             }`}>
-              {course.organizer?.username ?? course.instructor?.fullName ?? 'Instrutor'}
+              {course.instructor?.username ?? course.organizer?.fullName ?? 'Instrutor'}
             </span>
           </div>
 
