@@ -95,7 +95,7 @@ export default function CourseCard({
 
         <div className={`flex items-center justify-between text-sm mb-4 ${
           course.status === 'archived' ? 'text-gray-400 dark:text-gray-500' : 'text-gray-500 dark:text-gray-400'
-        }`}>
+        }`}>+
           <span>{course.lessonsCount || 0} aulas</span>
           <span>{course.enrolledCount || 0} alunos</span>
         </div>

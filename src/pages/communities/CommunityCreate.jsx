@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
-import api from '../../services/api';
-import FileUpload from '../../components/common/FileUpload';
-import RichTextEditor from '../../components/common/RichTextEditor';
-import LoadingSpinner from '../../components/common/LoadingSpinner';
-import FormStepper from '../../components/common/FormStepper';
+import { useAuth } from '@/contexts/AuthContext';
+import api from '@/services/api';
+import FileUpload from '@/components/common/FileUpload';
+import RichTextEditor from '@/components/common/RichTextEditor';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
+import FormStepper from '@/components/common/FormStepper';
 import useUserStatusCheck from '@/hooks/useUserStatusCheck';
 import { FiLock, FiGlobe, FiUsers, FiShield, FiTag } from 'react-icons/fi';
 
@@ -174,7 +174,7 @@ export default function CommunityCreate() {
                 Imagem de Capa
               </label>
               <FileUpload
-                accept="image/*"
+                accept=".jpg,.jpeg,.png"
                 onFileUpload={(file) => handleFileUpload(file, 'coverImage')}
                 maxSize={5}
               />
@@ -185,7 +185,7 @@ export default function CommunityCreate() {
                 Imagem Miniatura (Opcional)
               </label>
               <FileUpload
-                accept="image/*"
+                accept=".jpg,.jpeg,.png"
                 onFileUpload={(file) => handleFileUpload(file, 'thumbnailImage')}
                 maxSize={2}
               />
