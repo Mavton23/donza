@@ -62,6 +62,21 @@
   50% { opacity: 0.7; }
 }
 
+@keyframes sidebar-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(0.95);
+  }
+}
+
+.animate-pulse {
+  animation: sidebar-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
 .animate-pulse-opacity {
   animation: pulse-opacity 2s infinite;
 }

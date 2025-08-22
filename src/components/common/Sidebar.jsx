@@ -33,9 +33,17 @@ import PlatformLoader from "./PlatformLoader";
 import { Globe } from "lucide-react";
 import { BellIcon } from "lucide-react";
 import { UserCog2 } from "lucide-react";
+import { SidebarBadge } from "../ui/sidebar-badge";
+import { useUnreadStatus } from "@/hooks/useUnreadStatus";
 
 export default function Sidebar({ isMobileOpen, setIsMobileOpen }) {
   const { user, loading, logout } = useAuth();
+  const { 
+    hasUnreadMessages, 
+    hasUnreadNotifications, 
+    unreadMessagesCount,
+    unreadNotificationsCount
+  } = useUnreadStatus();
   const location = useLocation();
   const navigate = useNavigate();
   const [expandedMenus, setExpandedMenus] = useState({});
@@ -100,12 +108,15 @@ export default function Sidebar({ isMobileOpen, setIsMobileOpen }) {
       name: "Mensagens", 
       href: "/messages", 
       icon: MessageSquare,
-      badge: user?.unreadMessages > 0 ? user.unreadMessages : null
+      badge: hasUnreadMessages ? true : null,
+      count: unreadMessagesCount
     },
     {
       name: "Notificações",
       href: "/notifications",
-      icon: BellIcon
+      icon: BellIcon,
+      badge: hasUnreadNotifications ? true : null,
+      count: unreadNotificationsCount
     },
     { 
       name: "Comunidades", 
@@ -336,9 +347,10 @@ export default function Sidebar({ isMobileOpen, setIsMobileOpen }) {
                     />
                     <span className="flex-1">{item.name}</span>
                     {item.badge && (
-                      <span className="bg-indigo-100 text-indigo-800 text-xs font-medium px-2 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-200">
-                        {item.badge}
-                      </span>
+                      <SidebarBadge 
+                        hasUnread={item.badge}
+                        count={item.count}
+                      />
                     )}
                   </NavLink>
                 )}
