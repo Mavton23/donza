@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { 
   Lock, Globe, User, Edit, Check, X, Mail, Phone, Link as LinkIcon,
-  Calendar, Shield, BookOpen, GraduationCap, Building, UserPlus, Heart,
+  Calendar, Shield, ShieldAlert, BookOpen, GraduationCap, Building, UserPlus, Heart,
   MessageSquare, Settings, Bell, Bookmark, Award, Briefcase
 } from 'lucide-react';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
@@ -498,10 +498,15 @@ export default function Profile() {
                       <GraduationCap className="h-4 w-4 mr-1" />
                       Instrutor
                     </span>
-                  ) : (
+                  ) : profileData.user.role === 'student' ? (
                     <span className="flex items-center">
                       <User className="h-4 w-4 mr-1" />
                       Estudante
+                    </span>
+                  ) : (
+                    <span className="flex items-center">
+                      <ShieldAlert className="h-4 w-4 mr-1" />
+                      Administrador
                     </span>
                   )}
                 </p>

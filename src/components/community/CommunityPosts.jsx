@@ -56,8 +56,8 @@ export default function CommunityPosts() {
         totalItems
       });
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to load posts');
-      console.error('Fetch posts error:', err);
+      setError(err.response?.data?.message || 'Falha ao carregar posts');
+      console.error('Erro ao buscar posts:', err);
       setPosts([]);
     } finally {
       setLoading(false);
@@ -79,7 +79,7 @@ export default function CommunityPosts() {
   };
 
   const handleDeletePost = async (postId) => {
-    if (!window.confirm('Are you sure you want to delete this post?')) return;
+    if (!window.confirm('Tem certeza que deseja excluir este post?')) return;
     
     try {
       await api.delete(`/community/communities/${communityId}/posts/${postId}`);
@@ -90,7 +90,7 @@ export default function CommunityPosts() {
         totalItems: prev.totalItems - 1
       }));
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to delete post');
+      setError(err.response?.data?.message || 'Falha ao excluir post');
       // Recarregar posts em caso de erro
       fetchPosts(pagination.page, searchQuery, filters);
     }
@@ -126,7 +126,7 @@ export default function CommunityPosts() {
         return post;
       }));
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to update reaction');
+      setError(err.response?.data?.message || 'Falha ao atualizar reação');
     }
   };
 
@@ -139,13 +139,13 @@ export default function CommunityPosts() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
           <FiMessageSquare className="text-indigo-600 dark:text-indigo-400" />
-          Community Posts
+          Posts da Comunidade
         </h1>
         
         {isMember && (
           <Link to={`/communities/${communityId}/posts/new`}>
             <Button variant="primary" icon={<FiPlus />}>
-              New Post
+              Novo Post
             </Button>
           </Link>
         )}
@@ -156,14 +156,14 @@ export default function CommunityPosts() {
         <form onSubmit={handleSearch} className="flex gap-2">
           <Input
             type="text"
-            placeholder="Search posts..."
+            placeholder="Buscar posts..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             icon={<FiSearch />}
             className="flex-1"
           />
           <Button type="submit" variant="secondary">
-            Search
+            Buscar
           </Button>
         </form>
 
@@ -187,13 +187,13 @@ export default function CommunityPosts() {
       ) : posts.length === 0 ? (
         <EmptyState
           icon={FiMessageSquare}
-          title={searchQuery ? "No matching posts" : "No posts yet"}
+          title={searchQuery ? "Nenhum post encontrado" : "Nenhum post ainda"}
           description={
             searchQuery 
-              ? "Try adjusting your search query" 
+              ? "Tente ajustar sua busca" 
               : isMember 
-                ? "Share your thoughts with the community!" 
-                : "Join the community to view and create posts"
+                ? "Compartilhe seus pensamentos com a comunidade!" 
+                : "Junte-se à comunidade para ver e criar posts"
           }
         />
       ) : (
@@ -244,10 +244,10 @@ function PostFilters({ filters, onChange }) {
         onChange={(e) => handleChange('postType', e.target.value)}
         className="border rounded px-3 py-2"
       >
-        <option value="">All Types</option>
-        <option value="discussion">Discussion</option>
-        <option value="question">Question</option>
-        <option value="resource">Resource</option>
+        <option value="">Todos os Tipos</option>
+        <option value="discussion">Discussão</option>
+        <option value="question">Pergunta</option>
+        <option value="resource">Recurso</option>
       </select>
 
       <select
@@ -255,10 +255,10 @@ function PostFilters({ filters, onChange }) {
         onChange={(e) => handleChange('difficultyLevel', e.target.value)}
         className="border rounded px-3 py-2"
       >
-        <option value="">All Levels</option>
-        <option value="beginner">Beginner</option>
-        <option value="intermediate">Intermediate</option>
-        <option value="advanced">Advanced</option>
+        <option value="">Todos os Níveis</option>
+        <option value="beginner">Iniciante</option>
+        <option value="intermediate">Intermediário</option>
+        <option value="advanced">Avançado</option>
       </select>
 
       <select
@@ -266,10 +266,10 @@ function PostFilters({ filters, onChange }) {
         onChange={(e) => handleChange('sortBy', e.target.value)}
         className="border rounded px-3 py-2"
       >
-        <option value="newest">Newest</option>
-        <option value="oldest">Oldest</option>
-        <option value="mostCommented">Most Commented</option>
-        <option value="mostLiked">Most Liked</option>
+        <option value="newest">Mais Recentes</option>
+        <option value="oldest">Mais Antigos</option>
+        <option value="mostCommented">Mais Comentados</option>
+        <option value="mostLiked">Mais Curtidos</option>
       </select>
     </div>
   );

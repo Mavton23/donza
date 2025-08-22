@@ -123,7 +123,17 @@ export default function Login() {
             password={password}
             setPassword={setPassword}
             onSubmit={handleSubmit}
-            buttonText={loading ? <LoadingSpinner size="small" /> : "Entrar"}
+            buttonText={
+              loading ? (
+                <LoadingSpinner 
+                  size="small" 
+                  withText 
+                  text="Processando..." 
+                  textColor="text-indigo-700 dark:text-indigo-300"
+                  inline
+                />
+              ) : "Entrar"
+            }
             showPasswordStrength={false}
             disabled={loading}
           />

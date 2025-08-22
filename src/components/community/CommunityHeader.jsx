@@ -73,9 +73,9 @@ export default function CommunityHeader({ community, isMember, onJoin, onUpdate 
       <div className="px-6 pb-6 pt-4 relative">
         <div className="absolute -top-12 left-6 z-10">
           <div className="h-24 w-24 rounded-full bg-indigo-100 dark:bg-gray-700 border-4 border-white dark:border-gray-800 shadow-lg flex items-center justify-center overflow-hidden">
-            {community.avatarUrl ? (
+            {community.thumbnailImage ? (
               <img 
-                src={community.avatarUrl || '/images/placeholder.png'} 
+                src={community.thumbnailImage || '/images/placeholder.png'} 
                 alt={community.name}
                 className="h-full w-full object-cover"
               />
@@ -93,7 +93,10 @@ export default function CommunityHeader({ community, isMember, onJoin, onUpdate 
               </h1>
               
               <div className="text-gray-600 dark:text-gray-300">
-                <div dangerouslySetInnerHTML={{ __html: community.description }} />
+                <div 
+                  className="max-h-32 pb-2 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-transparent hover:scrollbar-thumb-gray-400 dark:hover:scrollbar-thumb-gray-500 transition-colors"
+                  dangerouslySetInnerHTML={{ __html: community.description }} 
+                />
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4 text-sm">
@@ -146,13 +149,28 @@ export default function CommunityHeader({ community, isMember, onJoin, onUpdate 
                     {community.rules.guidelines && (
                       <div>
                         <h4 className="font-medium">Diretrizes:</h4>
-                        <p className="whitespace-pre-line mt-1">{community.rules.guidelines}</p>
+                        <div 
+                          className="mt-1 p-2 prose prose-sm dark:prose-invert max-w-none overflow-x-auto"
+                          dangerouslySetInnerHTML={{ __html: community.rules.guidelines }}
+                        />
                       </div>
                     )}
                     {community.rules.allowedContent && (
                       <div>
                         <h4 className="font-medium">Conteúdo Permitido:</h4>
-                        <p className="whitespace-pre-line mt-1">{community.rules.allowedContent}</p>
+                        <div 
+                          className="mt-1 p-2 prose prose-sm dark:prose-invert max-w-none overflow-x-auto"
+                          dangerouslySetInnerHTML={{ __html: community.rules.allowedContent }}
+                        />
+                      </div>
+                    )}
+                    {community.rules.moderationPolicy && (
+                      <div>
+                        <h4 className="font-medium">Política de Moderação:</h4>
+                        <div 
+                          className="mt-1 p-2 prose prose-sm dark:prose-invert max-w-none overflow-x-auto"
+                          dangerouslySetInnerHTML={{ __html: community.rules.moderationPolicy }}
+                        />
                       </div>
                     )}
                   </div>
@@ -168,7 +186,13 @@ export default function CommunityHeader({ community, isMember, onJoin, onUpdate 
                 disabled={loading}
                 className="w-full px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md flex items-center justify-center gap-2 transition-colors"
               >
-                {loading ? <LoadingSpinner size="sm" /> : <Icon name="plus" />}
+                {loading ? 
+                  <LoadingSpinner 
+                    withText text='Processando...' 
+                    inline size="sm" 
+                  /> 
+                    : 
+                  <Icon name="plus" />}
                 Entrar na Comunidade
               </button>
             ) : (
@@ -197,8 +221,15 @@ export default function CommunityHeader({ community, isMember, onJoin, onUpdate 
                   disabled={loading}
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md flex items-center justify-center gap-2 transition-colors"
                 >
-                  {loading ? <LoadingSpinner size="sm" /> : <Icon name="log-out" size="sm" />}
-                  Sair da Comunidade
+                  {loading ? 
+                  <LoadingSpinner 
+                    withText text='Processando...' 
+                    inline 
+                    size="sm" 
+                    /> 
+                    : 
+                    <Icon name="log-out" size="sm" />}
+                    Sair da Comunidade
                 </button>
               </>
             )}
