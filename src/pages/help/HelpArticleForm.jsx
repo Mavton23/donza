@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Button } from '../../components/ui/button';
+import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import SelectInput from '../../components/common/SelectInput';
-import RichTextEditor from '../../components/common/RichTextEditor';
+import SelectInput from '@/components/common/SelectInput';
+import RichTextEditor from '@/components/common/RichTextEditor';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Info } from 'lucide-react';
 
@@ -107,7 +107,7 @@ export default function HelpArticleForm({ initialData, onSubmit, onCancel }) {
             placeholder="Ex: redefinir-senha"
             required
             disabled={!!initialData?.slug}
-            className="min-h-[60px] bg-gray-50"
+            className="min-h-[60px]"
           />
         </div>
       </div>
