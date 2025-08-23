@@ -39,8 +39,8 @@ export default function InstructorAnalytics() {
         
         setAnalytics(transformedData);
       } catch (err) {
-        setError(err.response?.data?.message || 'Failed to load analytics data');
-        console.error('Error fetching analytics:', err);
+        setError(err.response?.data?.message || 'Falha ao carregar dados analíticos');
+        console.error('Erro ao buscar análises:', err);
       } finally {
         setLoading(false);
       }
@@ -56,7 +56,7 @@ export default function InstructorAnalytics() {
         <div className="bg-white dark:bg-gray-800 p-4 border border-gray-200 dark:border-gray-700 rounded shadow">
           <p className="font-medium text-gray-900 dark:text-white">{label}</p>
           <p className="text-indigo-600 dark:text-indigo-400">
-            Enrollments: <span className="font-bold">{payload[0].value}</span>
+            Inscrições: <span className="font-bold">{payload[0].value}</span>
           </p>
         </div>
       );
@@ -68,9 +68,9 @@ export default function InstructorAnalytics() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">Analytics Dashboard</h1>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">Painel de Análises</h1>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Insights and metrics about your courses and students
+            Insights e métricas sobre seus cursos e alunos
           </p>
         </div>
         <div className="flex space-x-2">
@@ -82,7 +82,7 @@ export default function InstructorAnalytics() {
                 : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600'
             }`}
           >
-            7 Days
+            7 Dias
           </button>
           <button
             onClick={() => setTimeRange('30days')}
@@ -92,7 +92,7 @@ export default function InstructorAnalytics() {
                 : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600'
             }`}
           >
-            30 Days
+            30 Dias
           </button>
           <button
             onClick={() => setTimeRange('90days')}
@@ -102,7 +102,7 @@ export default function InstructorAnalytics() {
                 : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600'
             }`}
           >
-            90 Days
+            90 Dias
           </button>
         </div>
       </div>
@@ -119,8 +119,8 @@ export default function InstructorAnalytics() {
         </div>
       ) : !analytics ? (
         <EmptyState
-          title="No analytics data available"
-          description="Your analytics dashboard will populate as you gain students and enrollments."
+          title="Nenhum dado analítico disponível"
+          description="Seu painel de análises será preenchido à medida que você ganhar alunos e inscrições."
           icon={
             <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -132,31 +132,31 @@ export default function InstructorAnalytics() {
           {/* Metric Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <MetricCard 
-              title="Total Students" 
+              title="Total de Alunos" 
               value={analytics.totalStudents} 
               trend="up" 
-              icon="👥"
+              icon="users"
               color="indigo"
             />
             <MetricCard 
-              title="Course Enrollments" 
+              title="Inscrições em Cursos" 
               value={analytics.totalEnrollments} 
               trend="up" 
-              icon="📚"
+              icon="book"
               color="green"
             />
             <MetricCard 
-              title="Completion Rate" 
+              title="Taxa de Conclusão" 
               value={`${analytics.completionRate}%`} 
               trend={analytics.completionRate > 70 ? "up" : "down"} 
-              icon="✅"
+              icon="check-circle"
               color="blue"
             />
             <MetricCard 
-              title="Avg. Rating" 
+              title="Avaliação Média" 
               value={`${analytics.averageRating}/5`} 
               trend={parseFloat(analytics.averageRating) > 4 ? "up" : "down"} 
-              icon="⭐"
+              icon="star"
               color="yellow"
             />
           </div>
@@ -165,10 +165,10 @@ export default function InstructorAnalytics() {
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 md:p-6">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-                Enrollments Over Time
+                Inscrições ao Longo do Tempo
               </h2>
               <span className="text-sm text-gray-500 dark:text-gray-400">
-                Last {timeRange.replace('days', '')} days
+                Últimos {timeRange.replace('days', '')} dias
               </span>
             </div>
             <div className="h-80">
@@ -190,7 +190,7 @@ export default function InstructorAnalytics() {
                   <Tooltip content={renderTooltip} />
                   <Bar 
                     dataKey="enrollments" 
-                    name="Enrollments"
+                    name="Inscrições"
                     fill="#6366f1" 
                     radius={[4, 4, 0, 0]}
                   />
@@ -204,7 +204,7 @@ export default function InstructorAnalytics() {
             {/* Top Courses */}
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 md:p-6">
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                Top Courses by Enrollments
+                Cursos Mais Populares por Inscrições
               </h2>
               <div className="space-y-4">
                 {analytics.topCourses.map((course, index) => (
@@ -218,7 +218,7 @@ export default function InstructorAnalytics() {
                       </span>
                     </div>
                     <span className="bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-200 px-3 py-1 rounded-full text-sm font-medium">
-                      {course.enrollments} enrollments
+                      {course.enrollments} inscrições
                     </span>
                   </div>
                 ))}
@@ -228,7 +228,7 @@ export default function InstructorAnalytics() {
             {/* Student Demographics */}
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 md:p-6">
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                Student Demographics
+                Demografia dos Alunos
               </h2>
               <div className="space-y-4">
                 {analytics.studentDemographics.map((demo) => (

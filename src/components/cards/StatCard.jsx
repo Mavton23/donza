@@ -27,7 +27,7 @@ const StatCard = ({ value, label, delay = 0 }) => {
       className="p-6 rounded-2xl bg-gradient-to-br from-indigo-50 to-white dark:from-gray-700 dark:to-gray-800 shadow-md"
     >
       <motion.h3 
-        className="text-5xl font-bold text-indigo-600 dark:text-indigo-400 mb-2"
+        className="text-5xl font-bold text-custom-primary mb-2"
         whileHover={{ scale: 1.05 }}
       >
         {value.toLocaleString()}+

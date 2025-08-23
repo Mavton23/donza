@@ -120,21 +120,10 @@ export const AuthProvider = ({ children }) => {
       const { data } = response;
       
       if (!data.success) {
-        throw new Error(data.message || "Login failed");
+        throw new Error(data.message || "Ocorreu um erro durante o login...");
       }
 
-      const { userId, username, email, role, status, avatarUrl, accessToken, refreshToken } = data.data;
-
-      const user = { 
-        userId, 
-        username, 
-        email, 
-        role,
-        status,
-        avatarUrl,
-        profileCompleted: data.data.profileCompleted || false,
-        isVerified: data.data.isVerified || false
-      };
+      const { user, accessToken, refreshToken } = data.data;
 
       localStorage.setItem("token", accessToken);
       localStorage.setItem("refreshToken", refreshToken);

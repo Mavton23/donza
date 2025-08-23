@@ -34,12 +34,12 @@ export default function EventFilters({ filters, onChange }) {
     <form onSubmit={handleSubmit} className="mb-8">
       <div className="flex flex-col md:flex-row md:items-end space-y-4 md:space-y-0 md:space-x-4">
         <div className="flex-1">
-          <label htmlFor="search" className="sr-only">Search</label>
+          <label htmlFor="search" className="sr-only">Pesquisar</label>
           <input
             type="text"
             name="search"
             id="search"
-            placeholder="Search events..."
+            placeholder="Pesquisar eventos..."
             value={localFilters.search}
             onChange={handleChange}
             className="block p-2 w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white"
@@ -47,7 +47,7 @@ export default function EventFilters({ filters, onChange }) {
         </div>
 
         <div>
-          <label htmlFor="type" className="sr-only">Type</label>
+          <label htmlFor="type" className="sr-only">Tipo</label>
           <select
             id="type"
             name="type"
@@ -55,11 +55,11 @@ export default function EventFilters({ filters, onChange }) {
             onChange={handleChange}
             className="block p-2 w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white"
           >
-            <option value="all">All Types</option>
+            <option value="all">Todos os Tipos</option>
             <option value="workshop">Workshop</option>
             <option value="webinar">Webinar</option>
             <option value="meetup">Meetup</option>
-            <option value="conference">Conference</option>
+            <option value="conference">Conferência</option>
           </select>
         </div>
 
@@ -72,16 +72,16 @@ export default function EventFilters({ filters, onChange }) {
             onChange={handleChange}
             className="block p-2 w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white"
           >
-            <option value="upcoming">Upcoming</option>
-            <option value="past">Past Events</option>
+            <option value="upcoming">Próximos</option>
+            <option value="past">Eventos Passados</option>
           </select>
         </div>
 
         <button
           type="submit"
-          className="px-4 py-2 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 transition-colors"
+          className="px-4 py-2 bg-custom-primary text-white font-medium rounded-md hover:bg-custom-primary-hover transition-colors"
         >
-          Apply
+          Aplicar
         </button>
       </div>
     </form>

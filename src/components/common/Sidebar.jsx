@@ -37,7 +37,7 @@ import { SidebarBadge } from "../ui/sidebar-badge";
 import { useUnreadStatus } from "@/hooks/useUnreadStatus";
 
 export default function Sidebar({ isMobileOpen, setIsMobileOpen }) {
-  const { user, loading, logout } = useAuth();
+  const { user, loading: authLoading, logout } = useAuth();
   const { 
     hasUnreadMessages, 
     hasUnreadNotifications, 
@@ -54,7 +54,7 @@ export default function Sidebar({ isMobileOpen, setIsMobileOpen }) {
     }
   }, [location.pathname]);
 
-  if (loading) return <PlatformLoader />;
+  if (authLoading) return <PlatformLoader />;
 
   const toggleMenu = (menu) => {
     setExpandedMenus(prev => ({
@@ -254,7 +254,7 @@ export default function Sidebar({ isMobileOpen, setIsMobileOpen }) {
             className="flex items-center cursor-pointer"
             onClick={() => navigate('/')}
           >
-            <div className="w-10 h-10 bg-indigo-600 rounded-md flex items-center justify-center">
+            <div className="w-10 h-10 bg-custom-primary rounded-md flex items-center justify-center">
             <svg 
                 xmlns="http://www.w3.org/2000/svg" 
                 className="h-5 w-5 text-white" 
@@ -368,18 +368,17 @@ export default function Sidebar({ isMobileOpen, setIsMobileOpen }) {
             >
               <div className="relative flex-shrink-0">
                 <img
-                  className="h-10 w-10 rounded-full ring-2 ring-white dark:ring-gray-600 group-hover:ring-indigo-300 transition-all"
+                  className="h-10 w-10 rounded-full ring-2 ring-white dark:ring-gray-600 group-hover:ring-indigo-300 transition-all border border-custom-primary"
                   src={user.avatarUrl || '/images/placeholder.png'}
                   alt="User avatar"
                 />
-                <span className="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-green-400 ring-2 ring-white dark:ring-gray-800"></span>
               </div>
               <div className="ml-3 overflow-hidden">
                 <p className="text-sm font-semibold text-gray-800 dark:text-gray-100 truncate">
                   {user.username}
                 </p>
                 <p className="text-xs text-gray-600 dark:text-gray-300 capitalize flex items-center">
-                  <span className="inline-block h-2 w-2 rounded-full bg-indigo-400 mr-1"></span>
+                  <span className="inline-block h-2 w-2 rounded-full bg-custom-primary mr-1"></span>
                   {translateRole(user.role)}
                 </p>
               </div>

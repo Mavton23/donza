@@ -10,7 +10,7 @@ export default function UserDropdown({ user, logout }) {
         <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white focus:outline-none">
           <div className="flex items-center">
             <img
-              className="h-8 w-8 rounded-full mr-2"
+              className="h-8 w-8 mr-2 rounded-full ring-2 ring-white dark:ring-gray-600 group-hover:ring-indigo-300 transition-all border border-custom-primary"
               src={user.avatarUrl || '/images/placeholder.png'}
               alt="User profile"
             />

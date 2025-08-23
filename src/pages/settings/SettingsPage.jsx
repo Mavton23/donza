@@ -5,7 +5,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 
 export default function SettingsPage() {
-  const { currentUser, loading } = useAuth();
+  const { currentUser, updateUser, loading } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('account');
 
@@ -28,9 +28,7 @@ export default function SettingsPage() {
               <Outlet context={{ 
                 user: currentUser,
                 role: currentUser.role,
-                updateUser: (updatedUser) => {
-                  // TO DO: atualização dos dados do user
-                }
+                updateUser: updateUser
               }} />
             </div>
           </div>

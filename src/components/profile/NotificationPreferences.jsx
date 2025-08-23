@@ -70,7 +70,7 @@ export default function NotificationPreferences({ preferences = defaultPreferenc
                 <button
                   onClick={() => handleToggle('email', key)}
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${
-                    value ? 'bg-indigo-600' : 'bg-gray-200 dark:bg-gray-600'
+                    value ? 'bg-custom-primary' : 'bg-gray-200 dark:bg-gray-600'
                   }`}
                 >
                   <span
@@ -95,7 +95,7 @@ export default function NotificationPreferences({ preferences = defaultPreferenc
             <button
               onClick={() => handleToggle('inApp')}
               className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${
-                settings.inApp ? 'bg-indigo-600' : 'bg-gray-200 dark:bg-gray-600'
+                settings.inApp ? 'bg-custom-primary' : 'bg-gray-200 dark:bg-gray-600'
               }`}
             >
               <span
@@ -112,7 +112,7 @@ export default function NotificationPreferences({ preferences = defaultPreferenc
         <button
           onClick={handleSave}
           disabled={isSaving}
-          className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-4 py-2 bg-custom-primary text-white rounded-md hover:bg-custom-primary-hover focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSaving ? 'Salvando...' : 'Salvar Preferências'}
         </button>

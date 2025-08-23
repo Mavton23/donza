@@ -42,8 +42,6 @@ export default function AccountSettings() {
   const [isUpdating, setIsUpdating] = useState(false);
   const [avatarUploading, setAvatarUploading] = useState(false);
 
-  console.log("USER: ", user);
-
   const {
     register,
     handleSubmit,
@@ -257,14 +255,17 @@ export default function AccountSettings() {
               </button>
               <button
                 type="submit"
-                className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-70"
+                className="inline-flex justify-center rounded-md border border-transparent bg-custom-primary py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-custom-primary-hover focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-70"
                 disabled={isUpdating}
               >
                 {isUpdating ? (
-                  <>
-                    <LoadingSpinner size="sm" className="mr-2" />
-                    Salvando...
-                  </>
+                    <LoadingSpinner 
+                      size="sm" 
+                      withText
+                      text="Salvando..."
+                      inline
+                      className="mr-2" 
+                    />
                 ) : 'Salvar alterações'}
               </button>
             </div>

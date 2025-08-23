@@ -52,7 +52,7 @@ export default function DashboardHeader({ user }) {
             className={`inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm ${
               ['instructor', 'institution'].includes(user.role) && user.status === 'pending'
                 ? 'bg-gray-300 text-gray-700 cursor-not-allowed'
-                : 'text-indigo-700 bg-white hover:bg-gray-50'
+                : 'text-white bg-custom-primary hover:bg-custom-primary-hover'
             }`}
             onClick={(e) => {
               if (['instructor', 'institution'].includes(user.role) && user.status === 'pending') {

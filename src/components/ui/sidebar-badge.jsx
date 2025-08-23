@@ -13,8 +13,8 @@ export function SidebarBadge({
                 variant={variant}
                 className={cn(
                 "ml-auto min-w-[20px] h-5 flex items-center justify-center px-1 py-0",
-                "bg-indigo-600 text-white border-indigo-700 hover:bg-indigo-700",
-                "dark:bg-indigo-700 dark:text-white dark:border-indigo-800 dark:hover:bg-indigo-800",
+                "bg-custom-primary text-white border-custom-primary hover:bg-custom-primary-hover",
+                "dark:bg-custom-primary dark:text-white dark:border-custom-primary dark:hover:bg-custom-primary-hover",
                 className
                 )}
             >
@@ -27,8 +27,8 @@ export function SidebarBadge({
         return (
             <div
                 className={cn(
-                "ml-auto w-2 h-2 rounded-full bg-indigo-600 animate-pulse",
-                "dark:bg-indigo-400",
+                "ml-auto w-2 h-2 rounded-full bg-custom-primary animate-pulse",
+                "dark:bg-custom-primary",
                 className
                 )}
             />

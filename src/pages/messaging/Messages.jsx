@@ -37,7 +37,7 @@ export default function Messages() {
         setConversations(conversationsRes.data.data || []);
         setMessageCountToday(countRes.data.data?.count || 0);
       } catch (err) {
-        setError(err.response?.data?.message || 'Failed to load data');
+        setError(err.response?.data?.message || 'Falha ao carregar dados');
       } finally {
         setLoading(false);
       }
@@ -58,7 +58,7 @@ export default function Messages() {
           conversations.find(c => c.conversationId === conversationId)
         );
       } catch (err) {
-        setError(err.response?.data?.message || 'Failed to load messages');
+        setError(err.response?.data?.message || 'Falha ao carregar mensagens');
       } finally {
         setLoading(false);
       }
@@ -83,7 +83,7 @@ export default function Messages() {
           : conv
       ));
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to send message');
+      setError(err.response?.data?.message || 'Falha ao enviar mensagem');
       
       if (err.response?.data?.code === 'MESSAGE_LIMIT_EXCEEDED') {
         setShowContextModal(true);
@@ -100,7 +100,7 @@ export default function Messages() {
           : conv
       ));
     } catch (err) {
-      console.error('Failed to mark as read:', err);
+      console.error('Falha ao marcar como lido:', err);
     }
   };
 
@@ -145,7 +145,7 @@ export default function Messages() {
       setConversations(prev => [...prev, response.data.data]);
       navigate(`/messages/${response.data.data.conversationId}`);
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to start conversation');
+      setError(err.response?.data?.message || 'Falha ao iniciar conversa');
     } finally {
       setLoading(false);
       setShowContextModal(false);
@@ -202,11 +202,11 @@ export default function Messages() {
             </>
           ) : (
             <EmptyState
-              title={conversations.length ? "Select a conversation" : "No conversations"}
+              title={conversations.length ? "Selecione uma conversa" : "Nenhuma conversa"}
               description={
                 conversations.length 
-                  ? "Choose a conversation from the list" 
-                  : "Start a new conversation to begin messaging"
+                  ? "Escolha uma conversa da lista" 
+                  : "Inicie uma nova conversa para começar a trocar mensagens"
               }
               icon={conversations.length ? MessagesSquare : MailPlus}
             />

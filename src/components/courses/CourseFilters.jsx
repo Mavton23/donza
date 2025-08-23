@@ -121,7 +121,7 @@ export default function CourseFilters({ filters, onChange, showEnrolledToggle })
         {/* Botão de Aplicar */}
         <button
           type="submit"
-          className="px-4 py-2 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 transition-colors whitespace-nowrap"
+          className="px-4 py-2 bg-custom-primary text-white font-medium rounded-md hover:bg-custom-primary-hover transition-colors whitespace-nowrap"
         >
           Aplicar Filtros
         </button>

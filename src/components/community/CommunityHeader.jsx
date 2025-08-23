@@ -199,7 +199,7 @@ export default function CommunityHeader({ community, isMember, onJoin, onUpdate 
               <>
                 <Link
                   to={`/communities/${community.communityId}/create-post`}
-                  className="w-full px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md flex items-center justify-center gap-2 transition-colors"
+                  className="w-full px-4 py-2 bg-custom-primary hover:bg-custom-primary-hover text-white rounded-md flex items-center justify-center gap-2 transition-colors"
                 >
                   <Icon name="edit" size="sm" />
                   Criar Publicação

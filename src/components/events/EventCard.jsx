@@ -150,7 +150,7 @@ export default function EventCard({ event }) {
           
           <Link 
             to={`/events/${event.eventId}`}
-            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-full transition-colors shadow-md hover:shadow-lg"
+            className="px-4 py-2 bg-custom-primary hover:bg-custom-primary-hover text-white text-sm font-medium rounded-full transition-colors shadow-md hover:shadow-lg"
           >
             {isPastEvent ? 'Ver Detalhes' : 'Participar'}
           </Link>

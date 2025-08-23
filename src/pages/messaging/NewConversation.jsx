@@ -33,7 +33,7 @@ export default function NewConversation() {
       
       navigate(`/messages/${response.data.data.conversationId}`);
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to create conversation');
+      setError(err.response?.data?.message || 'Não foi possível criar a conversa');
       setShowContextSelector(true);
     } finally {
       setLoading(false);
@@ -45,7 +45,7 @@ export default function NewConversation() {
   return (
     <div className="max-w-2xl mx-auto p-4 sm:px-6 lg:px-8">
       <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-        Start New Conversation
+        Iniciar nova conversa
       </h1>
 
       {error && (
@@ -62,11 +62,11 @@ export default function NewConversation() {
         />
       ) : (
         <EmptyState
-          title="Select conversation type"
-          description="Choose how you want to start this conversation"
+          title="Selecione o tipo de conversa"
+          description="Escolha como deseja iniciar esta conversa"
           icon={MessagesSquare}
           action={{
-            text: 'Back to selection',
+            text: 'Voltar à seleção',
             onClick: () => setShowContextSelector(true)
           }}
         />

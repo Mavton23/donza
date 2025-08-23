@@ -6,7 +6,7 @@ export default function EmptyState({
 }) {
   return (
     <div className="text-center py-12">
-      <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400">
+      <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-custom-primary dark:bg-custom-primary/50 text-white">
         {Icon ? (
           <Icon className="h-6 w-6" />
         ) : (

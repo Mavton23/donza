@@ -20,7 +20,7 @@ const CourseCard = ({ course }) => {
             e.target.src = '/images/thumbnail-placeholder.svg';
           }}
         />
-        <div className="absolute top-3 right-3 bg-indigo-600 text-white text-xs px-3 py-1 rounded-full shadow-md">
+        <div className="absolute top-3 right-3 bg-custom-primary text-white text-xs px-3 py-1 rounded-full shadow-md">
           {course.level}
         </div>
       </div>
@@ -53,7 +53,7 @@ const CourseCard = ({ course }) => {
           </span>
           <Link 
             to={`/courses/${course.slug}`}
-            className="text-sm px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors"
+            className="text-sm px-4 py-2 bg-custom-primary text-white rounded-full hover:bg-custom-primary-hover transition-colors"
           >
             Ver curso
           </Link>

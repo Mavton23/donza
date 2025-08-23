@@ -123,9 +123,9 @@ export default function CommunitiesList() {
                 className={`hidden lg:flex items-center px-3 py-2 text-sm rounded-md transition-colors ${
                   user?.status === 'pending'
                     ? 'bg-gray-300 dark:bg-gray-800 text-gray-500 dark:text-gray-400 cursor-not-allowed'
-                    : 'bg-indigo-600 text-white hover:bg-indigo-700'
+                    : 'bg-custom-primary text-white hover:bg-custom-primary-hover'
                 }`}
-                aria-label="Create new community"
+                aria-label="Criar nova comunidade"
               >
                 <FiPlus className="h-4 w-4 mr-1" />
                 Criar Comunidade

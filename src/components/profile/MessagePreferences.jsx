@@ -32,7 +32,7 @@ export default function MessagePreferences({ preferences, onSave, role }) {
                   checked={settings.acceptsMessagesFromStudents}
                   onChange={(value) => setSettings({...settings, acceptsMessagesFromStudents: value})}
                   className={`${
-                    settings.acceptsMessagesFromStudents ? 'bg-indigo-600' : 'bg-gray-200'
+                    settings.acceptsMessagesFromStudents ? 'bg-custom-primary' : 'bg-gray-400'
                   } relative inline-flex h-6 w-11 items-center rounded-full transition-colors`}
                 >
                   <span
@@ -56,7 +56,7 @@ export default function MessagePreferences({ preferences, onSave, role }) {
                   checked={settings.courseRelatedOnly}
                   onChange={(value) => setSettings({...settings, courseRelatedOnly: value})}
                   className={`${
-                    settings.courseRelatedOnly ? 'bg-indigo-600' : 'bg-gray-200'
+                    settings.courseRelatedOnly ? 'bg-custom-primary' : 'bg-gray-400'
                   } relative inline-flex h-6 w-11 items-center rounded-full transition-colors`}
                 >
                   <span
@@ -105,7 +105,7 @@ export default function MessagePreferences({ preferences, onSave, role }) {
               checked={settings.allowAttachments}
               onChange={(value) => setSettings({...settings, allowAttachments: value})}
               className={`${
-                settings.allowAttachments ? 'bg-indigo-600' : 'bg-gray-200'
+                settings.allowAttachments ? 'bg-custom-primary' : 'bg-gray-400'
               } relative inline-flex h-6 w-11 items-center rounded-full transition-colors`}
             >
               <span
@@ -120,7 +120,7 @@ export default function MessagePreferences({ preferences, onSave, role }) {
         <div className="pt-4">
           <button
             onClick={handleSave}
-            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-custom-primary hover:bg-custom-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Salvar Preferências
           </button>

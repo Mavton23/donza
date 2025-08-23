@@ -151,7 +151,7 @@ export default function Home() {
               {isAuthenticated ? (
                 <Link
                   to="/dashboard"
-                  className="px-8 py-4 bg-white text-indigo-700 font-semibold rounded-full hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
+                  className="px-8 py-4 bg-custom-primary text-white font-semibold rounded-full hover:bg-custom-primary-hover transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
                 >
                   Acessar Plataforma
                 </Link>
@@ -159,13 +159,13 @@ export default function Home() {
                 <>
                   <Link
                     to="/register?as=student"
-                    className="px-8 py-4 bg-white text-indigo-700 font-semibold rounded-full hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
+                    className="px-8 py-4 bg-custom-primary text-white font-semibold rounded-full hover:bg-custom-primary-hover transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
                   >
                     Começar a aprender
                   </Link>
                   <Link
                     to="/register?as=instructor"
-                    className="px-8 py-4 border-2 border-white text-white font-semibold rounded-full hover:bg-white hover:text-indigo-700 transition-all transform hover:scale-105"
+                    className="px-8 py-4 border-2 border-white text-white font-semibold rounded-full hover:bg-white hover:text-custom-primary transition-all transform hover:scale-105"
                   >
                     Ensinar na plataforma
                   </Link>
@@ -446,7 +446,7 @@ export default function Home() {
                 {isAuthenticated ? (
                   <button
                     onClick={() => setIsFormOpen(true)}
-                    className="inline-flex items-center px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-full transition-colors shadow-md hover:shadow-lg"
+                    className="inline-flex items-center px-6 py-3 bg-custom-primary hover:bg-custom-primary-hover text-white font-medium rounded-full transition-colors shadow-md hover:shadow-lg"
                   >
                     <MessageSquarePlus className="mr-2 h-5 w-5" />
                     Compartilhe sua experiência
@@ -458,7 +458,7 @@ export default function Home() {
                     </p>
                     <Link
                       to="/login"
-                      className="inline-flex items-center px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-full transition-colors shadow-md hover:shadow-lg"
+                      className="inline-flex items-center px-6 py-3 bg-custom-primary hover:bg-custom-primary-hover text-white font-medium rounded-full transition-colors shadow-md hover:shadow-lg"
                     >
                       Faça login para deixar seu depoimento
                     </Link>
@@ -518,7 +518,7 @@ export default function Home() {
             {isAuthenticated ? (
               <Link
                 to="/dashboard"
-                className="px-8 py-4 bg-white text-indigo-700 font-semibold rounded-full hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
+                className="px-8 py-4 bg-custom-primary text-white font-semibold rounded-full hover:bg-custom-primary-hover transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
               >
                 Acessar Plataforma
               </Link>
@@ -526,13 +526,13 @@ export default function Home() {
               <>
                 <Link
                   to="/register?as=student"
-                  className="px-8 py-4 bg-white text-indigo-700 font-semibold rounded-full hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
+                  className="px-8 py-4 bg-custom-primary text-white font-semibold rounded-full hover:bg-custom-primary-hover transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
                 >
                   Criar Conta Gratuita
                 </Link>
                 <Link
                   to="/register?as=instructor"
-                  className="px-8 py-4 border-2 border-white text-white font-semibold rounded-full hover:bg-white hover:text-indigo-700 transition-all transform hover:scale-105"
+                  className="px-8 py-4 border-2 border-white text-white font-semibold rounded-full hover:bg-white hover:text-custom-primary transition-all transform hover:scale-105"
                 >
                   Tornar-se Instrutor
                 </Link>

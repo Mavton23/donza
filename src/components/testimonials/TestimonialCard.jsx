@@ -13,10 +13,10 @@ const TestimonialCard = ({ testimonial, index }) => {
       viewport={{ once: true }}
       className="h-full"
     >
-      <Card className="h-full flex flex-col hover:shadow-lg transition-shadow duration-300 group">
+      <Card className="h-full flex flex-col hover:shadow-lg transition-shadow duration-300 group dark:bg-gray-900/50">
         <CardHeader className="flex flex-row items-start space-y-0 pb-4">
           <div className="relative">
-            <Avatar className="w-12 h-12 mr-4 border-2 border-primary/10 group-hover:border-primary/30 transition-colors">
+            <Avatar className="w-12 h-12 mr-4 border-2 border-primary/10 group-hover:border-custom-primary-hover/30 transition-colors">
               <AvatarImage 
                 src={testimonial.avatar} 
                 alt={testimonial.name}

@@ -34,7 +34,7 @@ export default function ContextSelector({ onClose, onSubmit, user, existingConve
 
   const handleSubmit = () => {
     if (!context.message.trim()) {
-      return alert('Message is required');
+      return alert('A mensagem é obrigatória');
     }
     
     if (existingConvs?.length > 0) {
@@ -77,7 +77,7 @@ export default function ContextSelector({ onClose, onSubmit, user, existingConve
               <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white dark:bg-gray-800 p-6 text-left align-middle shadow-xl transition-all">
                 <div className="flex justify-between items-center mb-4">
                   <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900 dark:text-white">
-                    {step === 1 ? 'Select Context' : 'Compose Message'}
+                    {step === 1 ? 'Selecionar Contexto' : 'Compor Mensagem'}
                   </Dialog.Title>
                   <button onClick={onClose} className="text-gray-400 hover:text-gray-500">
                     <X size={20} />
@@ -87,7 +87,7 @@ export default function ContextSelector({ onClose, onSubmit, user, existingConve
                 {step === 1 ? (
                   <div className="space-y-4">
                     <p className="text-sm text-gray-500 dark:text-gray-400">
-                      Choose how you want to start this conversation
+                      Escolha como deseja iniciar esta conversa
                     </p>
 
                     <div className="grid grid-cols-1 gap-4">
@@ -101,9 +101,9 @@ export default function ContextSelector({ onClose, onSubmit, user, existingConve
                         >
                           <BookOpen className="mr-3 text-indigo-600" size={20} />
                           <div>
-                            <h4 className="font-medium text-gray-900 dark:text-white">Course Related</h4>
+                            <h4 className="font-medium text-gray-900 dark:text-white">Relacionado ao Curso</h4>
                             <p className="text-sm text-gray-500 dark:text-gray-400">
-                              Message an instructor about a specific course
+                              Envie uma mensagem para um instrutor sobre um curso específico
                             </p>
                           </div>
                         </button>
@@ -118,9 +118,9 @@ export default function ContextSelector({ onClose, onSubmit, user, existingConve
                       >
                         <Users className="mr-3 text-indigo-600" size={20} />
                         <div>
-                          <h4 className="font-medium text-gray-900 dark:text-white">Direct Message</h4>
+                          <h4 className="font-medium text-gray-900 dark:text-white">Mensagem Direta</h4>
                           <p className="text-sm text-gray-500 dark:text-gray-400">
-                            Start a private conversation
+                            Inicie uma conversa privada
                           </p>
                         </div>
                       </button>
@@ -135,9 +135,9 @@ export default function ContextSelector({ onClose, onSubmit, user, existingConve
                         >
                           <HelpCircle className="mr-3 text-indigo-600" size={20} />
                           <div>
-                            <h4 className="font-medium text-gray-900 dark:text-white">Support Ticket</h4>
+                            <h4 className="font-medium text-gray-900 dark:text-white">Ticket de Suporte</h4>
                             <p className="text-sm text-gray-500 dark:text-gray-400">
-                              Contact institution support
+                              Entre em contato com o suporte da instituição
                             </p>
                           </div>
                         </button>
@@ -172,14 +172,14 @@ export default function ContextSelector({ onClose, onSubmit, user, existingConve
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Message
+                        Mensagem
                       </label>
                       <textarea
                         value={context.message}
                         onChange={(e) => setContext({ ...context, message: e.target.value })}
                         rows={4}
                         className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white"
-                        placeholder="Type your message here..."
+                        placeholder="Digite sua mensagem aqui..."
                       />
                     </div>
 
@@ -188,14 +188,14 @@ export default function ContextSelector({ onClose, onSubmit, user, existingConve
                         onClick={() => setStep(1)}
                         className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
                       >
-                        Back
+                        Voltar
                       </button>
                       <button
                         onClick={handleSubmit}
                         disabled={!context.recipientId || !context.message.trim()}
                         className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
                       >
-                        Send Message
+                        Enviar Mensagem
                       </button>
                     </div>
                   </div>

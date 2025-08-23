@@ -51,7 +51,7 @@ export default function PrivacySettings({ isPrivate, onPrivacyChange }) {
                 setShowConfirmation(true);
               }}
               disabled={isUpdating}
-              className="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+              className="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-custom-primary hover:bg-custom-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
             >
               Alterar
             </button>
@@ -74,11 +74,11 @@ export default function PrivacySettings({ isPrivate, onPrivacyChange }) {
           )}
         </div>
 
-        <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-md border border-blue-200 dark:border-blue-800">
-          <h4 className="text-sm font-medium text-blue-800 dark:text-blue-200 mb-2">
+        <div className="bg-blue-50 dark:bg-custom-primary/20 p-4 rounded-md border border-blue-200 dark:border-custom-primary">
+          <h4 className="text-sm font-medium text-blue-800 dark:text-white mb-2">
             {isPrivate ? 'Perfil Privado' : 'Perfil Público'} significa:
           </h4>
-          <ul className="text-sm text-blue-700 dark:text-blue-300 space-y-1">
+          <ul className="text-sm text-blue-700 dark:text-gray-200 space-y-1">
             {isPrivate ? (
               <>
                 <li>• Seu perfil não aparece em buscas</li>

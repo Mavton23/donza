@@ -1,3 +1,5 @@
+import Icon from "./Icon";
+
 export default function MetricCard({ title, value, trend, icon, color }) {
   const colors = {
     indigo: { bg: 'bg-indigo-50', text: 'text-indigo-600', darkBg: 'bg-indigo-900/20', darkText: 'text-indigo-400' },
@@ -16,7 +18,9 @@ export default function MetricCard({ title, value, trend, icon, color }) {
           </p>
         </div>
         <div className={`p-2 rounded-lg ${colors[color].bg} ${colors[color].darkBg}`}>
-          <span className="text-xl">{icon}</span>
+          <span className="text-xl">
+            <Icon name={icon} />
+          </span>
         </div>
       </div>
     </div>

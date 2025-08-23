@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
-import api from '@/services/api';
-import LoadingSpinner from '@/components/common/LoadingSpinner';
-import EventCard from '@/components/events/EventCard';
-import EventFilters from '@/components/events/EventFilters';
-import Pagination from '@/components/common/Pagination';
-import EmptyState from '@/components/common/EmptyState';
+import { useAuth } from '../../contexts/AuthContext';
+import api from '../../services/api';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
+import EventCard from '../../components/events/EventCard';
+import EventFilters from '../../components/events/EventFilters';
+import Pagination from '../../components/common/Pagination';
+import EmptyState from '../../components/common/EmptyState';
 import { Plus } from 'lucide-react';
 
 export default function EventList() {
@@ -104,7 +104,7 @@ export default function EventList() {
             className={`hidden lg:flex items-center px-3 py-2 text-sm rounded-md transition-colors ${
                 user?.status === 'pending'
                   ? 'bg-gray-300 dark:bg-gray-800 text-gray-500 dark:text-gray-400 cursor-not-allowed'
-                  : 'bg-indigo-600 text-white hover:bg-indigo-700'
+                  : 'bg-custom-primary text-white hover:bg-custom-primary-hover'
               }`}
           >
             <Plus className='h-4 w-4 mr-1' />
@@ -155,7 +155,7 @@ export default function EventList() {
                 status: 'scheduled',
                 search: ''
               })}
-              className="mt-4 px-4 py-2 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 transition-colors"
+              className="mt-4 px-4 py-2 bg-custom-primary text-white font-medium rounded-md hover:bg-custom-primary-hover transition-colors"
             >
               Limpar Filtros
             </button>

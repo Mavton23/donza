@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { 
   Lock, Globe, User, Edit, Check, X, Mail, Phone, Link as LinkIcon,
-  Calendar, Shield, ShieldAlert, BookOpen, GraduationCap, Building, UserPlus, Heart,
+  Calendar, Shield, BookOpen, GraduationCap, Building, UserPlus, Heart,
   MessageSquare, Settings, Bell, Bookmark, Award, Briefcase
 } from 'lucide-react';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
@@ -25,6 +25,8 @@ import api from '@/services/api';
 import { roleSpecificFields } from '@/utils/userUtils';
 import { formatDate } from '@/utils/dateUtils';
 import { toast } from 'sonner';
+import { ShieldAlert } from 'lucide-react';
+import { Info } from 'lucide-react';
 
 export default function Profile() {
   const { username } = useParams();
@@ -365,11 +367,6 @@ export default function Profile() {
                   Nossa equipe está revisando suas informações e documentos. 
                   Você receberá um e-mail quando o processo for concluído.
                 </p>
-                {/* {profileData.user.verificationData?.documentsCount > 0 && (
-                  <p className="mt-1">
-                    <span className="font-medium">Documentos enviados:</span> {profileData.user.verificationData.documentsCount / 2}
-                  </p>
-                )} */}
               </div>
             </div>
           </div>
@@ -470,7 +467,7 @@ export default function Profile() {
                   {profileData.user.fullName || profileData.user.username}
                 </h1>
                 {profileData.user.isVerified && (
-                  <span className="ml-2 bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300 flex items-center">
+                  <span className="ml-2 bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-custom-primary/30 dark:text-white flex items-center">
                     <Shield className="h-3 w-3 mr-1" />
                     Verificado
                   </span>
@@ -520,9 +517,16 @@ export default function Profile() {
               </div>
               
               {profileData.user.bio && (
-                <p className="mt-2 text-indigo-100 dark:text-gray-400 max-w-lg">
-                  {profileData.user.bio}
-                </p>
+                <div className="mt-4 p-4 bg-white/10 dark:bg-gray-800/50 backdrop-blur-sm rounded-xl border border-white/20 dark:border-gray-700/50">
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0 mt-0.5">
+                      <Info className='w-4 h-4 text-white dark:text-custom-primary' />
+                    </div>
+                    <p className="text-indigo-100 dark:text-gray-300 leading-relaxed text-sm font-light">
+                      {profileData.user.bio}
+                    </p>
+                  </div>
+                </div>
               )}
               
               <div className="mt-3 flex flex-wrap justify-center md:justify-start gap-2">

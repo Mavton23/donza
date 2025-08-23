@@ -117,36 +117,23 @@ export default function SecuritySettings() {
           <div className="flex justify-end">
             <button
               type="submit"
-              className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-70"
+              className="inline-flex justify-center rounded-md border border-transparent bg-custom-primary py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-custom-primary-hover focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-70"
               disabled={isLoading}
             >
               {isLoading ? (
                 <>
-                  <LoadingSpinner size="sm" className="mr-2" />
-                  Salvando...
+                  <LoadingSpinner 
+                    size="sm" 
+                    withText
+                    text="Salvando..."
+                    inline
+                    className="mr-2" 
+                  />
                 </>
               ) : 'Alterar Senha'}
             </button>
           </div>
         </form>
-      </div>
-
-      <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
-        <h4 className="text-md font-medium text-gray-900 dark:text-white mb-4">
-          Sessões ativas
-        </h4>
-        {/* Lista de dispositivos/sessões */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="font-medium">Chrome - Windows</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">São Paulo, BR • Último acesso: hoje</p>
-            </div>
-            <button className="text-sm text-red-600 hover:text-red-800 dark:hover:text-red-400">
-              Encerrar sessão
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   );
