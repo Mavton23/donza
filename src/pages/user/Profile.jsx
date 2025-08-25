@@ -378,7 +378,7 @@ export default function Profile() {
         <div className="mb-6">
           <div className="flex items-center justify-between mb-1">
             <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              Compleção do Perfil: {profileCompletion}%
+              Seu perfil está {profileCompletion}% completo
             </h3>
             <span className="text-xs text-gray-500">
               {roleSpecificFields[profileData.user.role]?.hint}
