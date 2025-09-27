@@ -17,11 +17,13 @@ const getResourceIcon = (type) => {
 export default function RecentResources({ resources }) {
   if (resources.length === 0) return null;
 
+  console.log("Recursos: ", resources)
+
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow overflow-hidden">
       <div className="p-6">
         <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-          Recursos recentes
+          Recursos Recentes
         </h2>
         <ul className="space-y-3">
           {resources.map((resource, index) => (
@@ -48,7 +50,7 @@ export default function RecentResources({ resources }) {
             to="/resources"
             className="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300"
           >
-            Ver todos recursos
+            Ver todos os recursos
           </Link>
         </div>
       </div>

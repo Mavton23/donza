@@ -1,17 +1,18 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
-import api from '../../services/api';
-import LoadingSpinner from '../../components/common/LoadingSpinner';
+import { useAuth } from '@/contexts/AuthContext';
+import api from '@/services/api';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
 import { toast } from 'sonner';
 import LessonFormBasic from '@/components/lessons/LessonFormBasic';
 import LessonFormContent from '@/components/lessons/LessonFormContent';
 import LessonFormPublishing from '@/components/lessons/LessonFormPublishing';
+import ConfirmationModal from '@/components/common/ConfirmationModal';
 
 const steps = [
-  'Basic Information',
-  'Lesson Content',
-  'Publishing Options'
+  'Informações Básicas',
+  'Conteúdo da Aula',
+  'Opções de Publicação'
 ];
 
 export default function LessonEdit() {
@@ -23,8 +24,10 @@ export default function LessonEdit() {
   const [error, setError] = useState('');
   const [currentStep, setCurrentStep] = useState(0);
   const [isPublishing, setIsPublishing] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [modules, setModules] = useState([]);
   const [isIndependent, setIsIndependent] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
     const fetchLesson = async () => {
@@ -46,8 +49,8 @@ export default function LessonEdit() {
           setModules(modulesRes.data.modules || []);
         }
       } catch (err) {
-        setError(err.response?.data?.message || 'Failed to load lesson');
-        toast.error(err.response?.data?.message || 'Failed to load lesson');
+        setError(err.response?.data?.message || 'Falha ao carregar a aula');
+        toast.error(err.response?.data?.message || 'Falha ao carregar a aula');
       } finally {
         setLoading(false);
       }
@@ -67,14 +70,14 @@ export default function LessonEdit() {
         payload.courseId = null;
       }
 
-      const response = await api.put(`/lessons/${lessonId}`, payload);
+      const response = await api.put(`/lessons/independent/${lessonId}`, payload);
       
       setLesson(response.data.data);
       setError('');
-      toast.success('Lesson updated successfully!');
+      toast.success('Aula atualizada com sucesso!');
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to update lesson');
-      toast.error(err.response?.data?.message || 'Failed to update lesson');
+      setError(err.response?.data?.message || 'Falha ao atualizar a aula');
+      toast.error(err.response?.data?.message || 'Falha ao atualizar a aula');
     } finally {
       setLoading(false);
     }
@@ -86,13 +89,35 @@ export default function LessonEdit() {
       await api.put(`/lessons/${lessonId}`, {
         isPublished: true
       });
-      toast.success('Lesson published successfully!');
+      toast.success('Aula publicada com sucesso!');
       navigate('/instructor/lessons');
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to publish lesson');
-      toast.error(err.response?.data?.message || 'Failed to publish lesson');
+      setError(err.response?.data?.message || 'Falha ao publicar a aula');
+      toast.error(err.response?.data?.message || 'Falha ao publicar a aula');
     } finally {
       setIsPublishing(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      setIsDeleting(true);
+      
+      // Determina o endpoint correto baseado no tipo de aula
+      const endpoint = isIndependent 
+        ? `/lessons/independent/${lessonId}`
+        : `/lessons/${lessonId}`;
+      
+      await api.delete(endpoint);
+      
+      toast.success('Aula excluída com sucesso!');
+      navigate('/instructor/lessons');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Falha ao excluir a aula');
+      toast.error(err.response?.data?.message || 'Falha ao excluir a aula');
+    } finally {
+      setIsDeleting(false);
+      setShowDeleteModal(false);
     }
   };
 
@@ -105,25 +130,52 @@ export default function LessonEdit() {
     }));
   };
 
+  const openDeleteModal = () => {
+    setShowDeleteModal(true);
+  };
+
+  const closeDeleteModal = () => {
+    setShowDeleteModal(false);
+  };
+
   if (loading) return <LoadingSpinner fullScreen={true} />;
-  if (!lesson) return <div>Lesson not found</div>;
+  if (!lesson) return <div>Aula não encontrada</div>;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-          Editing: {lesson.title}
-        </h1>
-        <p className="mt-2 text-gray-600 dark:text-gray-400">
-          Status: {lesson.isPublished ? (
-            <span className="text-green-600">Published</span>
-          ) : (
-            <span className="text-yellow-600">Draft</span>
-          )}
-          {lesson.moduleId && (
-            <span className="ml-4">Module: {lesson.module?.title}</span>
-          )}
-        </p>
+        <div className="flex justify-between items-start">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+              Editando: {lesson.title}
+            </h1>
+            <p className="mt-2 text-gray-600 dark:text-gray-400">
+              Estado: {lesson.isPublished ? (
+                <span className="text-green-600">Publicada</span>
+              ) : (
+                <span className="text-yellow-600">Rascunho</span>
+              )}
+              {lesson.moduleId && (
+                <span className="ml-4">Módulo: {lesson.module?.title}</span>
+              )}
+            </p>
+          </div>
+          
+          <button
+            onClick={openDeleteModal}
+            disabled={isDeleting}
+            className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+          >
+            {isDeleting ? (
+              <>
+                <LoadingSpinner size="sm" />
+                Excluindo...
+              </>
+            ) : (
+              'Excluir Aula'
+            )}
+          </button>
+        </div>
       </div>
 
       <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
@@ -167,7 +219,7 @@ export default function LessonEdit() {
               disabled={currentStep === 0}
               className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50"
             >
-              Back
+              Anterior
             </button>
             
             {currentStep < steps.length - 1 ? (
@@ -175,19 +227,34 @@ export default function LessonEdit() {
                 onClick={() => setCurrentStep(prev => prev + 1)}
                 className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
               >
-                Next
+                Próximo
               </button>
             ) : (
               <button
                 onClick={() => handleUpdate(lesson)}
                 className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
               >
-                Save Changes
+                Salvar alterações
               </button>
             )}
           </div>
         </div>
       </div>
+
+      <ConfirmationModal
+        isOpen={showDeleteModal}
+        onClose={closeDeleteModal}
+        onConfirm={handleDelete}
+        title="Excluir Aula"
+        message={`Tem certeza de que deseja excluir a aula "${lesson.title}"? ${
+          isIndependent 
+            ? 'Esta ação é irreversível e a aula será removida permanentemente.' 
+            : 'A aula será removida do módulo atual.'
+        }`}
+        confirmText={isDeleting ? "Excluindo..." : "Excluir"}
+        cancelText="Cancelar"
+        variant="danger"
+      />
     </div>
   );
 }

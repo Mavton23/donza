@@ -95,10 +95,36 @@ export default function LessonFormBasic({
         >
           <option value="video">Aula em Vídeo</option>
           <option value="text">Aula em Texto</option>
+          <option value="pdf">Aula em PDF</option>
+          <option value="audio">Aula em Áudio</option>
           <option value="quiz">Questionário</option>
-          <option value="assignment">Tarefa</option>
+          <option value="assignment">Tarefa/Atividade</option>
         </select>
       </div>
+
+      {isIndependent && (
+        // Nível da aula
+        <div>
+          <label htmlFor="level" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            Nível de Dificuldade *
+          </label>
+          <select
+            name="level"
+            id="level"
+            value={lessonData.level || 'beginner'}
+            onChange={handleChange}
+            className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-white"
+            required
+          >
+            <option value="beginner">Iniciante</option>
+            <option value="intermediate">Intermediário</option>
+            <option value="advanced">Avançado</option>
+          </select>
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            Selecione o nível apropriado para esta aula
+          </p>
+        </div>
+      )}
 
       {/* Ordem */}
       <div>

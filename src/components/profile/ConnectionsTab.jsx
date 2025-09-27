@@ -56,9 +56,9 @@ export default function ConnectionsTab({ userId, isOwnProfile }) {
         [targetUserId]: !wasFollowing
       }));
 
-      toast.success(wasFollowing ? 'Deixou de seguir' : 'Agora você está seguindo');
+      toast.success(wasFollowing ? 'Deixou de acompanhar' : 'Agora você está acompanhando');
     } catch (err) {
-      toast.error('Erro ao atualizar status de seguimento');
+      toast.error('Erro ao atualizar acompanhamento');
       console.error('Error toggling follow:', err);
     }
   };
@@ -71,14 +71,14 @@ export default function ConnectionsTab({ userId, isOwnProfile }) {
           onClick={() => setActiveSubTab('followers')}
         >
           <Users className="h-5 w-5 mr-2" />
-          Seguidores
+          Acompanhantes
         </button>
         <button
           className={`px-4 py-2 font-medium flex items-center ${activeSubTab === 'following' ? 'text-indigo-600 dark:text-indigo-400 border-b-2 border-indigo-600 dark:border-indigo-400' : 'text-gray-500 dark:text-gray-400'}`}
           onClick={() => setActiveSubTab('following')}
         >
           <UserCheck className="h-5 w-5 mr-2" />
-          Seguindo
+          Acompanhando
         </button>
       </div>
 
@@ -92,8 +92,8 @@ export default function ConnectionsTab({ userId, isOwnProfile }) {
             <div className="text-center py-8">
               <p className="text-gray-500 dark:text-gray-400">
                 {activeSubTab === 'followers' 
-                  ? 'Nenhum seguidor encontrado' 
-                  : 'Não está seguindo ninguém'}
+                  ? 'Nenhum acompanhante encontrado' 
+                  : 'Não está acompanhando ninguém'}
               </p>
             </div>
           ) : (
@@ -139,12 +139,12 @@ export default function ConnectionsTab({ userId, isOwnProfile }) {
                         {isFollowingMap[user.userId] ? (
                           <>
                             <UserCheck className="h-4 w-4 mr-2" />
-                            Seguindo
+                            Acompanhando
                           </>
                         ) : (
                           <>
                             <UserPlus className="h-4 w-4 mr-2" />
-                            Seguir
+                            Acompanhar
                           </>
                         )}
                       </button>
@@ -156,7 +156,7 @@ export default function ConnectionsTab({ userId, isOwnProfile }) {
                         className="px-4 py-2 rounded-md text-sm font-medium bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/30 flex items-center"
                       >
                         <UserX className="h-4 w-4 mr-2" />
-                        Deixar de seguir
+                        Deixar de acompanhar
                       </button>
                     )}
                   </div>

@@ -1,20 +1,20 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
-import api from '../../services/api';
-import FormStepper from '../../components/common/FormStepper';
-import LoadingSpinner from '../../components/common/LoadingSpinner';
-import AssignmentFormBasic from '../../components/assignments/AssignmentFormBasic';
-import AssignmentFormDetails from '../../components/assignments/AssignmentFormDetails';
-import AssignmentFormPublishing from '../../components/assignments/AssignmentFormPublishing';
+import { useAuth } from '@/contexts/AuthContext';
+import api from '@/services/api';
+import FormStepper from '@/components/common/FormStepper';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
+import AssignmentFormBasic from '@/components/assignments/AssignmentFormBasic';
+import AssignmentFormDetails from '@/components/assignments/AssignmentFormDetails';
+import AssignmentFormPublishing from '@/components/assignments/AssignmentFormPublishing';
 import useUserStatusCheck from '@/hooks/useUserStatusCheck';
-import FileUpload from '../../components/common/FileUpload';
+import FileUpload from '@/components/common/FileUpload';
 import { formatISO } from 'date-fns';
 
 const steps = [
-  'Basic Information',
-  'Assignment Details',
-  'Publishing Options'
+  'Informações Básicas',
+  'Detalhes da Tarefa',
+  'Opções de Publicação'
 ];
 
 export default function AssignmentCreate() {
@@ -67,7 +67,7 @@ export default function AssignmentCreate() {
           setModules(modulesRes.data || []);
           setLessons(lessonsRes.data || []);
         } catch (err) {
-          console.error('Failed to load course data', err);
+          console.error('Falha ao carregar dados do curso', err);
         }
       };
       fetchCourseData();
@@ -95,7 +95,7 @@ export default function AssignmentCreate() {
         attachments: [...prev.attachments, ...response.data.files]
       }));
     } catch (err) {
-      setError('Failed to upload files');
+      setError('Falha ao fazer upload dos arquivos');
     } finally {
       setFileUploadProgress(0);
     }
@@ -115,7 +115,7 @@ export default function AssignmentCreate() {
 
       // Validação
       if (!assignmentData.title || !assignmentData.description) {
-        throw new Error('Title and description are required');
+        throw new Error('Título e descrição são obrigatórios');
       }
 
       // Formatar dados para envio
@@ -134,13 +134,13 @@ export default function AssignmentCreate() {
       
       navigate(`/instructor/assignments/${response.data.assignmentId}`, {
         state: { 
-          successMessage: 'Assignment created successfully!',
+          successMessage: 'Tarefa criada com sucesso!',
           newAssignment: response.data
         }
       });
     } catch (err) {
-      setError(err.response?.data?.message || err.message || 'Failed to create assignment');
-      console.error('Assignment creation error:', err);
+      setError(err.response?.data?.message || err.message || 'Falha ao criar a tarefa');
+      console.error('Erro na criação da tarefa:', err);
     } finally {
       setLoading(false);
     }
@@ -149,7 +149,7 @@ export default function AssignmentCreate() {
   const handleNext = () => {
     // Validação por etapa
     if (currentStep === 0 && (!assignmentData.title || !assignmentData.description)) {
-      setError('Title and description are required');
+      setError('Título e descrição são obrigatórios');
       return;
     }
     
@@ -184,7 +184,7 @@ export default function AssignmentCreate() {
             />
             <div className="mt-6">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Attachments
+                Anexos
               </label>
               <FileUpload
                 onFileUpload={handleFileUpload}
@@ -201,7 +201,7 @@ export default function AssignmentCreate() {
                         onClick={() => handleRemoveAttachment(index)}
                         className="text-red-500 hover:text-red-700"
                       >
-                        Remove
+                        Remover
                       </button>
                     </div>
                   ))}
@@ -253,7 +253,7 @@ export default function AssignmentCreate() {
                   disabled={currentStep === 0 || loading}
                   className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
                 >
-                  Back
+                  Voltar
                 </button>
                 <button
                   type="button"
@@ -261,7 +261,7 @@ export default function AssignmentCreate() {
                   disabled={loading}
                   className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:opacity-50"
                 >
-                  {currentStep === steps.length - 1 ? 'Create Assignment' : 'Next'}
+                  {currentStep === steps.length - 1 ? 'Criar Tarefa' : 'Próximo'}
                 </button>
               </div>
             </>

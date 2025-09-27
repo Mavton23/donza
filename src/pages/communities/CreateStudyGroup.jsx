@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
-import api from '../../services/api';
+import { useAuth } from '@/contexts/AuthContext';
+import api from '@/services/api';
 import { FiArrowLeft, FiCalendar, FiClock, FiUsers, FiLock, FiLink } from 'react-icons/fi';
-import RichTextEditor from '../../components/common/RichTextEditor';
-import LoadingSpinner from '../../components/common/LoadingSpinner';
-import WeekdaySelector from '../../components/community/WeekdaySelector';
-import { TagsInput } from 'react-tag-input-component';
+import RichTextEditor from '@/components/common/RichTextEditor';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
+import WeekdaySelector from '@/components/community/WeekdaySelector';
 import useUserStatusCheck from '@/hooks/useUserStatusCheck';
+import CustomTagsInput from '@/components/common/CustomTagsInput';
 import { toast } from 'sonner';
 
 export default function CreateStudyGroup() {
@@ -85,7 +85,7 @@ export default function CreateStudyGroup() {
           Voltar para comunidade
         </Link>
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-          Criar Novo Grupo de Estudo
+          Criar Grupo de Estudo
         </h1>
       </div>
 
@@ -125,8 +125,8 @@ export default function CreateStudyGroup() {
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Tags (Opcional)
           </label>
-          <TagsInput
-            tags={formData.tags}
+          <CustomTagsInput
+            value={formData.tags}
             onChange={(tags) => setFormData({ ...formData, tags })}
             maxTags={5}
             maxLength={20}

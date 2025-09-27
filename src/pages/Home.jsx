@@ -457,7 +457,7 @@ export default function Home() {
                       Quer compartilhar sua experiência?
                     </p>
                     <Link
-                      to="/login"
+                      to="/signin"
                       className="inline-flex items-center px-6 py-3 bg-custom-primary hover:bg-custom-primary-hover text-white font-medium rounded-full transition-colors shadow-md hover:shadow-lg"
                     >
                       Faça login para deixar seu depoimento

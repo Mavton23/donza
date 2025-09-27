@@ -62,7 +62,7 @@ export default function AssignmentFormDetails({ assignmentData, setAssignmentDat
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label htmlFor="dueDate" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            Due Date (Optional)
+            Data de Vencimento (Opcional)
           </label>
           <DatePicker
             selected={assignmentData.dueDate ? new Date(assignmentData.dueDate) : null}
@@ -71,14 +71,14 @@ export default function AssignmentFormDetails({ assignmentData, setAssignmentDat
             timeFormat="HH:mm"
             timeIntervals={15}
             dateFormat="MMMM d, yyyy h:mm aa"
-            className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-            placeholderText="Select due date and time"
+            className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-white"
+            placeholderText="Selecione data e hora de vencimento"
           />
         </div>
 
         <div>
           <label htmlFor="maxScore" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            Maximum Score
+            Pontuação Máxima
           </label>
           <input
             type="number"
@@ -87,7 +87,7 @@ export default function AssignmentFormDetails({ assignmentData, setAssignmentDat
             min="1"
             value={assignmentData.maxScore}
             onChange={handleChange}
-            className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-white"
           />
         </div>
       </div>
@@ -95,25 +95,25 @@ export default function AssignmentFormDetails({ assignmentData, setAssignmentDat
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label htmlFor="submissionFormat" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            Submission Format
+            Formato de Submissão
           </label>
           <select
             name="submissionFormat"
             id="submissionFormat"
             value={assignmentData.submissionFormat}
             onChange={handleChange}
-            className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-white"
           >
-            <option value="text">Text Only</option>
-            <option value="file">File Upload</option>
-            <option value="both">Text and File</option>
+            <option value="text">Apenas Texto</option>
+            <option value="file">Upload de Arquivo</option>
+            <option value="both">Texto e Arquivo</option>
           </select>
         </div>
 
         {assignmentData.submissionFormat !== 'text' && (
           <div>
             <label htmlFor="allowedFileTypes" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Allowed File Types
+              Tipos de Arquivo Permitidos
             </label>
             <select
               name="allowedFileTypes"
@@ -127,16 +127,16 @@ export default function AssignmentFormDetails({ assignmentData, setAssignmentDat
                   allowedFileTypes: options
                 }));
               }}
-              className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-white"
             >
               <option value="pdf">PDF</option>
               <option value="docx">Word (.docx)</option>
-              <option value="zip">ZIP Archive</option>
-              <option value="jpg">JPEG Image</option>
-              <option value="png">PNG Image</option>
+              <option value="zip">Arquivo ZIP</option>
+              <option value="jpg">Imagem JPEG</option>
+              <option value="png">Imagem PNG</option>
             </select>
             <p className="mt-1 text-xs text-gray-500">
-              Hold Ctrl/Cmd to select multiple types
+              Mantenha Ctrl/Cmd pressionado para selecionar múltiplos tipos
             </p>
           </div>
         )}
@@ -155,7 +155,7 @@ export default function AssignmentFormDetails({ assignmentData, setAssignmentDat
         </div>
         <div className="ml-3 text-sm">
           <label htmlFor="allowLateSubmissions" className="font-medium text-gray-700 dark:text-gray-300">
-            Allow Late Submissions
+            Permitir Submissões Tardias
           </label>
         </div>
       </div>
@@ -163,7 +163,7 @@ export default function AssignmentFormDetails({ assignmentData, setAssignmentDat
       {assignmentData.allowLateSubmissions && (
         <div>
           <label htmlFor="latePenalty" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            Late Penalty (% per day)
+            Penalidade por Atraso (% por dia)
           </label>
           <input
             type="number"
@@ -174,17 +174,17 @@ export default function AssignmentFormDetails({ assignmentData, setAssignmentDat
             step="0.1"
             value={assignmentData.latePenalty}
             onChange={handleChange}
-            className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-white"
           />
           <p className="mt-1 text-xs text-gray-500">
-            Percentage of total points deducted per day late (e.g., 10 = 10% per day)
+            Percentual de pontos deduzidos por dia de atraso (ex: 10 = 10% por dia)
           </p>
         </div>
       )}
 
       <div className="mt-6">
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-          Grading Rubric
+          Rubrica de Avaliação
         </label>
         
         {assignmentData.rubric.length > 0 && (
@@ -207,7 +207,7 @@ export default function AssignmentFormDetails({ assignmentData, setAssignmentDat
                   onClick={() => handleRemoveRubricItem(index)}
                   className="ml-2 text-sm text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
                 >
-                  Remove
+                  Remover
                 </button>
               </div>
             ))}
@@ -215,26 +215,26 @@ export default function AssignmentFormDetails({ assignmentData, setAssignmentDat
         )}
 
         <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-md">
-          <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Add Rubric Item</h4>
+          <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Adicionar Item à Rubrica</h4>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label htmlFor="rubricCriterion" className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Criterion *
+                Critério *
               </label>
               <input
                 type="text"
                 id="rubricCriterion"
                 value={newRubricItem.criterion}
                 onChange={(e) => setNewRubricItem(prev => ({ ...prev, criterion: e.target.value }))}
-                className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-white"
                 required
               />
             </div>
             
             <div>
               <label htmlFor="rubricPoints" className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Points *
+                Pontos *
               </label>
               <input
                 type="number"
@@ -243,21 +243,21 @@ export default function AssignmentFormDetails({ assignmentData, setAssignmentDat
                 step="0.5"
                 value={newRubricItem.points}
                 onChange={(e) => setNewRubricItem(prev => ({ ...prev, points: e.target.value }))}
-                className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-white"
                 required
               />
             </div>
             
             <div>
               <label htmlFor="rubricDescription" className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Description *
+                Descrição *
               </label>
               <input
                 type="text"
                 id="rubricDescription"
                 value={newRubricItem.description}
                 onChange={(e) => setNewRubricItem(prev => ({ ...prev, description: e.target.value }))}
-                className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-white"
                 required
               />
             </div>
@@ -269,7 +269,7 @@ export default function AssignmentFormDetails({ assignmentData, setAssignmentDat
             disabled={!newRubricItem.criterion || !newRubricItem.description}
             className="mt-3 px-3 py-1 bg-indigo-600 text-white text-xs font-medium rounded-md hover:bg-indigo-700 disabled:opacity-50"
           >
-            Add to Rubric
+            Adicionar à Rubrica
           </button>
         </div>
       </div>

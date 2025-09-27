@@ -4,8 +4,8 @@ import { FiUserPlus, FiSearch, FiUserX, FiMail, FiChevronDown } from 'react-icon
 import { toast } from 'sonner';
 import api from '@/services/api';
 import Avatar from '@/components/common/Avatar';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import InviteModal from '@/utils/InviteModal';
 import {
@@ -42,18 +42,18 @@ export default function GroupMembersPage() {
         setLoading(true);
         const [membersRes, requestsRes] = await Promise.all([
           api.get(`/groups/${communityId}/${groupId}/members`),
-          api.get(`/groups/groups/${groupId}/pending-members`)
+          api.get(`/groups/group/${groupId}/pending-members`)
         ]);
         
         // Adicionando tratamento defensivo para os dados
         const normalizedMembers = normalizeApiData(membersRes?.data);
-        const normalizedRequests = normalizeApiData(requestsRes?.data);
+        const normalizedRequests = normalizeApiData(requestsRes?.data.data);
         
         setMembers(normalizedMembers);
         setFilteredMembers(normalizedMembers);
         setPendingRequests(normalizedRequests);
       } catch (err) {
-        toast.error(err.response?.data?.message || 'Failed to load members');
+        toast.error(err.response?.data?.message || 'Falha ao carregar membros');
         navigate(`/communities/${communityId}/groups/${groupId}`);
       } finally {
         setLoading(false);
@@ -77,9 +77,9 @@ export default function GroupMembersPage() {
       setMembers(members.map(m => 
         m?.userId === userId ? { ...m, role: newRole } : m
       ));
-      toast.success('Member role updated');
+      toast.success('Cargo do membro atualizado');
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Failed to update role');
+      toast.error(err.response?.data?.message || 'Falha ao atualizar cargo');
     }
   };
 
@@ -90,38 +90,42 @@ export default function GroupMembersPage() {
       await api.delete(`/groups/${groupId}/members/${selectedMember.userId}`);
       setMembers(members.filter(m => m?.userId !== selectedMember.userId));
       setActionModalOpen(false);
-      toast.success('Member removed from group');
+      toast.success('Membro removido do grupo');
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Failed to remove member');
+      toast.error(err.response?.data?.message || 'Falha ao remover membro');
     }
   };
 
   const inviteMembers = async (userIds) => {
     if (!userIds || userIds.length === 0) {
-      toast.warning('No users selected');
+      toast.warning('Nenhum usuário selecionado');
       return;
     }
   
   try {
     await api.post(`/groups/groups/${groupId}/invite`, { userIds });
     setInviteModalOpen(false);
-    toast.success(`Invitations sent to ${userIds.length} user(s)`);
+    toast.success(`Convites enviados para ${userIds.length} usuário(s)`);
   } catch (err) {
-    const errorMessage = err.response?.data?.message || 'Failed to send invitations';
+    const errorMessage = err.response?.data?.message || 'Falha ao enviar convites';
     toast.error(errorMessage);
-    console.error('Invite error:', err.response?.data || err.message);
+    console.error('Erro no convite:', err.response?.data || err.message);
   }
 };
 
-  const handleJoinRequest = async (requestId, action) => {
+  const handleJoinRequest = async (requestId, action, userId) => {
     if (!requestId) return;
-    
+
     try {
-      await api.patch(`/groups/groups/${groupId}/members/${requestId}/approve`, { action });
+      const endpoint = action === 'approve' 
+          ? `/groups/group/${groupId}/members/${requestId}/approve`
+          : `/groups/group/${groupId}/members/${requestId}/reject`;
+      
+      await api.patch(endpoint, { userId });
       setPendingRequests(pendingRequests.filter(r => r?.requestId !== requestId));
-      toast.success(`Request ${action === 'approve' ? 'approved' : 'rejected'}`);
+      toast.success(`Solicitação ${action === 'approve' ? 'aprovada' : 'rejeitada'}`);
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Failed to process request');
+      toast.error(err.response?.data?.message || 'Falha ao processar solicitação');
     }
   };
 
@@ -130,20 +134,20 @@ export default function GroupMembersPage() {
   return (
     <div className="max-w-4xl mx-auto p-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-        <h1 className="text-2xl font-bold">Group Members Management</h1>
+        <h1 className="text-2xl font-bold">Gestão de Membros do Grupo</h1>
         <div className="flex gap-2 w-full sm:w-auto">
           <Button 
             variant="primary" 
             onClick={() => setInviteModalOpen(true)}
           >
-            <FiUserPlus className="mr-2" /> Invite Members
+            <FiUserPlus className="mr-2" /> Convidar Membros
           </Button>
         </div>
       </div>
 
       <div className="mb-6">
         <Input
-          placeholder="Search members by name or role..."
+          placeholder="Pesquisar membros por nome ou cargo..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           icon={<FiSearch />}
@@ -152,33 +156,36 @@ export default function GroupMembersPage() {
 
       {pendingRequests?.length > 0 && (
         <div className="bg-yellow-50 dark:bg-yellow-900/20 rounded-lg p-4 mb-6">
-          <h2 className="font-semibold mb-3">Pending Join Requests ({pendingRequests.length})</h2>
+          <h2 className="font-semibold mb-3">Solicitações de Entrada Pendentes ({pendingRequests.length})</h2>
           <div className="space-y-3">
             {pendingRequests.map(request => (
-              <div key={request?.requestId || Math.random()} className="flex items-center justify-between p-3 border-b dark:border-yellow-800">
-                <div className="flex items-center">
-                  <Avatar src={request?.user?.avatarUrl} alt={request?.user?.username} size="sm" className="mr-3" />
+              <div key={request?.requestId || Math.random()} className="p-3 border-b dark:border-yellow-800">
+                <div className="flex gap-3">
+                  <Avatar src={request?.avatarUrl} alt={request?.username} size="sm" className="mr-3" />
                   <div>
-                    <p className="font-medium">{request?.user?.username || 'Unknown user'}</p>
+                    <p className="font-medium">{request?.username || 'Utilizador desconhecido'}</p>
                     <p className="text-sm text-gray-500 dark:text-gray-400">
-                      Requested {request?.createdAt ? new Date(request.createdAt).toLocaleDateString() : 'unknown date'}
+                      Mensagem: {request?.message || 'Sem nenhuma mensagem'}
+                    </p>
+                    <p className="text-sm pt-1 text-gray-500 dark:text-gray-400">
+                      Solicitou em {request?.requestedAt ? new Date(request.requestedAt).toLocaleDateString('pt-PT') : 'data desconhecida'}
                     </p>
                   </div>
                 </div>
-                <div className="flex gap-2">
+                <div className=" flex gap-2 mt-3">
                   <Button
                     variant="success-outline"
                     size="sm"
-                    onClick={() => handleJoinRequest(request?.requestId, 'approve')}
+                    onClick={() => handleJoinRequest(request?.requestId, 'approve', request?.userId)}
                   >
-                    Approve
+                    Aprovar
                   </Button>
                   <Button
                     variant="danger-outline"
                     size="sm"
-                    onClick={() => handleJoinRequest(request?.requestId, 'reject')}
+                    onClick={() => handleJoinRequest(request?.requestId, 'reject', request?.userId)}
                   >
-                    Reject
+                    Rejeitar
                   </Button>
                 </div>
               </div>
@@ -196,9 +203,9 @@ export default function GroupMembersPage() {
                   <div className="flex items-center">
                     <Avatar src={member?.avatarUrl} alt={member?.username} size="md" className="mr-4" />
                     <div>
-                      <p className="font-medium">{member?.username || 'Unknown member'}</p>
+                      <p className="font-medium">{member?.username || 'Membro desconhecido'}</p>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
-                        Joined {member?.joinedAt ? new Date(member.joinedAt).toLocaleDateString() : 'unknown date'}
+                        Entrou em {member?.joinedAt ? new Date(member.joinedAt).toLocaleDateString('pt-PT') : 'data desconhecida'}
                       </p>
                     </div>
                   </div>
@@ -214,7 +221,7 @@ export default function GroupMembersPage() {
                         } ${member?.role !== 'leader' ? 'cursor-pointer' : ''}`}
                         onClick={() => member?.role !== 'leader' && setSelectedMember({...member, action: 'role'})}
                       >
-                        {member?.role || 'member'}
+                        {member?.role === 'leader' ? 'líder' : member?.role === 'co-leader' ? 'co-líder' : 'membro'}
                         {member?.role !== 'leader' && <FiChevronDown className="ml-1" />}
                       </div>
                     </div>
@@ -222,7 +229,7 @@ export default function GroupMembersPage() {
                       <Button 
                         variant="ghost" 
                         size="sm"
-                        onClick={() => toast.info(`Message to ${member?.username || 'member'} would be sent`)}
+                        onClick={() => toast.info(`Mensagem para ${member?.username || 'membro'} seria enviada`)}
                       >
                         <FiMail />
                       </Button>
@@ -246,7 +253,7 @@ export default function GroupMembersPage() {
             ))
           ) : (
             <div className="p-8 text-center text-gray-500 dark:text-gray-400">
-              No pending members found for this group
+              Nenhum membro encontrado neste grupo
             </div>
           )}
         </div>
@@ -264,25 +271,25 @@ export default function GroupMembersPage() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              {selectedMember?.action === 'remove' ? 'Remove Member' : 'Change Role'}
+              {selectedMember?.action === 'remove' ? 'Remover Membro' : 'Alterar Cargo'}
             </DialogTitle>
           </DialogHeader>
 
           {selectedMember?.action === 'remove' ? (
             <div className="space-y-4">
-              <p>Are you sure you want to remove <strong>{selectedMember?.username || 'this member'}</strong> from the group?</p>
+              <p>Tem a certeza que deseja remover <strong>{selectedMember?.username || 'este membro'}</strong> do grupo?</p>
               <div className="flex justify-end gap-2">
                 <DialogClose asChild>
-                  <Button variant="secondary">Cancel</Button>
+                  <Button variant="secondary">Cancelar</Button>
                 </DialogClose>
                 <Button variant="danger" onClick={removeMember}>
-                  Remove
+                  Remover
                 </Button>
               </div>
             </div>
           ) : (
             <div className="space-y-4">
-              <p>Change role for <strong>{selectedMember?.username || 'this member'}</strong>:</p>
+              <p>Alterar cargo para <strong>{selectedMember?.username || 'este membro'}</strong>:</p>
               <div className="grid grid-cols-3 gap-2">
                 {['member', 'co-leader', 'leader'].map(role => (
                   <Button
@@ -296,7 +303,7 @@ export default function GroupMembersPage() {
                     }}
                     disabled={selectedMember?.role === role}
                   >
-                    {role}
+                    {role === 'leader' ? 'líder' : role === 'co-leader' ? 'co-líder' : 'membro'}
                   </Button>
                 ))}
               </div>

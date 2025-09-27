@@ -78,7 +78,6 @@ export default function AdminHelpCenter() {
       setCurrentArticle(null);
       fetchArticles();
     } catch (err) {
-      console.error("ERRO NA CRIACAO: ", err instanceof Error ? err.message : err );
       toast.error('Operação falhou. Por favor, tente novamente.');
     }
   };

@@ -4,7 +4,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import EmptyState from '@/components/common/EmptyState';
 import api from '@/services/api';
-import { formatDate, formatDateTime } from '@/utils/dateUtils';
+import { formatDateTime } from '@/utils/dateUtils';
 import Modal from '@/components/common/Modal';
 import AssignmentStatusBadge from '@/components/assignments/AssignmentStatusBadge';
 import Pagination from '@/components/common/Pagination';

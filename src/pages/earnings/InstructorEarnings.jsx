@@ -34,7 +34,7 @@ export default function InstructorEarnings() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">Ganhos</h1>
+      <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">Meus Ganhos</h1>
 
       {error && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">

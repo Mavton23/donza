@@ -28,7 +28,7 @@ const podiumData = [
   }
 ];
 
-export default function LeaderBoard({ members }) {
+export default function Leaderboard({ members }) {
   const topThree = members.slice(0, 3);
   const rest = members.slice(3);
 

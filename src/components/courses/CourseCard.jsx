@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import ProgressBar from '../common/ProgressBar';
 import { formatPrice } from '@/utils/formatPrice';
 import { FileEdit, CheckCircle, Archive, StarIcon } from 'lucide-react';
+import BuyButton from '@/components/payment/BuyButton';
+import { CONTENT_TYPES } from '@/constants/contentTypes';
 
 export default function CourseCard({ 
   course, 
@@ -33,7 +35,19 @@ export default function CourseCard({
     }
   };
 
+  const translateLevel = (level) => {
+    const levelMap = {
+      'beginner': 'Iniciante',
+      'intermediate': 'Intermediário',
+      'advanced': 'Avançado'
+    };
+  
+    return levelMap[level] || level;
+  };
+
   const currentStatus = statusConfig[course.status] || statusConfig.draft;
+
+   const shouldShowBuyButton = !showInstructorActions && course.status !== 'archived';
 
   return (
     <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 relative ${
@@ -59,8 +73,8 @@ export default function CourseCard({
             className="w-full h-full object-cover"
           />
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-            <span className="text-xs font-semibold text-white bg-indigo-600 px-2 py-1 rounded">
-              {course.level}
+            <span className="text-xs font-semibold text-white bg-custom-primary px-2 py-1 rounded">
+              {translateLevel(course.level)}
             </span>
           </div>
         </div>
@@ -70,18 +84,18 @@ export default function CourseCard({
         <div className="flex justify-between items-start mb-2">
           <Link 
             to={`/courses/${course.slug}`}
-            className={`text-lg font-bold hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors ${
+            className={`text-lg font-bold hover:text-custom-primary-hover transition-colors ${
               course.status === 'archived' ? 'text-gray-500 dark:text-gray-400' : 'text-gray-900 dark:text-white'
             }`}
           >
             {course.title}
           </Link>
           {Number(course.price) > 0 ? (
-            <span className="text-lg font-semibold text-indigo-600 dark:text-indigo-400">
+            <span className="text-xs font-semibold text-custom-primary">
               {formatPrice(course.price)}
             </span>
           ) : (
-            <span className="text-sm font-semibold text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded">
+            <span className="text-sm font-semibold text-white bg-custom-primary px-2 py-1 rounded">
               GRÁTIS
             </span>
           )}
@@ -95,7 +109,7 @@ export default function CourseCard({
 
         <div className={`flex items-center justify-between text-sm mb-4 ${
           course.status === 'archived' ? 'text-gray-400 dark:text-gray-500' : 'text-gray-500 dark:text-gray-400'
-        }`}>+
+        }`}>
           <span>{course.lessonsCount || 0} aulas</span>
           <span>{course.enrolledCount || 0} alunos</span>
         </div>
@@ -116,7 +130,7 @@ export default function CourseCard({
           <div className="mt-4">
             <div className="flex justify-between text-sm mb-1">
               <span className="text-gray-600 dark:text-gray-300">Progresso</span>
-              <span className="font-medium text-indigo-600 dark:text-indigo-400">
+              <span className="font-medium text-custom-primary">
                 {Math.round(course.progress.percentage)}% completo
               </span>
             </div>
@@ -127,7 +141,7 @@ export default function CourseCard({
           </div>
         )}
 
-        <div className="mt-6 flex justify-between items-center">
+        <div className="mt-6 flex flex-col gap-3">
           <div className="flex items-center">
             <img
               src={course.creator?.avatarUrl ?? course.instructor?.avatarUrl ?? '/images/placeholder.png'}
@@ -137,7 +151,7 @@ export default function CourseCard({
             <span className={`text-sm ${
               course.status === 'archived' ? 'text-gray-400 dark:text-gray-500' : 'text-gray-600 dark:text-gray-300'
             }`}>
-              {course.instructor?.username ?? course.organizer?.fullName ?? 'Instrutor'}
+              {course.organizer?.username ?? course.instructor?.fullName ?? 'Instrutor'}
             </span>
           </div>
 
@@ -153,7 +167,7 @@ export default function CourseCard({
                 {course.status === 'published' && (
                   <Link
                     to={`/courses/${course.slug}`}
-                    className="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500"
+                    className="text-sm font-medium text-custom-primary hover:text-custom-primary-hover"
                   >
                     Visualizar
                   </Link>
@@ -161,13 +175,22 @@ export default function CourseCard({
               </>
             )}
             
-            {!showInstructorActions && (
+            {!showInstructorActions && shouldShowBuyButton && (
+              <BuyButton 
+                contentType={CONTENT_TYPES.COURSE}
+                content={course} 
+                className="w-full text-sm py-2"
+                withIcon={true}
+              />
+            )}
+            
+            {!showInstructorActions && !shouldShowBuyButton && (
               <Link
                 to={`/courses/${course.slug}`}
                 className={`text-sm font-medium ${
                   course.status === 'archived' 
                     ? 'text-gray-500 dark:text-gray-400 cursor-not-allowed' 
-                    : 'text-indigo-600 dark:text-indigo-400 hover:text-indigo-500'
+                    : 'text-custom-primary hover:text-custom-primary-hover'
                 }`}
                 onClick={e => course.status === 'archived' && e.preventDefault()}
               >

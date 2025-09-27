@@ -4,7 +4,7 @@ export default function MessageLimitIndicator({ current, limit }) {
     return (
       <div className="p-3 border-b border-gray-200 dark:border-gray-700">
         <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400 mb-1">
-          <span>Daily messages</span>
+          <span>Mensagens diárias</span>
           <span>{current} / {limit}</span>
         </div>
         <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">

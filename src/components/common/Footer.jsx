@@ -15,7 +15,6 @@ export default function Footer() {
       { name: "Ajuda", href: "/help" },
       { name: "Sobre", href: "/about" },
       { name: "Contato", href: "/contact" },
-      // { name: "Sou admin", href: "/register/admin" },
     ],
     legal: [
       { name: "Privacidade", href: "/privacy" },

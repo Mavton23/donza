@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import api from '@/services/api';
 import PlatformLoader from '@/components/common/PlatformLoader';
@@ -17,6 +18,7 @@ import { toast } from 'sonner';
 
 export default function AdminPanel() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [adminData, setAdminData] = useState({
     stats: null,
@@ -56,6 +58,14 @@ export default function AdminPanel() {
     fetchAdminData();
   }, [user]);
 
+  const handleTabChange = (tabId) => {
+    if (tabId === 'goout') {
+      navigate('/dashboard')
+    } else {
+      setActiveTab(tabId)
+    }
+  }
+
   if (user?.role !== 'admin') {
     return <AccessDenied />;
   }
@@ -69,7 +79,7 @@ export default function AdminPanel() {
       {/* Sidebar atualizada com novas opções */}
       <AdminSidebar 
         activeTab={activeTab} 
-        onTabChange={setActiveTab}
+        onTabChange={handleTabChange}
         extendedOptions={[
           { id: 'dashboard', label: 'Dashboard', icon: 'home' },
           { id: 'verifications', label: 'Verificações', icon: 'shield-check', badge: adminData.pendingVerifications },
@@ -78,7 +88,8 @@ export default function AdminPanel() {
           { id: 'events', label: 'Eventos', icon: 'calendar' },
           { id: 'testimonials', label: 'Testemunhos', icon: 'message-square-text' },
           { id: 'helpcenter', label: 'Central de Ajuda', icon: 'help-circle' },
-          { id: 'feedback', label: 'Feedback', icon: 'message-square' }
+          { id: 'feedback', label: 'Feedback', icon: 'message-square' },
+          { id: 'goout', label: 'Sair do painel', icon: 'log-out' },
         ]}
       />
       

@@ -3,12 +3,12 @@ import { useOutletContext } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import AvatarUpload from '../../components/profile/AvatarUpload';
-import { useNotification } from '../../contexts/NotificationContext';
-import LoadingSpinner from '../../components/common/LoadingSpinner';
+import AvatarUpload from '@/components/profile/AvatarUpload';
+import { useNotification } from '@/contexts/NotificationContext';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
 import InterestsSelector from '@/components/profile/InterestsSelector';
 import ExpertiseEditor from '@/components/profile/ExpertiseEditor';
-import { roleSpecificFields } from '../../utils/userUtils';
+import { roleSpecificFields } from '@/utils/userUtils';
 
 // Esquema de validação baseado no role do usuário
 const createAccountSchema = (role) => {

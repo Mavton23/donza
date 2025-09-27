@@ -3,8 +3,8 @@ export default function LoadingSpinner({
   fullScreen = false,
   withText = false,
   text = "Processando...",
-  textColor = "text-indigo-700 dark:text-indigo-300",
-  spinnerColor = "border-indigo-600 dark:border-indigo-400",
+  textColor = "text-gray-100",
+  spinnerColor = "border-gray-100",
   inline = false
 }) {
   const sizeClasses = {

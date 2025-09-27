@@ -71,8 +71,8 @@ export default function CommunityMembers() {
         totalItems: response.data.meta.totalItems
       });
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to load members');
-      console.error('Fetch members error:', err);
+      setError(err.response?.data?.message || 'Falha ao carregar membros');
+      console.error('Erro ao buscar membros:', err);
     } finally {
       setLoading(false);
     }
@@ -97,12 +97,12 @@ export default function CommunityMembers() {
         member.memberId === memberId ? { ...member, role: newRole } : member
       ));
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to update role');
+      setError(err.response?.data?.message || 'Falha ao atualizar função');
     }
   };
 
   const handleRemoveMember = async (memberId) => {
-    if (!window.confirm('Are you sure you want to remove this member?')) return;
+    if (!window.confirm('Tem certeza de que deseja remover este membro?')) return;
     
     try {
       await api.delete(`/communities/${communityId}/members/${memberId}`);
@@ -112,7 +112,7 @@ export default function CommunityMembers() {
         totalItems: prev.totalItems - 1
       }));
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to remove member');
+      setError(err.response?.data?.message || 'Falha ao remover membro');
     }
   };
 
@@ -123,20 +123,20 @@ export default function CommunityMembers() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
           <FiUsers className="text-indigo-600 dark:text-indigo-400" />
-          Community Members
+          Membros da Comunidade
         </h2>
         
         <form onSubmit={handleSearch} className="flex gap-2 w-full md:w-auto">
           <Input
             type="text"
-            placeholder="Search members..."
+            placeholder="Buscar membros..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="flex-1"
             icon={<FiSearch />}
           />
           <Button type="submit" variant="primary">
-            Search
+            Buscar
           </Button>
         </form>
       </div>
@@ -152,10 +152,10 @@ export default function CommunityMembers() {
       ) : members.length === 0 ? (
         <EmptyState
           icon={FiUsers}
-          title={searchQuery ? "No matching members" : "No members yet"}
+          title={searchQuery ? "Nenhum membro encontrado" : "Nenhum membro ainda"}
           description={searchQuery 
-            ? "Try adjusting your search query" 
-            : "Be the first to join this community"}
+            ? "Tente ajustar sua pesquisa" 
+            : "Seja o primeiro a entrar nesta comunidade"}
         />
       ) : (
         <>

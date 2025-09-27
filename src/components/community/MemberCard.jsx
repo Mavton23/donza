@@ -15,7 +15,7 @@ import TimeAgo from '../common/TimeAgo';
  * @property {string} member.user.username - Nome de usuário
  * @property {string} member.user.avatarUrl - URL do avatar
  * @property {Object} member.stats - Estatísticas
- * @property {number} member.stats.postCount - Número de posts
+ * @property {number} member.stats.postCount - Número de publicações
  * @property {number} member.stats.commentCount - Número de comentários
  * @property {function} [onRoleChange] - Callback para mudança de função
  * @property {function} [onRemove] - Callback para remoção
@@ -29,7 +29,7 @@ export default function MemberCard({
     joinedAt: new Date().toISOString(),
     user: {
       userId: '',
-      username: 'Unknown',
+      username: 'Desconhecido',
       avatarUrl: null
     },
     stats: {
@@ -45,7 +45,7 @@ export default function MemberCard({
     ...member,
     user: member.user || {
       userId: '',
-      username: 'Unknown',
+      username: 'Desconhecido',
       avatarUrl: null
     },
     stats: member.stats || {
@@ -60,17 +60,17 @@ export default function MemberCard({
 
   const actions = [
     {
-      label: 'View Profile',
+      label: 'Ver perfil',
       icon: <FiUser className="mr-2 h-4 w-4" />,
       action: () => window.open(`/profile/${safeMember.user.username}`, '_blank')
     },
     canChangeRole && {
-      label: 'Change Role',
+      label: 'Alterar função',
       icon: <FiEdit2 className="mr-2 h-4 w-4" />,
       action: () => {}
     },
     canRemove && {
-      label: 'Remove Member',
+      label: 'Remover membro',
       icon: <FiUserX className="mr-2 h-4 w-4" />,
       action: () => onRemove(safeMember.memberId),
       danger: true
@@ -84,16 +84,16 @@ export default function MemberCard({
   };
 
   const roleOptions = [
-    { value: 'member', label: 'Member' },
-    { value: 'moderator', label: 'Moderator' },
-    { value: 'admin', label: 'Admin' }
+    { value: 'member', label: 'Membro' },
+    { value: 'moderator', label: 'Moderador' },
+    { value: 'admin', label: 'Administrador' }
   ];
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-200 dark:border-gray-700 overflow-hidden mb-4 last:mb-0">
       <div className="p-5">
         <div className="flex flex-col gap-4">
-          {/* Top Section - Avatar and Basic Info */}
+          {/* Seção superior - Avatar e informações básicas */}
           <div className="flex items-start justify-between gap-4">
             <Link to={`/profile/${safeMember.user.username}`} className="flex items-center gap-3 group">
               <Avatar 
@@ -107,34 +107,34 @@ export default function MemberCard({
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors break-words">
                   {safeMember.user.username}
                   {isCurrentUser && (
-                    <span className="ml-2 text-xs font-normal text-gray-500 dark:text-gray-400">(You)</span>
+                    <span className="ml-2 text-xs font-normal text-gray-500 dark:text-gray-400">(Você)</span>
                   )}
                 </h3>
                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                  Joined <TimeAgo date={safeMember.joinedAt} />
+                  Entrou <TimeAgo date={safeMember.joinedAt} />
                 </p>
               </div>
             </Link>
             
-            {/* Dropdown Menu */}
+            {/* Menu suspenso */}
             {actions.length > 0 && (
               <Dropdown
                 trigger={
                   <button 
                     className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors mt-1"
-                    aria-label="Member actions"
+                    aria-label="Ações do membro"
                   >
                     <FiMoreVertical className="h-5 w-5" />
                   </button>
                 }
                 items={actions}
-                align="right"
+                align="left"
                 className="z-10"
               />
             )}
           </div>
           
-          {/* Middle Section - Role and Stats */}
+          {/* Seção do meio - Função e estatísticas */}
           <div className="flex flex-wrap items-center gap-3">
             <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${roleColors[safeMember.role]}`}>
               {safeMember.role.charAt(0).toUpperCase() + safeMember.role.slice(1)}
@@ -142,20 +142,20 @@ export default function MemberCard({
             
             <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
               <FiEdit2 className="mr-1.5 h-4 w-4 text-indigo-500 dark:text-indigo-400" />
-              <span>{safeMember.stats.postCount} posts</span>
+              <span>{safeMember.stats.postCount} publicações</span>
             </div>
             
             <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
               <FiMessageSquare className="mr-1.5 h-4 w-4 text-cyan-500 dark:text-cyan-400" />
-              <span>{safeMember.stats.commentCount} comments</span>
+              <span>{safeMember.stats.commentCount} comentários</span>
             </div>
           </div>
           
-          {/* Bottom Section - Role Selector */}
+          {/* Seção inferior - Seletor de função */}
           {canChangeRole && (
             <div className="mt-2">
               <label htmlFor={`role-select-${safeMember.memberId}`} className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
-                Change role
+                Alterar função
               </label>
               <select
                 id={`role-select-${safeMember.memberId}`}

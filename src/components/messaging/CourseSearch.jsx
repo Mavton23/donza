@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { BookOpen } from 'lucide-react';
-import api from '../../services/api';
+import api from '@/services/api';
 import LoadingSpinner from '../common/LoadingSpinner';
 
 export default function CourseSearch({ onSelect }) {
@@ -23,7 +23,7 @@ export default function CourseSearch({ onSelect }) {
         });
         setSearchResults(response.data || []);
       } catch (err) {
-        console.error('Search failed:', err);
+        console.error('Falha na busca:', err);
       } finally {
         setLoading(false);
       }
@@ -41,7 +41,7 @@ export default function CourseSearch({ onSelect }) {
   return (
     <div className="space-y-2">
       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-        Select Course
+        Selecionar Curso
       </label>
       
       <div className="relative">
@@ -52,7 +52,7 @@ export default function CourseSearch({ onSelect }) {
             setSearchQuery(e.target.value);
             if (selectedCourse) setSelectedCourse(null);
           }}
-          placeholder="Search your enrolled courses..."
+          placeholder="Buscar seus cursos matriculados..."
           className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800"
         />
         
@@ -78,7 +78,7 @@ export default function CourseSearch({ onSelect }) {
                     {course.title}
                   </p>
                   <p className="text-xs text-gray-500">
-                    Instructor: {course.instructor?.username || 'Unknown'}
+                    Instrutor: {course.instructor?.username || 'Desconhecido'}
                   </p>
                 </div>
               </div>

@@ -153,7 +153,7 @@ export default function CommunityCard({ community }) {
               </div>
             )}
             <span className="text-xs text-gray-500 dark:text-gray-400">
-              Created by <span className="text-indigo-600 dark:text-indigo-400">{creatorUsername}</span>
+              Criado por <span className="text-indigo-600 dark:text-indigo-400">{creatorUsername}</span>
             </span>
           </div>
           <span className="text-xs text-gray-400 dark:text-gray-500">

@@ -16,7 +16,7 @@ export default function ForgotPassword() {
       await api.forgotPassword({ email });
       
       toast.success('Email enviado com sucesso! Verifique sua caixa de entrada.');
-      navigate('/login');
+      navigate('/signin');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Erro ao enviar email');
     } finally {
@@ -69,7 +69,7 @@ export default function ForgotPassword() {
 
         <div className="text-center text-sm">
           <Link
-            to="/login"
+            to="/signin"
             className="font-medium text-indigo-600 hover:text-indigo-500"
           >
             Voltar para login

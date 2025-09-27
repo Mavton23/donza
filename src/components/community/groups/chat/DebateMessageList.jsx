@@ -1,5 +1,5 @@
 import { memo, useRef, useEffect, useCallback } from 'react';
-import DebateMessageItem from './DebateMessageItem';
+import ChatMessageItem from './ChatMessageItem';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { VariableSizeList as List } from 'react-window';
 
@@ -97,7 +97,7 @@ const DebateMessageList = memo(({
               const message = messages[index];
               return (
                 <div style={style}>
-                  <DebateMessageItem
+                  <ChatMessageItem
                     message={message}
                     currentUserId={currentUserId}
                     onEdit={onEditMessage}

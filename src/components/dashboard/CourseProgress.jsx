@@ -7,13 +7,13 @@ export default function CourseProgress({ courses, recommendations }) {
       <div className="p-6">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-            Seu progresso
+            Seu Progresso nos Cursos
           </h2>
           <Link
-            to="/my-courses"
+            to="/learning/courses"
             className="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300"
           >
-            Ver todos
+            Ver Todos
           </Link>
         </div>
 
@@ -25,7 +25,7 @@ export default function CourseProgress({ courses, recommendations }) {
                   {course.title}
                 </h3>
                 <span className="text-sm text-gray-500 dark:text-gray-400">
-                  {course.completedLessons}/{course.totalLessons} lessons
+                  {course.completedLessons}/{course.totalLessons} aulas
                 </span>
               </div>
               <ProgressBar 
@@ -40,7 +40,7 @@ export default function CourseProgress({ courses, recommendations }) {
         {recommendations.courses?.length > 0 && (
           <div className="mt-8">
             <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-3">
-              Cursos recomendados
+              Cursos Recomendados
             </h3>
             <div className="grid grid-cols-1 gap-3">
               {recommendations.courses.slice(0, 2).map((course) => (

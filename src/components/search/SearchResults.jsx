@@ -5,14 +5,18 @@ import {
   X, 
   BookOpen, 
   User, 
-  Users, 
+  Users,
+  Users2,
+  Lock,
+  Globe,
+  MessageSquare,
   Calendar, 
   Building, 
   AlertCircle,
-  MessageSquare,
   GraduationCap
 } from 'lucide-react';
 import { formatFollowers } from '@/utils/formatFollowers';
+import { formatPrice } from '@/utils/formatPrice';
 import api from '@/services/api';
 import LoadingSpinner from '../common/LoadingSpinner';
 import EmptyState from '../common/EmptyState';
@@ -22,10 +26,10 @@ const SearchResults = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeTab, setActiveTab] = useState('all');
+  const [activeTab, setActiveTab] = useState('courses');
   const [results, setResults] = useState({
-    all: [],
     courses: [],
+    communities: [],
     users: [],
     instructors: [],
     institutions: [],
@@ -53,8 +57,8 @@ const SearchResults = () => {
 
       if (response.data && typeof response.data === 'object') {
         setResults({
-          all: Array.isArray(response.data.all) ? response.data.all : [],
           courses: Array.isArray(response.data.courses) ? response.data.courses : [],
+          communities: Array.isArray(response.data.communities) ? response.data.communities : [],
           users: Array.isArray(response.data.users) ? response.data.users : [],
           instructors: Array.isArray(response.data.instructors) ? response.data.instructors : [],
           institutions: Array.isArray(response.data.institutions) ? response.data.institutions : [],
@@ -70,8 +74,8 @@ const SearchResults = () => {
         'A busca está demorando muito. Tente novamente.' : 
         'Erro ao buscar resultados');
       setResults({
-        all: [],
         courses: [],
+        communities: [],
         users: [],
         instructors: [],
         institutions: [],
@@ -92,8 +96,8 @@ const SearchResults = () => {
         performSearch(query);
       } else {
         setResults({
-          all: [],
           courses: [],
+          communities: [],
           users: [],
           instructors: [],
           institutions: [],
@@ -120,15 +124,15 @@ const SearchResults = () => {
   };
 
   const tabs = [
-    { id: 'all', name: 'Tudo', count: results.all.length, icon: Search },
     { id: 'courses', name: 'Cursos', count: results.courses.length, icon: BookOpen },
     { id: 'users', name: 'Usuários', count: results.users.length, icon: User },
     { id: 'instructors', name: 'Instrutores', count: results.instructors.length, icon: GraduationCap },
     { id: 'institutions', name: 'Instituições', count: results.institutions.length, icon: Building },
-    { id: 'events', name: 'Eventos', count: results.events.length, icon: Calendar }
+    { id: 'events', name: 'Eventos', count: results.events.length, icon: Calendar },
+    { id: 'communities', name: 'Comunidades', count: results.communities.length, icon: Users2 }
   ];
 
-  const currentResults = activeTab === 'all' ? results.all : results[activeTab];
+  const currentResults = results[activeTab];
   const activeTabData = tabs.find(tab => tab.id === activeTab);
 
   const renderContent = () => {
@@ -149,7 +153,7 @@ const SearchResults = () => {
           action={
             <button 
               onClick={() => performSearch(searchQuery)}
-              className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
+              className="mt-4 px-4 py-2 bg-custom-primary text-white rounded-md hover:bg-custom-primary-hover transition-colors"
             >
               Tentar novamente
             </button>
@@ -180,14 +184,10 @@ const SearchResults = () => {
 
     return (
       <div className="mt-6">
-        {activeTab === 'all' ? (
-          <MixedResults results={currentResults} />
-        ) : (
-          <CategoryResults 
-            results={currentResults} 
-            type={activeTab} 
-          />
-        )}
+        <CategoryResults 
+          results={currentResults} 
+          type={activeTab} 
+        />
       </div>
     );
   };
@@ -204,7 +204,7 @@ const SearchResults = () => {
             <input
               type="text"
               placeholder="Buscar cursos, instrutores, eventos..."
-              className="block w-full pl-10 pr-12 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900 dark:text-white"
+              className="block w-full pl-10 pr-12 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-custom-primary focus:border-custom-primary text-gray-900 dark:text-white"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               aria-label="Barra de pesquisa"
@@ -229,7 +229,7 @@ const SearchResults = () => {
           tabs={tabs}
           activeTab={activeTab}
           onChange={setActiveTab}
-          className="mb-6"
+          className="mb-6 overflow-x-auto"
         />
       )}
 
@@ -239,33 +239,19 @@ const SearchResults = () => {
   );
 };
 
-const MixedResults = (({ results }) => (
-  <div className="space-y-6">
-    {results.map((result) => {
-      const Component = {
-        course: CourseResult,
-        user: UserResult,
-        instructor: InstructorResult,
-        institution: InstitutionResult,
-        event: EventResult
-      }[result.type];
-
-      return Component ? <Component key={`${result.type}-${result.id}`} {...{[result.type]: result}} /> : null;
-    })}
-  </div>
-));
-
 const CategoryResults = (({ results, type }) => {
   const gridClasses = {
     courses: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
-    users: 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4',
-    instructors: 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4',
+    users: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+    instructors: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
     institutions: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
-    events: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+    events: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+    communities: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
   }[type];
 
   const ResultComponent = {
     courses: CourseResult,
+    communities: CommunityResult,
     users: UserResult,
     instructors: InstructorResult,
     institutions: InstitutionResult,
@@ -274,70 +260,85 @@ const CategoryResults = (({ results, type }) => {
 
   return (
     <div className={`grid ${gridClasses} gap-6`}>
-      {results.map((item) => {
-        const props = { [type]: item };
-        return <ResultComponent key={item.userId || item.id} {...props} />;
-      })}
+      {results.map((item) => (
+        <ResultComponent 
+          key={item.userId || item.id || item.courseId || item.eventId}
+          {...{ [type]: item }}
+        />
+      ))}
     </div>
   );
 });
 
 const CardWrapper = ({ children, icon: Icon, iconColor = 'indigo', onClick, clickable = false }) => {
   const colorClasses = {
-    indigo: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-400',
-    blue: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
-    purple: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400',
-    green: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
+    indigo: 'bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400',
+    blue: 'bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400',
+    purple: 'bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400',
+    green: 'bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400',
+    red: 'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400',
+    yellow: 'bg-yellow-100 text-yellow-600 dark:bg-yellow-900/30 dark:text-yellow-400',
+    pink: 'bg-pink-100 text-pink-600 dark:bg-pink-900/30 dark:text-pink-400'
   };
 
   return (
     <div 
-      className={`bg-white dark:bg-gray-800 rounded-lg shadow p-6 hover:shadow-md transition-shadow ${
-        clickable ? 'cursor-pointer hover:ring-2 hover:ring-indigo-500' : ''
+      className={`relative bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-all duration-300 w-full h-full group ${
+        clickable ? 'cursor-pointer hover:ring-2 hover:ring-custom-primary hover:-translate-y-0.5' : ''
       }`}
       onClick={onClick}
     >
-      <div className="flex items-start">
-        {Icon && (
-          <div className={`${colorClasses[iconColor]} rounded-lg p-3 mr-4`}>
-            <Icon size={20} />
-          </div>
-        )}
-        <div className="flex-1 min-w-0">
-          {children}
+      {/* Ícone absoluto premium */}
+      {Icon && (
+        <div className={`absolute -top-3 -right-3 ${colorClasses[iconColor]} rounded-xl p-3 shadow-lg border-2 border-white dark:border-gray-800 group-hover:scale-110 transition-transform duration-300 z-10`}>
+          <Icon size={24} className="drop-shadow-sm" />
         </div>
+      )}
+      
+      {/* Conteúdo principal - espaço preservado */}
+      <div className="w-full h-full">
+        {children}
       </div>
+
+      {/* Efeito de brilho sutil */}
+      <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
     </div>
   );
 };
 
-const CourseResult = ({ course }) => {
-  if (!course) return null;
+const CourseResult = ({ courses }) => {
+  if (!courses) return null;
   const navigate = useNavigate();
 
   const handleCourseClick = () => {
-    navigate(`/courses/${course?.slug}`);
+    navigate(`/courses/${courses?.slug}`);
   };
 
   return (
-    <CardWrapper icon={BookOpen} clickable onClick={handleCourseClick}>
-      <h3 className="font-medium text-gray-900 dark:text-white">{course.title}</h3>
-      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 line-clamp-2">
-        {course.description}
-      </p>
-      <div className="mt-3 text-sm text-indigo-600 dark:text-indigo-400 hover:underline">
+    <CardWrapper 
+      iconColor='purple'
+      icon={BookOpen} 
+      clickable 
+      onClick={handleCourseClick}
+    >
+      <h3 className="font-medium text-gray-900 dark:text-white">{courses.title}</h3>
+      <p 
+        className="text-sm text-gray-500 dark:text-gray-400 mt-1 line-clamp-2"
+        dangerouslySetInnerHTML={{__html: courses.description}}
+      />
+      <div className="mt-3 text-sm text-custom-primary hover:underline">
         Ver detalhes do curso
       </div>
-  </CardWrapper>
-  )
+    </CardWrapper>
+  );
 };
 
-const UserResult = ({ user }) => {
-  if (!user) return null;
+const UserResult = ({ users }) => {
+  if (!users) return null;
   const navigate = useNavigate();
 
   const handleProfileClick = () => {
-    navigate(`/profile/${user?.username}`);
+    navigate(`/profile/${users?.username}`);
   };
 
   return (
@@ -349,42 +350,42 @@ const UserResult = ({ user }) => {
     >
       <div className="flex items-start">
         <img 
-          src={user?.avatarUrl || '/images/placeholder.png'} 
-          alt={user?.username}
+          src={users?.avatarUrl || '/images/placeholder.png'} 
+          alt={users?.username}
           className="h-10 w-10 rounded-full mr-4 mt-1"
         />
         <div>
           <h3 className="font-medium text-gray-900 dark:text-white">
-            {user?.fullName || user?.username}
+            {users?.fullName || users?.username}
           </h3>
   
-          <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 space-x-2">
-            <span>@{user?.username}</span>
+          <div className="text-sm text-gray-500 dark:text-gray-400 space-x-2">
+            <span>@{users?.username}</span>
             <span className="text-xs">•</span>
-            <span>{formatFollowers(user?.followersCount) || 0} seguidores</span>
+            <span>{formatFollowers(users?.followersCount) || 0} acompanhantes</span>
           </div>
   
-          {user?.bio && (
+          {users?.bio && (
             <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 line-clamp-2">
-              {user?.bio}
+              {users?.bio}
             </p>
           )}
   
-          <div className="mt-2 text-sm text-blue-600 dark:text-blue-400 hover:underline">
+          <div className="mt-2 text-sm text-custom-primary hover:underline">
             Ver perfil completo
           </div>
         </div>
       </div>
     </CardWrapper>
   );
-}
+};
 
-const InstructorResult = ({ instructor }) => {
-  if (!instructor) return null;
+const InstructorResult = ({ instructors }) => {
+  if (!instructors) return null;
   const navigate = useNavigate();
 
   const handleProfileClick = () => {
-    navigate(`/profile/${instructor.username}`);
+    navigate(`/profile/${instructors?.username}`);
   };
 
   return (
@@ -396,28 +397,28 @@ const InstructorResult = ({ instructor }) => {
     >
       <div className="flex items-start">
         <img 
-          src={instructor?.avatarUrl || '/images/placeholder.png'} 
-          alt={instructor?.username}
+          src={instructors?.avatarUrl || '/images/placeholder.png'} 
+          alt={instructors?.username}
           className="h-10 w-10 rounded-full mr-4 mt-1"
         />
         <div>
           <h3 className="font-medium text-gray-900 dark:text-white">
-            {instructor?.fullName || instructor?.username}
+            {instructors?.fullName || instructors?.username}
           </h3>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            {instructor?.expertise?.slice(0, 3).join(', ') || 'Instrutor'}
+            {instructors?.expertise?.slice(0, 3).join(', ') || 'Instrutor'}
           </p>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            @{instructor?.username} • {formatFollowers(instructor?.followersCount) || 0} seguidores
+            @{instructors?.username} • {formatFollowers(instructors?.followersCount) || 0} acompanhantes
           </p>
         </div>
       </div>
   
       <div className="mt-2 flex items-center text-sm text-gray-500 dark:text-gray-400 space-x-2">
         <BookOpen size={14} className="text-gray-500 dark:text-gray-400" />
-        <span>{instructor?.courseCount || 0} cursos</span>
+        <span>{instructors?.courseCount || 0} cursos</span>
         <span className="text-xs">•</span>
-        <span>{instructor?.studentCount || 0} alunos</span>
+        <span>{instructors?.studentCount || 0} alunos ativos</span>
       </div>
   
       <div className="mt-2 text-sm text-blue-600 dark:text-blue-400 hover:underline">
@@ -425,14 +426,14 @@ const InstructorResult = ({ instructor }) => {
       </div>
     </CardWrapper>
   );
-}
+};
 
-const InstitutionResult = ({ institution }) => {
-  if (!institution) return null;
+const InstitutionResult = ({ institutions }) => {
+  if (!institutions) return null;
   const navigate = useNavigate();
 
   const handleProfileClick = () => {
-    navigate(`/profile/${institution.fullName}`);
+    navigate(`/profile/${institutions?.username}`);
   };
 
   return (
@@ -443,19 +444,19 @@ const InstitutionResult = ({ institution }) => {
       onClick={handleProfileClick}
     >
       <h3 className="font-medium text-gray-900 dark:text-white">
-        {institution.institutionName}
+        {institutions.institutionName}
       </h3>
       
       <p className="text-sm text-gray-500 dark:text-gray-400">
-        {institution.institutionType}
+        {institutions.institutionType}
       </p>
   
       <p className="text-sm text-gray-500 dark:text-gray-400">
-        @{institution.username} • {formatFollowers(institution.followersCount) || 0} seguidores
+        @{institutions.username} • {formatFollowers(institutions.followersCount) || 0} acompanhantes
       </p>
   
       <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 line-clamp-2">
-        {institution.academicPrograms?.slice(0, 3).join(', ')}
+        {institutions.academicPrograms?.slice(0, 3).join(', ')}
       </p>
   
       <div className="mt-3 text-sm text-purple-600 dark:text-purple-400 hover:underline">
@@ -465,36 +466,164 @@ const InstitutionResult = ({ institution }) => {
   );
 };
 
-const EventResult = ({ event }) => (
-  // TO DO: Create go to event
-  <CardWrapper icon={Calendar} iconColor="green">
-    <h3 className="font-medium text-gray-900 dark:text-white">
-      {event.title}
-    </h3>
-    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-      {new Date(event.date).toLocaleDateString('pt-BR', { 
-        day: 'numeric', 
-        month: 'long', 
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-      })}
-    </p>
-    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-      {event.isOnline ? 'Evento Online' : event.location}
-    </p>
-    <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 line-clamp-2">
-      {event.description}
-    </p>
-    <div className="mt-3 flex justify-between items-center">
-      <span className="text-sm text-gray-500 dark:text-gray-400">
-        {event.participantCount || 0} participantes
-      </span>
-      <button className="text-sm text-green-600 dark:text-green-400 hover:underline">
-        Detalhes
-      </button>
-    </div>
-  </CardWrapper>
-);
+const EventResult = ({ events }) => {
+  if (!events) return null;
+  const navigate = useNavigate();
+
+  const handleEventClick = () => {
+    navigate(`/events/${events.eventId}`);
+  };
+
+  return (
+    <CardWrapper 
+      icon={Calendar} 
+      iconColor="green"
+      onClick={handleEventClick}
+      clickable  
+    >
+      <h3 className="font-medium text-gray-900 dark:text-white">
+        {events.title}
+      </h3>
+      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+        {new Date(events.startDate).toLocaleDateString('pt-BR', { 
+          day: 'numeric', 
+          month: 'long', 
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        })} até {new Date(events.endDate).toLocaleDateString('pt-BR', {
+          day: 'numeric', 
+          month: 'long', 
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        })}
+      </p>
+      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+        {events.isOnline ? 'Evento Online' : events.location}
+      </p>
+      <div 
+        className="text-sm text-gray-500 dark:text-gray-400 mt-2 line-clamp-2"
+        dangerouslySetInnerHTML={{ __html: events.description }}
+      />
+      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+        {formatPrice(events.price)}
+      </p>
+      <div className="mt-3 flex justify-between items-center">
+        <span className="text-sm text-gray-500 dark:text-gray-400">
+          {events.maxParticipants} participantes (máximo) 
+        </span>
+        <button className="text-sm text-green-600 dark:text-green-400 hover:underline">
+          Detalhes
+        </button>
+      </div>
+    </CardWrapper>
+  );
+};
+
+const CommunityResult = ({ communities }) => {
+  if (!communities) return null;
+  const navigate = useNavigate();
+
+  const handleCommunityClick = () => {
+    navigate(`/communities/${communities?.communityId}`);
+  };
+
+  // Ícone baseado no tipo de membresia
+  const getCommunityIcon = () => {
+    switch (communities.membershipType) {
+      case 'invite_only':
+        return Lock;
+      case 'approval':
+        return Users2;
+      default:
+        return Globe;
+    }
+  };
+
+  // Cor baseada no tipo de membresia
+  const getIconColor = () => {
+    switch (communities.membershipType) {
+      case 'invite_only':
+        return 'purple';
+      case 'approval':
+        return 'yellow';
+      default:
+        return 'pink';
+    }
+  };
+
+  const CommunityIcon = getCommunityIcon();
+  const iconColor = getIconColor();
+
+  return (
+    <CardWrapper 
+      icon={CommunityIcon}
+      iconColor={iconColor}
+      clickable 
+      onClick={handleCommunityClick}
+    >
+      <div className="flex items-start">
+        {communities.thumbnailImage && (
+          <img 
+            src={communities.thumbnailImage} 
+            alt={communities.name}
+            className="h-12 w-12 rounded-lg object-cover mr-4"
+          />
+        )}
+        <div className="flex-1">
+          <h3 className="font-medium text-gray-900 dark:text-white">
+            {communities.name}
+          </h3>
+
+          <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 space-x-2 mt-1">
+            <span className="flex items-center">
+              <Users size={14} className="mr-1" />
+              {formatFollowers(communities.analytics?.memberCount || 0)} membros
+            </span>
+            <span className="text-xs">•</span>
+            <span className="flex items-center">
+              <MessageSquare size={14} className="mr-1" />
+              {formatFollowers(communities.analytics?.postCount || 0)} posts
+            </span>
+            <span className="text-xs">•</span>
+            <span className="capitalize">
+              {communities.membershipType === 'invite_only' ? 'por convite' : 
+               communities.membershipType === 'approval' ? 'com aprovação' : 'aberta'}
+            </span>
+          </div>
+
+          {communities.shortDescription && (
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+              {communities.shortDescription}
+            </p>
+          )}
+
+          {communities.tags && communities.tags.length > 0 && (
+            <div className="flex flex-wrap gap-1 mt-2">
+              {communities.tags.slice(0, 3).map((tag, index) => (
+                <span
+                  key={index}
+                  className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300"
+                >
+                  #{tag}
+                </span>
+              ))}
+              {communities.tags.length > 3 && (
+                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+                  +{communities.tags.length - 3}
+                </span>
+              )}
+            </div>
+          )}
+
+          <div className="mt-3 text-sm text-custom-primary hover:underline">
+            Ver comunidade
+          </div>
+        </div>
+      </div>
+    </CardWrapper>
+  );
+};
 
 export default SearchResults;

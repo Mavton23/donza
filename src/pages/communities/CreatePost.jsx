@@ -1,36 +1,36 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
-import api from '../../services/api';
+import { useAuth } from '@/contexts/AuthContext';
+import api from '@/services/api';
 import { FiArrowLeft, FiLink } from 'react-icons/fi';
 import { Pin, BookOpen, GraduationCap, AlertCircle } from 'lucide-react';
-import RichTextEditor from '../../components/common/RichTextEditor';
-import LoadingSpinner from '../../components/common/LoadingSpinner';
-import ErrorMessage from '../../components/common/ErrorMessage';
+import RichTextEditor from '@/components/common/RichTextEditor';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
+import ErrorMessage from '@/components/common/ErrorMessage';
 import CustomTagsInput from '@/components/common/CustomTagsInput';
-import { Switch } from '../../components/ui/switch';
-import FileUpload from '../../components/common/FileUpload';
+import { Switch } from '@/components/ui/switch';
+import FileUpload from '@/components/common/FileUpload';
 
 // Constantes para opções reutilizáveis
 const POST_TYPES = [
-  { value: 'discussion', label: 'Discussion', icon: <BookOpen size={16} /> },
-  { value: 'question', label: 'Question', icon: <AlertCircle size={16} /> },
-  { value: 'resource', label: 'Resource', icon: <BookOpen size={16} /> },
-  { value: 'announcement', label: 'Announcement', icon: <Pin size={16} /> },
-  { value: 'assignment', label: 'Assignment', icon: <GraduationCap size={16} /> }
+  { value: 'discussion', label: 'Discussão', icon: <BookOpen size={16} /> },
+  { value: 'question', label: 'Pergunta', icon: <AlertCircle size={16} /> },
+  { value: 'resource', label: 'Recurso', icon: <BookOpen size={16} /> },
+  { value: 'announcement', label: 'Anúncio', icon: <Pin size={16} /> },
+  { value: 'assignment', label: 'Tarefa', icon: <GraduationCap size={16} /> }
 ];
 
 const DIFFICULTY_LEVELS = [
-  { value: null, label: 'Not applicable' },
-  { value: 'beginner', label: 'Beginner' },
-  { value: 'intermediate', label: 'Intermediate' },
-  { value: 'advanced', label: 'Advanced' }
+  { value: null, label: 'Não aplicável' },
+  { value: 'beginner', label: 'Iniciante' },
+  { value: 'intermediate', label: 'Intermediário' },
+  { value: 'advanced', label: 'Avançado' }
 ];
 
 const VISIBILITY_OPTIONS = [
-  { value: 'public', label: 'Public' },
-  { value: 'members', label: 'Community Members Only' },
-  { value: 'restricted', label: 'Specific Members' }
+  { value: 'public', label: 'Público' },
+  { value: 'members', label: 'Apenas Membros da Comunidade' },
+  { value: 'restricted', label: 'Membros Específicos' }
 ];
 
 // Tipo inicial do estado do post
@@ -142,7 +142,7 @@ export default function CreatePost() {
             title: attachment.title
           };
         } catch (error) {
-          console.error(`Failed to upload ${attachment.title}:`, error);
+          console.error(`Falha no upload de ${attachment.title}:`, error);
           return null;
         }
       });
@@ -153,19 +153,19 @@ export default function CreatePost() {
 
   const validateForm = () => {
     if (!postData.title.trim() || postData.title.length < 5) {
-      throw new Error('Title must be at least 5 characters');
+      throw new Error('O título deve ter pelo menos 5 caracteres');
     }
 
     if (!postData.content.trim() || postData.content.length < 50) {
-      throw new Error('Content must be at least 50 characters');
+      throw new Error('O conteúdo deve ter pelo menos 50 caracteres');
     }
 
     if (postData.postType === 'resource' && !postData.sourceUrl) {
-      throw new Error('Source URL is required for resources');
+      throw new Error('URL da fonte é obrigatória para recursos');
     }
 
     if (postData.tags.length > 5) {
-      throw new Error('Maximum of 5 tags allowed');
+      throw new Error('Máximo de 5 tags permitidas');
     }
   };
 
@@ -202,11 +202,11 @@ export default function CreatePost() {
       
       navigate(`/communities/${communityId}/posts/${response.data.data.postId}`);
     } catch (err) {
-      let errorMessage = 'Failed to create post';
+      let errorMessage = 'Falha ao criar a publicação';
       
       if (err.response) {
         if (err.response.status === 413) {
-          errorMessage = 'File size too large. Maximum allowed is 5MB';
+          errorMessage = 'Arquivo muito grande. Tamanho máximo permitido é 5MB';
         } else if (err.response.data?.errors) {
           errorMessage = err.response.data.errors.join(', ');
         } else {
@@ -230,10 +230,10 @@ export default function CreatePost() {
           className="inline-flex items-center text-indigo-600 dark:text-indigo-400 hover:underline mb-4"
         >
           <FiArrowLeft className="mr-2" />
-          Back to community
+          Voltar para a comunidade
         </Link>
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-          Create New Post
+          Criar Publicação
         </h1>
       </div>
 
@@ -243,7 +243,7 @@ export default function CreatePost() {
         {/* Post Type Selection */}
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Post Type *
+            Tipo de Publicação *
           </label>
           <div className="grid grid-cols-5 gap-2">
             {POST_TYPES.map((type) => (
@@ -267,7 +267,7 @@ export default function CreatePost() {
         {/* Title */}
         <div>
           <label htmlFor="title" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Title *
+            Título *
           </label>
           <input
             type="text"
@@ -277,17 +277,17 @@ export default function CreatePost() {
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800"
             required
             maxLength={120}
-            placeholder="What's your post about?"
+            placeholder="Sobre o que é sua publicação?"
           />
           <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-            {postData.title.length}/120 characters
+            {postData.title.length}/120 caracteres
           </p>
         </div>
 
         {/* Excerpt */}
         <div>
           <label htmlFor="excerpt" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Short Summary (Optional)
+            Resumo Curto (Opcional)
           </label>
           <textarea
             id="excerpt"
@@ -296,22 +296,22 @@ export default function CreatePost() {
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800"
             rows={3}
             maxLength={200}
-            placeholder="A brief summary of your post..."
+            placeholder="Um breve resumo da sua publicação..."
           />
           <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-            {postData.excerpt.length}/200 characters (will be auto-generated if empty)
+            {postData.excerpt.length}/200 caracteres (será gerado automaticamente se vazio)
           </p>
         </div>
 
         {/* Content */}
         <div>
           <label htmlFor="content" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Content *
+            Conteúdo *
           </label>
           <RichTextEditor
             value={postData.content}
             onChange={(html) => handleInputChange('content', html)}
-            placeholder="Write your post content here..."
+            placeholder="Escreva o conteúdo da sua publicação aqui..."
             maxLength={5000}
             className="min-h-[300px]"
           />
@@ -321,7 +321,7 @@ export default function CreatePost() {
         {(postData.postType === 'resource' || postData.postType === 'assignment') && (
         <div>
           <label htmlFor="difficulty" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Difficulty Level
+            Nível de Dificuldade
           </label>
           <div className="relative">
             <select
@@ -343,7 +343,7 @@ export default function CreatePost() {
         {/* Tags */}
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Tags (Optional)
+            Tags (Opcional)
           </label>
           <CustomTagsInput
             value={postData.tags}
@@ -352,14 +352,14 @@ export default function CreatePost() {
             maxLength={20}
           />
           <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-            Add up to 5 tags to help categorize your post
+            Adicione até 5 tags para ajudar a categorizar sua publicação
           </p>
         </div>
 
         {/* Source URL */}
         <div>
           <label htmlFor="sourceUrl" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Source URL (Optional)
+            URL da Fonte (Opcional)
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -371,7 +371,7 @@ export default function CreatePost() {
               value={postData.sourceUrl}
               onChange={(e) => handleInputChange('sourceUrl', e.target.value)}
               className="pl-10 w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800"
-              placeholder="https://example.com"
+              placeholder="https://exemplo.com"
             />
           </div>
         </div>
@@ -380,10 +380,10 @@ export default function CreatePost() {
         <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-md">
           <div>
             <label htmlFor="originalContent" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Original Content
+              Conteúdo Original
             </label>
             <p className="text-xs text-gray-500 dark:text-gray-400">
-              Is this your original work?
+              Este é o seu trabalho original?
             </p>
           </div>
           <Switch
@@ -396,12 +396,13 @@ export default function CreatePost() {
         {/* Attachments */}
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Attachments
+            Anexos
           </label>
           <FileUpload
             onUpload={handleAttachmentUpload}
             accept="image/*, .pdf, .doc, .docx, .ppt, .pptx, .xls, .xlsx"
             multiple
+            fileType='auto'
           />
           
           {state.attachments.length > 0 && (
@@ -426,7 +427,7 @@ export default function CreatePost() {
                     onClick={() => handleRemoveAttachment(index)}
                     className="text-red-500 hover:text-red-700 dark:hover:text-red-400"
                   >
-                    Remove
+                    Remover
                   </button>
                 </div>
               ))}
@@ -437,7 +438,7 @@ export default function CreatePost() {
         {/* Visibility */}
         <div>
         <label htmlFor="visibility" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-          Visibility
+          Visibilidade
         </label>
         <div className="relative">
           <select
@@ -467,7 +468,7 @@ export default function CreatePost() {
             />
             <label htmlFor="isPinned" className="ml-2 flex items-center text-sm text-gray-700 dark:text-gray-300">
               <Pin className="mr-1" size={16} />
-              Pin this post (visible at the top of the community)
+              Fixar esta publicação (visível no topo da comunidade)
             </label>
           </div>
         )}
@@ -478,14 +479,14 @@ export default function CreatePost() {
             onClick={() => navigate(`/communities/${communityId}`)}
             className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
           >
-            Cancel
+            Cancelar
           </button>
           <button
             type="submit"
             disabled={state.loading || !postData.title.trim() || !postData.content.trim()}
             className="px-4 py-2 bg-indigo-600 text-white rounded-md shadow-sm text-sm font-medium hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 transition-colors"
           >
-            {state.loading ? <LoadingSpinner size="sm" /> : 'Publish Post'}
+            {state.loading ? <LoadingSpinner size="sm" /> : 'Publicar'}
           </button>
         </div>
       </form>

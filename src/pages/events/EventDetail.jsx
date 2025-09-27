@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
-import api from '../../services/api';
-import LoadingSpinner from '../../components/common/LoadingSpinner';
-import EventHeader from '../../components/events/EventHeader';
-import EventDetails from '../../components/events/EventDetails';
-import EventParticipants from '../../components/events/EventParticipants';
-import RegisterButton from '../../components/events/RegisterButton';
-import EventTabs from '../../components/events/EventTabs';
+import { useAuth } from '@/contexts/AuthContext';
+import api from '@/services/api';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
+import EventHeader from '@/components/events/EventHeader';
+import EventDetails from '@/components/events/EventDetails';
+import EventParticipants from '@/components/events/EventParticipants';
+import RegisterButton from '@/components/events/RegisterButton';
+import EventTabs from '@/components/events/EventTabs';
 import { User, Mail, Phone, BookUser, School, Info, Globe, MapPin, Copy, Check } from 'lucide-react';
 
 export default function EventDetail() {
@@ -69,7 +69,7 @@ export default function EventDetail() {
             <EventTabs 
               activeTab={activeTab}
               setActiveTab={setActiveTab}
-              isOrganizer={user?.userId === event.organizer.userId}
+              isOrganizer={user?.userId === event.organizer?.userId}
             />
 
             {error && (
@@ -265,7 +265,7 @@ export default function EventDetail() {
               </div>
             </div>
 
-            {user?.userId === event.organizer.userId && (
+            {user?.userId === event.organizer?.userId && (
               <Link
                 to={`/events/${eventId}/edit`}
                 className="block w-full text-center px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"

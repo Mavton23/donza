@@ -7,9 +7,10 @@ import CourseSearch from './CourseSearch';
 
 export default function ContextSelector({ onClose, onSubmit, user, existingConversations }) {
   const [step, setStep] = useState(1);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [context, setContext] = useState({
     type: '',
-    id: '',
+    conversationId: '',
     recipientId: '',
     message: ''
   });
@@ -22,7 +23,7 @@ export default function ContextSelector({ onClose, onSubmit, user, existingConve
         const sameParticipants = conv.participants.some(p => p.userId === context.recipientId);
         
         if (context.type === 'course') {
-          return sameContext && sameParticipants && conv.contextId === context.id;
+          return sameContext && sameParticipants && conv.contextId === context.conversationId;
         }
         
         return sameContext && sameParticipants;
@@ -30,7 +31,17 @@ export default function ContextSelector({ onClose, onSubmit, user, existingConve
       
       setExistingConvs(filtered);
     }
-  }, [context.type, context.recipientId, context.id, existingConversations]);
+  }, [context.type, context.recipientId, context.conversationId, existingConversations]);
+
+  // Atualiza o context quando o usuário é selecionado
+  useEffect(() => {
+    if (selectedUser) {
+      setContext(prev => ({
+        ...prev,
+        recipientId: selectedUser.userId
+      }));
+    }
+  }, [selectedUser]);
 
   const handleSubmit = () => {
     if (!context.message.trim()) {
@@ -44,8 +55,22 @@ export default function ContextSelector({ onClose, onSubmit, user, existingConve
         useExisting: true
       });
     } else {
-      onSubmit(context);
+      onSubmit({
+        ...context,
+        useExisting: true
+      });
     }
+  };
+
+  const handleBackToStep1 = () => {
+    setStep(1);
+    setSelectedUser(null); // Limpa a seleção ao voltar
+    setContext({
+      type: '',
+      conversationId: '',
+      recipientId: '',
+      message: ''
+    });
   };
 
   return (
@@ -111,7 +136,7 @@ export default function ContextSelector({ onClose, onSubmit, user, existingConve
 
                       <button
                         onClick={() => {
-                          setContext({ ...context, type: 'direct' });
+                          setContext({ ...context, type: 'conversation' });
                           setStep(2);
                         }}
                         className="flex items-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
@@ -151,23 +176,28 @@ export default function ContextSelector({ onClose, onSubmit, user, existingConve
                         onSelect={(course) => {
                           setContext({
                             ...context,
-                            id: course.courseId,
+                            conversationId: course.courseId,
                             recipientId: course.instructorId
                           });
                         }}
                       />
                     )}
 
-                    {context.type === 'direct' && (
+                    {context.type === 'conversation' && (
                       <UserSearch 
-                        onSelect={(user) => {
-                          setContext({
-                            ...context,
-                            recipientId: user.userId
-                          });
-                        }}
+                        onSelect={setSelectedUser}
+                        selectedUser={selectedUser}
+                        onClearSelection={() => setSelectedUser(null)}
                         currentUserRole={user.role}
                       />
+                    )}
+
+                    {context.type === 'support' && (
+                      <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                        <p className="text-sm text-blue-700 dark:text-blue-300">
+                          Sua mensagem será enviada para a equipe de suporte da instituição.
+                        </p>
+                      </div>
                     )}
 
                     <div>
@@ -183,16 +213,30 @@ export default function ContextSelector({ onClose, onSubmit, user, existingConve
                       />
                     </div>
 
+                    {/* Mostrar conversas existentes */}
+                    {existingConvs.length > 0 && (
+                      <div className="p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
+                        <p className="text-sm text-yellow-700 dark:text-yellow-300">
+          ⚠️ Você já tem uma conversa existente com este usuário. 
+                          A mensagem será adicionada à conversa existente.
+                        </p>
+                      </div>
+                    )}
+
                     <div className="flex justify-end space-x-3 pt-2">
                       <button
-                        onClick={() => setStep(1)}
+                        onClick={handleBackToStep1}
                         className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
                       >
                         Voltar
                       </button>
                       <button
                         onClick={handleSubmit}
-                        disabled={!context.recipientId || !context.message.trim()}
+                        disabled={
+                          !context.message.trim() || 
+                          (context.type === 'conversation' && !selectedUser) ||
+                          (context.type === 'course' && !context.conversationId)
+                        }
                         className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
                       >
                         Enviar Mensagem

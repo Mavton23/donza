@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import { Clock, Users, Lock, ChevronRight, Tag } from 'lucide-react';
+import { Clock, Users, Lock, ChevronRight, Tag, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { formatDistanceToNow } from 'date-fns';
 import { cn } from '@/lib/utils';
+import TimeAgo from '../common/TimeAgo';
 
 export default function StudyGroupCard({ group, communityId, isMember = false }) {
   const {
@@ -21,6 +21,7 @@ export default function StudyGroupCard({ group, communityId, isMember = false })
   } = group;
 
   const isPrivate = privacy === 'private';
+  const requireInvite = privacy === 'invite_only';
   const isFull = maxMembers && parseInt(membersCount) >= maxMembers;
   const progressPercentage = maxMembers ? (parseInt(membersCount) / maxMembers) * 100 : 0;
   const isActive = status === 'active';
@@ -67,6 +68,17 @@ export default function StudyGroupCard({ group, communityId, isMember = false })
     );
   };
 
+  // Determinar a cor do gradiente baseado no tipo de privacidade
+  const getGradientClass = () => {
+    if (isPrivate) {
+      return "bg-gradient-to-r from-purple-50/80 to-indigo-50/80 dark:from-purple-900/20 dark:to-indigo-900/20";
+    }
+    if (requireInvite) {
+      return "bg-gradient-to-r from-amber-50/80 to-orange-50/80 dark:from-amber-900/20 dark:to-orange-900/20";
+    }
+    return "bg-gradient-to-r from-gray-50/80 to-blue-50/80 dark:from-gray-800/50 dark:to-blue-900/20";
+  };
+
   return (
     <div className="group bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-200/80 dark:border-gray-700/50 hover:border-indigo-300 dark:hover:border-indigo-500/50 overflow-hidden flex flex-col h-full">
       {/* Cover Image (if available) */}
@@ -90,7 +102,7 @@ export default function StudyGroupCard({ group, communityId, isMember = false })
       {/* Header with gradient */}
       <div className={cn(
         "px-5 py-4 border-b border-gray-200/50 dark:border-gray-700/50",
-        isPrivate ? "bg-gradient-to-r from-purple-50/80 to-indigo-50/80 dark:from-purple-900/20 dark:to-indigo-900/20" : "bg-gradient-to-r from-gray-50/80 to-blue-50/80 dark:from-gray-800/50 dark:to-blue-900/20"
+        getGradientClass()
       )}>
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1 min-w-0">
@@ -102,6 +114,12 @@ export default function StudyGroupCard({ group, communityId, isMember = false })
                 <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300">
                   <Lock className="h-3 w-3 mr-1" />
                   Privado
+                </span>
+              )}
+              {requireInvite && (
+                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300">
+                  <Mail className="h-3 w-3 mr-1" />
+                  Convite
                 </span>
               )}
             </div>
@@ -165,7 +183,7 @@ export default function StudyGroupCard({ group, communityId, isMember = false })
       <div className="px-5 py-3 bg-gray-50/50 dark:bg-gray-700/30 border-t border-gray-200/50 dark:border-gray-700/30">
         <div className="flex justify-between items-center">
           <span className="text-xs text-gray-500 dark:text-gray-400">
-            Criado {formatDistanceToNow(new Date(createdAt), { addSuffix: true })}
+            Criado <TimeAgo date={createdAt} />
           </span>
           
           {isMember ? (
@@ -176,7 +194,7 @@ export default function StudyGroupCard({ group, communityId, isMember = false })
               asChild
             >
               <Link 
-                to={`/communities/${communityId}/groups/${groupId}`}
+                to={`/communities/${communityId}/groups/${groupId}/join`}
                 className="flex items-center gap-1"
               >
                 Ver grupo <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
@@ -186,9 +204,9 @@ export default function StudyGroupCard({ group, communityId, isMember = false })
             <Button 
               variant={isFull ? "disabled" : isActive ? "default" : "disabled"}
               size="sm"
-              disabled={isFull || !isActive}
+              disabled={isFull || !isActive || requireInvite}
               className={cn(
-                !isFull && isActive && "bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-600 dark:hover:bg-indigo-700",
+                !isFull && isActive && !requireInvite && "bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-600 dark:hover:bg-indigo-700",
                 "transition-colors"
               )}
               asChild
@@ -197,7 +215,10 @@ export default function StudyGroupCard({ group, communityId, isMember = false })
                 to={`/communities/${communityId}/groups/${groupId}/join`}
                 className="flex items-center gap-1"
               >
-                {!isActive ? 'Grupo inativo' : isFull ? 'Grupo lotado' : 'Entrar no grupo'}
+                {!isActive ? 'Grupo inativo' : 
+                 isFull ? 'Grupo lotado' : 
+                 requireInvite ? 'Por convite' : 
+                 'Entrar no grupo'}
               </Link>
             </Button>
           )}

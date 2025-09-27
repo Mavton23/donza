@@ -3,7 +3,7 @@ import Avatar from '../common/Avatar';
 import TimeAgo from '../common/TimeAgo';
 import EmptyState from '../common/EmptyState';
 import { MessageSquare } from 'lucide-react';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function ConversationList({ 
   conversations = [], 
@@ -11,6 +11,7 @@ export default function ConversationList({
   onSelect 
 }) {
   const { currentUser } = useAuth();
+  console.log("CONVERSATION: ", conversations);
 
   if (!Array.isArray(conversations)) {
     return (

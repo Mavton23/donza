@@ -81,7 +81,7 @@ export default function RoleSelectionStep({ onSelect, initialRole }) {
       <div className="mt-8 text-center text-sm text-gray-600 dark:text-gray-400">
         Já tem uma conta?{' '}
         <Link 
-          to="/login" 
+          to="/signin" 
           className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors"
         >
           Entrar

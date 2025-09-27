@@ -24,7 +24,7 @@ export default function ResetPassword() {
       await api.resetPassword(token, { password });
       
       toast.success('Senha redefinida com sucesso!');
-      navigate('/login');
+      navigate('/signin');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Erro ao redefinir senha');
     } finally {

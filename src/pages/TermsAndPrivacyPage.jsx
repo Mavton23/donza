@@ -5,8 +5,8 @@ const TermsAndPrivacyPage = () => {
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
       <Helmet>
-        <title>Termos de Serviço e Política de Privacidade - Donza</title>
-        <meta name="description" content="Termos de uso e política de privacidade da plataforma educacional Donza" />
+        <title>Termos de Serviço e Política de Privacidade - Classroom</title>
+        <meta name="description" content="Termos de uso e política de privacidade da plataforma educacional Classroom" />
       </Helmet>
 
       <Box textAlign="center" mb={4}>
@@ -27,14 +27,14 @@ const TermsAndPrivacyPage = () => {
           1.1 Aceitação dos Termos
         </Typography>
         <Typography paragraph>
-          Ao acessar e utilizar a plataforma Donza ("Plataforma"), você concorda com estes Termos de Serviço e com nossa Política de Privacidade. Se você não concordar com qualquer parte destes termos, você não deve usar nossa Plataforma.
+          Ao acessar e utilizar a plataforma Classroom ("Plataforma"), você concorda com estes Termos de Serviço e com nossa Política de Privacidade. Se você não concordar com qualquer parte destes termos, você não deve usar nossa Plataforma.
         </Typography>
 
         <Typography variant="h5" component="h3" gutterBottom mt={3}>
           1.2 Descrição do Serviço
         </Typography>
         <Typography paragraph>
-          A Donza é uma plataforma educacional que conecta alunos, instrutores e instituições de ensino, oferecendo:
+          A Classroom é uma plataforma educacional que conecta alunos, instrutores e instituições de ensino, oferecendo:
         </Typography>
         <List dense>
           <ListItem>
@@ -94,7 +94,7 @@ const TermsAndPrivacyPage = () => {
           1.5 Conteúdo Gerado por Usuários
         </Typography>
         <Typography paragraph>
-          Instrutores e instituições são responsáveis pelo conteúdo que publicam. A Donza não endossa nem garante a precisão, qualidade ou integridade de qualquer conteúdo gerado por usuários.
+          Instrutores e instituições são responsáveis pelo conteúdo que publicam. A Classroom não endossa nem garante a precisão, qualidade ou integridade de qualquer conteúdo gerado por usuários.
         </Typography>
 
         <Typography variant="h5" component="h3" gutterBottom mt={3}>
@@ -108,7 +108,7 @@ const TermsAndPrivacyPage = () => {
           1.7 Propriedade Intelectual
         </Typography>
         <Typography paragraph>
-          Todo conteúdo original fornecido pela Donza é protegido por leis de propriedade intelectual. Conteúdos criados por instrutores permanecem de sua propriedade, mas ao publicar na Plataforma, você concede uma licença não-exclusiva para sua exibição e distribuição através de nossos serviços.
+          Todo conteúdo original fornecido pela Classroom é protegido por leis de propriedade intelectual. Conteúdos criados por instrutores permanecem de sua propriedade, mas ao publicar na Plataforma, você concede uma licença não-exclusiva para sua exibição e distribuição através de nossos serviços.
         </Typography>
 
         <Typography variant="h5" component="h3" gutterBottom mt={3}>
@@ -249,7 +249,7 @@ const TermsAndPrivacyPage = () => {
           </ListItem>
         </List>
         <Typography paragraph>
-          Para exercer esses direitos, entre em contato através do e-mail: nordinomaviedeveloper@mail
+          Para exercer esses direitos, entre em contato através do e-mail: privacidade@classroom.com.br
         </Typography>
 
         <Typography variant="h5" component="h3" gutterBottom mt={3}>
@@ -275,7 +275,10 @@ const TermsAndPrivacyPage = () => {
           Para quaisquer dúvidas sobre estes Termos ou sobre nossa Política de Privacidade, entre em contato conosco:
         </Typography>
         <Typography>
-          E-mail: nordinomaviedeveloper@mail
+          E-mail: contato@classroom.com.br
+        </Typography>
+        <Typography>
+          Endereço: Av. Paulista, 1000, São Paulo/SP, CEP 01310-100
         </Typography>
       </Box>
     </Container>

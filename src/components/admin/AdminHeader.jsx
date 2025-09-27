@@ -2,6 +2,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import Avatar from '../common/Avatar';
 import Dropdown from '../common/Dropdown';
 import ThemeToggle from "../common/ThemeToggle";
+import UserDropdown from '../common/UserDropdown';
 
 export default function AdminHeader() {
   const { user, logout } = useAuth();
@@ -17,21 +18,7 @@ export default function AdminHeader() {
         </div>
         
         <div className="flex items-center space-x-4">
-          <Dropdown
-            trigger={
-              <div className="flex items-center cursor-pointer">
-                <Avatar user={user} size="sm" className="mr-2" />
-                <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                  {user?.username}
-                </span>
-              </div>
-            }
-            items={[
-              { label: 'Your Profile', action: () => console.log('Profile') },
-              { label: 'Settings', action: () => console.log('Settings') },
-              { label: 'Logout', action: logout }
-            ]}
-          />
+          <UserDropdown user={user} logout={logout} />
           <ThemeToggle />
         </div>
       </div>

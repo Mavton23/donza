@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
-import { Calendar, MapPin, Users, Clock } from 'lucide-react';
+import { MapPin, Users, Clock } from 'lucide-react';
 import { formatPrice } from '@/utils/formatPrice';
 import { motion } from 'framer-motion';
+import BuyButton from '@/components/payment/BuyButton';
+import { CONTENT_TYPES } from '@/constants/contentTypes';
 
 export default function EventCard({ event }) {
   const startDate = new Date(event.startDate);
@@ -84,7 +86,7 @@ export default function EventCard({ event }) {
           
           {isPastEvent && (
             <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-              <span className="bg-white text-gray-800 px-3 py-1 rounded-full text-sm font-medium shadow-md">
+              <span className="bg-custom-primary text-white px-3 py-1 rounded-full text-sm font-medium shadow-md">
                 Evento Encerrado
               </span>
             </div>
@@ -96,18 +98,18 @@ export default function EventCard({ event }) {
         <div className="flex justify-between items-start mb-3 gap-2">
           <Link 
             to={`/events/${event.eventId}`}
-            className="text-lg font-bold text-gray-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors line-clamp-2"
+            className="text-lg font-bold text-gray-900 dark:text-white hover:text-custom-primary-hover transition-colors line-clamp-2"
           >
             {event.title}
           </Link>
           
           {Number(event.price) > 0 ? (
-            <span className="text-lg font-semibold text-indigo-600 dark:text-indigo-400 whitespace-nowrap ml-2">
+            <span className="text-xs font-semibold text-custom-primary whitespace-nowrap ml-2">
               {formatPrice(event.price)}
             </span>
           ) : (
-            <span className="text-sm font-semibold text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded whitespace-nowrap">
-              GRATUITO
+            <span className="text-sm font-semibold text-white bg-custom-primary px-2 py-1 rounded whitespace-nowrap">
+              GRÁTIS
             </span>
           )}
         </div>
@@ -115,8 +117,8 @@ export default function EventCard({ event }) {
         <div className="flex items-start text-gray-600 dark:text-gray-400 text-sm mb-4 gap-2">
           {event.isOnline ? (
             <div className="flex items-center">
-              <div className="w-5 h-5 rounded-full bg-green-500 mr-2 relative">
-                <div className="absolute inset-1 rounded-full bg-green-300 animate-ping"></div>
+              <div className="w-5 h-5 rounded-full bg-custom-primary mr-2 relative">
+                <div className="absolute inset-1 rounded-full bg-gray-300 animate-ping"></div>
               </div>
               <span>Evento Online</span>
               {event.meetingUrl && (
@@ -140,7 +142,7 @@ export default function EventCard({ event }) {
           />
         )}
 
-        <div className="flex justify-between items-center text-sm">
+        <div className="flex flex-col gap-3 text-sm">
           <div className="flex items-center text-gray-600 dark:text-gray-400">
             <Users className="h-4 w-4 mr-1" />
             <span>
@@ -148,12 +150,12 @@ export default function EventCard({ event }) {
             </span>
           </div>
           
-          <Link 
-            to={`/events/${event.eventId}`}
-            className="px-4 py-2 bg-custom-primary hover:bg-custom-primary-hover text-white text-sm font-medium rounded-full transition-colors shadow-md hover:shadow-lg"
-          >
-            {isPastEvent ? 'Ver Detalhes' : 'Participar'}
-          </Link>
+          <BuyButton 
+            contentType={CONTENT_TYPES.EVENT}
+            content={event}
+            withIcon={true}
+            disabled={isPastEvent}
+          />
         </div>
       </div>
     </motion.div>

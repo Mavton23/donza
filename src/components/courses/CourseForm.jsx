@@ -31,10 +31,6 @@ export default function CourseForm({ step, courseData, setCourseData, isEditMode
     setCourseData(prev => ({ ...prev, description: value }));
   };
 
-  const handleArrayChange = (field) => (items) => {
-    setCourseData(prev => ({ ...prev, [field]: items }));
-  };
-
   // Informações Básicas
   const renderBasicInfo = () => (
     <div className="space-y-6">
@@ -125,7 +121,7 @@ export default function CourseForm({ step, courseData, setCourseData, isEditMode
           Imagem de Capa {!isEditMode && '*'}
         </label>
         <FileUpload
-          accept=".jpg,.jpeg,.png"
+          accept="image/*"
           onFileUpload={handleFileUpload}
           preview={coverPreview}
           required={!isEditMode}
@@ -232,7 +228,7 @@ export default function CourseForm({ step, courseData, setCourseData, isEditMode
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label htmlFor="price" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            Preço (USD) *
+            Preço (MZN) *
           </label>
           <div className="relative rounded-md shadow-sm">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">

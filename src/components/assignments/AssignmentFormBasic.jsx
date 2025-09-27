@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import RichTextEditor from '../common/RichTextEditor';
 
 export default function AssignmentFormBasic({ assignmentData, setAssignmentData, modules, lessons }) {
   const handleChange = (e) => {
@@ -8,6 +9,10 @@ export default function AssignmentFormBasic({ assignmentData, setAssignmentData,
       [name]: value
     }));
   };
+
+  const handleDescriptionChange = (value) => {
+    setAssignmentData(prev => ({ ...prev, description: value }))
+  }
 
   // Atualiza lessons quando moduleId muda
   useEffect(() => {
@@ -23,7 +28,7 @@ export default function AssignmentFormBasic({ assignmentData, setAssignmentData,
     <div className="space-y-6">
       <div>
         <label htmlFor="title" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-          Assignment Title *
+          Título da Tarefa *
         </label>
         <input
           type="text"
@@ -38,23 +43,19 @@ export default function AssignmentFormBasic({ assignmentData, setAssignmentData,
 
       <div>
         <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-          Description *
+          Descrição *
         </label>
-        <textarea
-          name="description"
-          id="description"
-          rows={4}
+        <RichTextEditor
           value={assignmentData.description}
-          onChange={handleChange}
+          onChange={handleDescriptionChange}
           className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-white"
-          required
         />
       </div>
 
       {modules.length > 0 && (
         <div>
           <label htmlFor="moduleId" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-            Module (Optional)
+            Módulo (Opcional)
           </label>
           <select
             name="moduleId"
@@ -63,7 +64,7 @@ export default function AssignmentFormBasic({ assignmentData, setAssignmentData,
             onChange={handleChange}
             className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-white"
           >
-            <option value="">Select a module</option>
+            <option value="">Selecione um módulo</option>
             {modules.map(module => (
               <option key={module.moduleId} value={module.moduleId}>
                 {module.title}
@@ -76,7 +77,7 @@ export default function AssignmentFormBasic({ assignmentData, setAssignmentData,
       {assignmentData.moduleId && lessons.length > 0 && (
         <div>
           <label htmlFor="lessonId" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-            Lesson (Optional)
+            Aula (Opcional)
           </label>
           <select
             name="lessonId"
@@ -85,7 +86,7 @@ export default function AssignmentFormBasic({ assignmentData, setAssignmentData,
             onChange={handleChange}
             className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-white"
           >
-            <option value="">Select a lesson</option>
+            <option value="">Selecione uma aula</option>
             {lessons
               .filter(lesson => lesson.moduleId === assignmentData.moduleId)
               .map(lesson => (

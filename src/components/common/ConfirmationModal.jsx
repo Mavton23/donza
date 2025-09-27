@@ -6,10 +6,10 @@ export default function ConfirmationModal({
   isOpen,
   onClose,
   onConfirm,
-  title = "Confirm Action",
-  message = "Are you sure you want to perform this action?",
-  confirmText = "Confirm",
-  cancelText = "Cancel",
+  title = "Confirmar Ação",
+  message = "Tem certeza de que deseja realizar esta ação?",
+  confirmText = "Confirmar",
+  cancelText = "Cancelar",
   variant = "default"
 }) {
   const buttonVariants = {

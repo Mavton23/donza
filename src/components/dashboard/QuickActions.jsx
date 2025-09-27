@@ -17,7 +17,7 @@ const roleBasedActions = {
   student: [
     {
       icon: BookOpen,
-      title: 'Inscrever-se em Novo Curso',
+      title: 'Matricular em Novo Curso',
       description: 'Navegue pelo nosso catálogo de cursos',
       link: '/courses',
       color: 'text-indigo-600 dark:text-indigo-400'
@@ -35,14 +35,14 @@ const roleBasedActions = {
       icon: PlusCircle,
       title: 'Criar Novo Curso',
       description: 'Comece a construir seu curso',
-      link: '/instructor/courses/create',
+      link: '/instructor/courses/new',
       color: 'text-green-600 dark:text-green-400'
     },
     {
       icon: Upload,
       title: 'Carregar Conteúdo',
       description: 'Adicione lições aos seus cursos',
-      link: '/instructor/lessons',
+      link: '/instructor/content',
       color: 'text-blue-600 dark:text-blue-400'
     }
   ],
@@ -51,28 +51,28 @@ const roleBasedActions = {
       icon: Users,
       title: 'Gerenciar Instrutores',
       description: 'Adicione ou remova equipe de ensino',
-      link: '/institution',
+      link: '/institution/instructors',
       color: 'text-amber-600 dark:text-amber-400'
     },
     {
       icon: BookOpen,
       title: 'Criar Curso Institucional',
       description: 'Lance um curso sob sua marca',
-      link: '/institution',
+      link: '/institution/courses/new',
       color: 'text-emerald-600 dark:text-emerald-400'
     },
     {
       icon: BarChart2,
-      title: 'Visualizar Análisess',
+      title: 'Ver Análises',
       description: 'Métricas de desempenho em toda a instituição',
-      link: '/institution',
+      link: '/institution/analytics',
       color: 'text-blue-600 dark:text-blue-400'
     },
     {
       icon: Mail,
       title: 'Enviar Anúncio',
       description: 'Comunique-se com todos os alunos',
-      link: '/institution',
+      link: '/institution/announcements',
       color: 'text-rose-600 dark:text-rose-400'
     }
   ],
@@ -81,21 +81,21 @@ const roleBasedActions = {
       icon: Shield,
       title: 'Gerenciar Instituições',
       description: 'Supervisione todas as instituições parceiras',
-      link: '/admin',
+      link: '/admin/institutions',
       color: 'text-violet-600 dark:text-violet-400'
     },
     {
       icon: FileText,
       title: 'Relatórios do Sistema',
       description: 'Gere relatórios em toda a plataforma',
-      link: '/admin',
+      link: '/admin/reports',
       color: 'text-sky-600 dark:text-sky-400'
     },
     {
       icon: Settings,
       title: 'Configurações da Plataforma',
       description: 'Configure parâmetros do sistema',
-      link: '/admin',
+      link: '/admin/settings',
       color: 'text-gray-600 dark:text-gray-400'
     }
   ]
@@ -108,7 +108,7 @@ export default function QuickActions({ role }) {
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow overflow-hidden">
       <div className="p-6">
         <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-          {role === 'institution' ? 'Gestão da Instituição' : 'Ações rápidas'}
+          {role === 'institution' ? 'Gestão Institucional' : 'Ações Rápidas'}
         </h2>
         <div className="grid grid-cols-1 gap-4">
           {actions.map((action, index) => {
@@ -136,7 +136,7 @@ export default function QuickActions({ role }) {
           })}
         </div>
 
-        {/* Additional resources for institutions */}
+        {/* Recursos adicionais para instituições */}
         {role === 'institution' && (
           <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
             <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
@@ -144,10 +144,10 @@ export default function QuickActions({ role }) {
             </h3>
             <div className="space-y-2">
               <a href="#" className="text-xs text-indigo-600 dark:text-indigo-400 hover:underline flex items-center">
-                <FileText className="h-3 w-3 mr-1" /> Material Institucional
+                <FileText className="h-3 w-3 mr-1" /> Manual Institucional
               </a>
               <a href="#" className="text-xs text-indigo-600 dark:text-indigo-400 hover:underline flex items-center">
-                <CreditCard className="h-3 w-3 mr-1" /> Informações financeiras
+                <CreditCard className="h-3 w-3 mr-1" /> Informações de Faturamento
               </a>
             </div>
           </div>

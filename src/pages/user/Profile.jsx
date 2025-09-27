@@ -285,17 +285,17 @@ export default function Profile() {
       student: [
         { id: 'interests', label: 'Interesses', icon: Heart },
         { id: 'messages', label: 'Mensagens', icon: MessageSquare },
-        { id: 'social', label: 'Redes Sociais', icon: Globe }
+        { id: 'social', label: 'Redes', icon: Globe }
       ],
       instructor: [
         { id: 'expertise', label: 'Expertise', icon: Briefcase, disabled: isPending },
         { id: 'messages', label: 'Mensagens', icon: MessageSquare, disabled: isPending },
-        { id: 'social', label: 'Redes Sociais', icon: Globe, disabled: isPending }
+        { id: 'social', label: 'Redes', icon: Globe, disabled: isPending }
       ],
       institution: [
         { id: 'programs', label: 'Programas', icon: BookOpen, disabled: isPending },
         { id: 'management', label: 'Gestão', icon: Settings, disabled: isPending },
-        { id: 'social', label: 'Redes Sociais', icon: Globe, disabled: isPending }
+        { id: 'social', label: 'Redes', icon: Globe, disabled: isPending }
       ]
     };
 

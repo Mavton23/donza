@@ -53,7 +53,7 @@ export default function UserDropdown({ user, logout }) {
                   } group flex items-center px-4 py-2 text-sm`}
                 >
                   <Settings className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300" />
-                  Minhas configurações
+                  Configurações
                 </Link>
               )}
             </Menu.Item>
@@ -66,7 +66,7 @@ export default function UserDropdown({ user, logout }) {
                   } group flex w-full items-center px-4 py-2 text-sm`}
                 >
                   <LogOut className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300" />
-                  Sair
+                  Terminar sessão
                 </button>
               )}
             </Menu.Item>

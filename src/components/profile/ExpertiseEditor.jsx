@@ -45,7 +45,7 @@ export default function ExpertiseEditor({ expertise = [], onSave, showCourseMana
         </h3>
         
         <div className="mb-6">
-          <div className="flex items-center gap-2 mb-4">
+          <div className="flex flex-col sm:flex-row gap-2 mb-4">
             <input
               type="text"
               value={newItem}

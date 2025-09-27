@@ -4,11 +4,12 @@ import DebateChatInput from './DebateChatInput';
 import TypingIndicator from './TypingIndicator';
 import ChatMemberList from './ChatMemberList';
 import TopicSelector from './TopicSelector';
-import { useWebSocket } from '@/hooks/useWebSocket';
+import { useGroupWebSocket, WS_MESSAGE_TYPES } from '@/hooks/useWebSocket';
 import { useAuth } from '@/contexts/AuthContext';
 import { FiUsers, FiMessageSquare, FiChevronDown, FiHash } from 'react-icons/fi';
 import api from '@/services/api';
 import { toast } from 'sonner';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
 
 // Reducer
 function debateReducer(state, action) {
@@ -98,62 +99,90 @@ export default function DebateChat({ groupId }) {
     hasMoreMessages: true
   });
 
+  // Handler para processar mensagens recebidas via WebSocket
+  const handleWebSocketMessage = useCallback((data) => {
+    switch (data.type) {
+      case WS_MESSAGE_TYPES.CHAT_MESSAGE:
+        if (!state.messages.some(m => m.messageId === data.message.messageId)) {
+          dispatch({ type: 'ADD_MESSAGE', payload: data.message });
+          scrollToBottom();
+        }
+        break;
+        
+      case WS_MESSAGE_TYPES.MESSAGE_UPDATED:
+        dispatch({ type: 'UPDATE_MESSAGE', payload: data.message });
+        break;
+        
+      case WS_MESSAGE_TYPES.MESSAGE_DELETED:
+        dispatch({ type: 'DELETE_MESSAGE', payload: data.messageId });
+        break;
+        
+      case WS_MESSAGE_TYPES.TYPING_STATUS:
+        dispatch({ 
+          type: 'SET_TYPING_USERS', 
+          payload: data.users.filter(u => u.userId !== user.userId && state.onlineMembers.includes(u.userId))
+        });
+        break;
+        
+      case WS_MESSAGE_TYPES.USER_STATUS_UPDATE:
+        if (data.users) {
+          dispatch({ type: 'SET_ONLINE_MEMBERS', payload: data.users });
+        }
+        if (data.userId && data.isOnline !== undefined) {
+          dispatch({
+            type: 'SET_ONLINE_MEMBERS',
+            payload: data.isOnline
+              ? [...new Set([...state.onlineMembers, data.userId])]
+              : state.onlineMembers.filter(id => id !== data.userId)
+          });
+        }
+        break;
+        
+      case WS_MESSAGE_TYPES.TOPIC_CHANGED:
+        dispatch({ type: 'SET_CURRENT_TOPIC', payload: data.topic });
+        toast.success(`Tópico atualizado: ${data.topic.topic}`);
+        break;
+        
+      case WS_MESSAGE_TYPES.CONNECTION_ESTABLISHED:
+        toast.success('Conectado ao debate');
+        loadInitialData();
+        break;
+        
+      case WS_MESSAGE_TYPES.ERROR:
+        toast.error(`Erro no debate: ${data.message}`);
+        break;
+        
+      default:
+        break;
+    }
+  }, [state.messages, state.onlineMembers, user.userId]);
 
+  const handleStatusChange = useCallback((status, data) => {
+    if (status === 'disconnected') {
+      toast.warning('Conexão perdida, reconectando...');
+    }
+  }, []);
 
-  // WebSocket Hook com todas as funcionalidades
+  const handleError = useCallback((error) => {
+    console.error('Erro WebSocket:', error);
+    toast.error(`Erro de conexão: ${error}`);
+  }, []);
+
+  // WebSocket Hook para grupos
   const { 
     sendMessage: sendWsMessage, 
     sendTypingStatus,
     markMessageAsRead,
     changeTopic,
+    deleteMessage,
     isConnected,
-    reconnect
-  } = useWebSocket({
-    groupId,
-    userId: user.userId,
+    connect
+  } = useGroupWebSocket({
+    entityId: groupId,
     token: token,
-    onMessageReceived: (message) => {
-      if (!state.messages.some(m => m.messageId === message.messageId)) {
-        dispatch({ type: 'ADD_MESSAGE', payload: message });
-        scrollToBottom();
-      }
-    },
-    onMessageUpdated: (message) => {
-      dispatch({ type: 'UPDATE_MESSAGE', payload: message });
-    },
-    onMessageDeleted: (messageId) => {
-      dispatch({ type: 'DELETE_MESSAGE', payload: messageId });
-    },
-    onTypingStatus: (users) => {
-      dispatch({ 
-        type: 'SET_TYPING_USERS', 
-        payload: users.filter(u => u.userId !== user.userId && state.onlineMembers.includes(u.userId))
-      });
-    },
-    onMembersUpdate: (members) => {
-      dispatch({ type: 'SET_ONLINE_MEMBERS', payload: members });
-    },
-    onUserStatusChange: (userId, isOnline) => {
-      dispatch({
-        type: 'SET_ONLINE_MEMBERS',
-        payload: isOnline
-          ? [...new Set([...state.onlineMembers, userId])]
-          : state.onlineMembers.filter(id => id !== userId)
-      });
-    },
-    onTopicChanged: (newTopic) => {
-      dispatch({ type: 'SET_CURRENT_TOPIC', payload: newTopic });
-      toast.success(`Tópico atualizado: ${newTopic.topic}`);
-    },
-    onReconnect: () => {
-      loadInitialData();
-      toast.success('Conexão restaurada');
-    },
-    onConnectionChange: (connected) => {
-      if (!connected) {
-        toast.warning('Conexão perdida, reconectando...');
-      }
-    }
+    onMessage: handleWebSocketMessage,
+    onStatusChange: handleStatusChange,
+    onError: handleError
   });
 
   // Rolagem automática para o final
@@ -283,10 +312,17 @@ export default function DebateChat({ groupId }) {
 
     try {
       // Envia via WebSocket
-      sendWsMessage({
-        content: content.text,
-        ...(content.file && { metadata: { file: content.file } }),
-        topicId: state.currentTopic.topicId
+      sendWsMessage(content.text, {
+        topicId: state.currentTopic.topicId,
+        ...(content.file && { 
+          metadata: { 
+            file: {
+              name: content.file.name,
+              type: content.file.type,
+              size: content.file.size
+            }
+          }
+        })
       });
 
       // Marca mensagens como lidas
@@ -301,7 +337,7 @@ export default function DebateChat({ groupId }) {
       toast.error('Falha ao enviar mensagem');
       console.error('Error sending message:', error);
     }
-  }, [groupId, user, state.currentTopic, state.messages]);
+  }, [groupId, user, state.currentTopic, state.messages, sendWsMessage, markMessageAsRead]);
 
   // Edita mensagem
   const handleEditMessage = useCallback(async (messageId, newContent) => {
@@ -319,10 +355,9 @@ export default function DebateChat({ groupId }) {
       dispatch({ type: 'UPDATE_MESSAGE', payload: tempMessage });
 
       // Envia atualização via WebSocket
-      sendWsMessage({
-        type: 'UPDATE_MESSAGE',
-        messageId,
-        content: newContent
+      sendWsMessage(newContent, {
+        messageId: messageId,
+        isEdit: true
       });
 
       toast.success('Mensagem editada');
@@ -330,7 +365,7 @@ export default function DebateChat({ groupId }) {
       toast.error('Erro ao editar mensagem');
       console.error('Error editing message:', error);
     }
-  }, [state.messages]);
+  }, [state.messages, sendWsMessage]);
 
   // Deleta mensagem
   const handleDeleteMessage = useCallback(async (messageId) => {
@@ -339,17 +374,14 @@ export default function DebateChat({ groupId }) {
       dispatch({ type: 'DELETE_MESSAGE', payload: messageId });
 
       // Envia deleção via WebSocket
-      sendWsMessage({
-        type: 'DELETE_MESSAGE',
-        messageId
-      });
+      deleteMessage(messageId);
 
       toast.success('Mensagem deletada');
     } catch (error) {
       toast.error('Erro ao deletar mensagem');
       console.error('Error deleting message:', error);
     }
-  }, []);
+  }, [deleteMessage]);
 
   const handleMessageRead = useCallback((messageId) => {
     const message = state.messages.find(msg => msg.messageId === messageId);
@@ -361,7 +393,6 @@ export default function DebateChat({ groupId }) {
       console.error('Erro ao marcar mensagem como lida:', error);
     }
   }, [state.messages, user.userId, markMessageAsRead]);
-
 
   // Define novo tópico
   const handleSetTopic = useCallback(async (topic) => {
@@ -382,7 +413,7 @@ export default function DebateChat({ groupId }) {
       toast.error('Falha ao atualizar tópico');
       console.error('Error setting topic:', error);
     }
-  }, [user]);
+  }, [user, changeTopic]);
 
   // Status de digitação
   const handleTyping = useCallback((isTyping) => {
@@ -476,7 +507,7 @@ export default function DebateChat({ groupId }) {
           />
           {!isConnected && (
             <div className="text-xs text-red-500 mt-1">
-              Conectando ao chat... {isConnected}
+              Conectando ao chat...
             </div>
           )}
         </div>

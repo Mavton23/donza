@@ -14,10 +14,10 @@ export default function ErrorState({ message, onRetry, className = '' }) {
       <div className="flex flex-col items-center text-center">
         <FiAlertTriangle className="h-10 w-10 text-red-500 dark:text-red-400 mb-3" />
         <h3 className="text-lg font-medium text-red-800 dark:text-red-200 mb-2">
-          Oops, something went wrong
+          Oops, algo deu errado
         </h3>
         <p className="text-red-700 dark:text-red-300 mb-4">
-          {message || 'An unexpected error occurred'}
+          {message || 'Ocorreu um erro inesperado'}
         </p>
         {onRetry && (
           <Button
@@ -25,7 +25,7 @@ export default function ErrorState({ message, onRetry, className = '' }) {
             variant="primary"
             size="sm"
           >
-            Try Again
+            Tentar novamente
           </Button>
         )}
       </div>

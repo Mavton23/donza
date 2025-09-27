@@ -129,7 +129,6 @@ export default function Login() {
                   size="small" 
                   withText 
                   text="Processando..." 
-                  textColor="text-indigo-700 dark:text-indigo-300"
                   inline
                 />
               ) : "Entrar"
@@ -146,7 +145,7 @@ export default function Login() {
                 type="checkbox"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
-                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                className="h-4 w-4 text-custom-primary focus:ring-custom-primary border-gray-300 rounded"
                 disabled={loading}
               />
               <label 
@@ -159,13 +158,13 @@ export default function Login() {
 
             <Link
               to="/forgot-password"
-              className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+              className="font-medium text-custom-primary hover:text-custom-primary-hover"
             >
               Esqueceu a senha?
             </Link>
           </div>
 
-          <div className="mt-6">
+          {/* <div className="mt-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
@@ -178,7 +177,7 @@ export default function Login() {
             </div>
 
             <SocialAuthButtons disabled={loading} />
-          </div>
+          </div> */}
         </div>
 
         <div className="text-center">
@@ -188,7 +187,7 @@ export default function Login() {
                 Não tem uma conta de instrutor?{' '}
                 <Link
                   to="/registrar?as=instructor"
-                  className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+                  className="font-medium text-custom-primary hover:text-custom-primary-hover"
                 >
                   Candidate-se agora
                 </Link>
@@ -197,8 +196,8 @@ export default function Login() {
               <>
                 Novo em nossa plataforma?{' '}
                 <Link
-                  to="/register"
-                  className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+                  to="/signup"
+                  className="font-medium text-custom-primary hover:text-custom-primary-hover"
                 >
                   Criar conta
                 </Link>

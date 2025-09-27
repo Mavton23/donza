@@ -5,6 +5,7 @@ import api from '@/services/api';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import TabNavigation from '@/components/profile/TabNavigation';
 import EmptyState from '@/components/common/EmptyState';
+import ErrorState from '@/components/common/ErrorState';
 import NotificationPreferences from '@/components/notifications/NotificationPreferences';
 import { BellIcon, EyeIcon, EyeOffIcon, SettingsIcon, MailIcon, CheckCircle2, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
@@ -203,7 +204,7 @@ export default function NotificationsPage() {
           <button
             onClick={handleMarkAllAsRead}
             disabled={state.bulkAction}
-            className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+            className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-custom-primary hover:bg-custom-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
           >
             {state.bulkAction ? (
               <>

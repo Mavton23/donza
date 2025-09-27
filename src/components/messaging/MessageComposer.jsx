@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Button } from '../ui/button';
 import { HelpCircle, Wifi, WifiOff } from 'lucide-react';
 
 export default function MessageComposer({ 
   onSend, 
+  onTypingChange,
   context, 
   disabled,
   isOnline,
@@ -12,13 +13,15 @@ export default function MessageComposer({
 }) {
   const [message, setMessage] = useState('');
   const [isTicket, setIsTicket] = useState(false);
+  const typingTimeoutRef = useRef(null);
+
 
   useEffect(() => {
     const input = document.querySelector('input[type="text"]');
     if (input) input.focus();
     
     if (conversationId) {
-      onMarkAsRead(conversationId);
+      onMarkAsRead?.(conversationId);
     }
   }, [conversationId, onMarkAsRead]);
 
@@ -29,6 +32,28 @@ export default function MessageComposer({
       setMessage('');
       setIsTicket(false);
     }
+  };
+
+  const handleInputChange = (e) => {
+    setMessage(e.target.value);
+  };
+
+  // Traduções para português
+  const getPlaceholder = () => {
+    if (context === 'course') {
+      return isTicket ? "Descreva sua pergunta sobre o curso..." : "Pergunte sobre o curso...";
+    }
+    if (isTicket) {
+      return "Descreva seu problema...";
+    }
+    return "Digite sua mensagem...";
+  };
+
+  const getCheckboxLabel = () => {
+    if (context === 'course') {
+      return "Esta é uma pergunta sobre o curso";
+    }
+    return "Marcar como ticket de suporte";
   };
 
   return (
@@ -44,7 +69,7 @@ export default function MessageComposer({
               className="mr-2 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
               disabled={disabled}
             />
-            This is a question about the course
+            {getCheckboxLabel()}
           </label>
         </div>
       )}
@@ -53,12 +78,8 @@ export default function MessageComposer({
         <input
           type="text"
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder={
-            context === 'course' ? "Ask about the course..." : 
-            isTicket ? "Describe your issue..." : 
-            "Type your message..."
-          }
+          onChange={handleInputChange}
+          placeholder={getPlaceholder()}
           className={`flex-1 px-4 py-2 rounded-full border focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 ${
             disabled 
               ? 'border-gray-200 dark:border-gray-700 text-gray-400 cursor-not-allowed' 
@@ -69,14 +90,14 @@ export default function MessageComposer({
         />
         <div className="flex items-center">
           <Button
-              type="submit"
-              variant={disabled ? "disabled" : "primary"}
-              disabled={!message.trim() || disabled}
-              className="self-end"
-            >
-              {disabled ? "Connecting..." : "Send"}
-            </Button>
-          <div className="ml-2" title={isOnline ? 'Online' : 'Connecting...'}>
+            type="submit"
+            variant={disabled ? "disabled" : "primary"}
+            disabled={!message.trim() || disabled}
+            className="self-end"
+          >
+            {disabled ? "Conectando..." : "Enviar"}
+          </Button>
+          <div className="ml-2" title={isOnline ? 'Online' : 'Conectando...'}>
             {isOnline ? (
               <Wifi size={18} className="text-green-500" />
             ) : (

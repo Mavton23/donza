@@ -9,7 +9,8 @@ export default function AdminSidebar({ activeTab, onTabChange, extendedOptions }
     { id: 'events', label: 'Eventos', icon: 'calendar' },
     { id: 'testimonials', label: 'Testemunhos', icon: 'message-square-text' },
     { id: 'help', label: 'Ajuda', icon: 'help-circle' },
-    { id: 'feedback', label: 'Feedback', icon: 'message-square' }
+    { id: 'feedback', label: 'Feedback', icon: 'message-square' },
+    { id: 'goout', label: 'Sair do painel', icon: 'log-out' }
   ];
 
   return (
@@ -20,7 +21,7 @@ export default function AdminSidebar({ activeTab, onTabChange, extendedOptions }
           onClick={() => navigate('/')}
         >
           <div className="w-10 h-10 bg-indigo-600 rounded-md flex items-center justify-center">
-            <Icon name="home" className="text-white" size="lg" />
+            <Icon name="book" className="text-white" size="lg" />
           </div>
           <h1 className="ml-3 text-xl font-bold text-gray-800 dark:text-white">Donza</h1>
         </div>

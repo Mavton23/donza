@@ -36,7 +36,7 @@ export default function InviteModal({ isOpen, onClose, onInvite, groupId, curren
       );
       setSearchResults(filtered);
     } catch (err) {
-      toast.error('Failed to search users');
+      toast.error('Falha ao pesquisar utilizadores');
     } finally {
       setLoading(false);
     }
@@ -62,15 +62,15 @@ export default function InviteModal({ isOpen, onClose, onInvite, groupId, curren
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-lg">
         <DialogHeader>
-          <DialogTitle>Invite Members to Group</DialogTitle>
+          <DialogTitle>Convidar Membros para o Grupo</DialogTitle>
           <DialogDescription>
-            Procure usuários pelo nome ou email para adicionar ao grupo.
+            Procure utilizadores pelo nome ou email para adicionar ao grupo.
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">
           <Input
-            placeholder="Search users by name or email..."
+            placeholder="Pesquisar utilizadores por nome ou email..."
             value={searchInput}
             onChange={(e) => {
               setSearchInput(e.target.value);
@@ -107,7 +107,7 @@ export default function InviteModal({ isOpen, onClose, onInvite, groupId, curren
 
           {selectedUsers.length > 0 && (
             <div>
-              <h3 className="font-medium mb-2">Selected Members ({selectedUsers.length})</h3>
+              <h3 className="font-medium mb-2">Membros Selecionados ({selectedUsers.length})</h3>
               <div className="flex flex-wrap gap-2">
                 {selectedUsers.map(user => (
                   <div
@@ -129,14 +129,14 @@ export default function InviteModal({ isOpen, onClose, onInvite, groupId, curren
 
           <DialogFooter className="pt-4 flex justify-end gap-2">
             <Button variant="secondary" onClick={onClose}>
-              Cancel
+              Cancelar
             </Button>
             <Button
               variant="primary"
               onClick={handleInvite}
               disabled={selectedUsers.length === 0}
             >
-              Send Invitations
+              Enviar Convites
             </Button>
           </DialogFooter>
         </div>

@@ -63,6 +63,18 @@ export const AuthProvider = ({ children }) => {
     }
   }, [loadUserFromStorage]);
 
+  const hasRole = useCallback((role) => {
+    if (!authState.user || !authState.user.role) return false;
+    
+    // Se for array, verifica se tem algum dos roles
+    if (Array.isArray(role)) {
+      return role.includes(authState.user.role);
+    }
+    
+    // Se for string, verifica se é exatamente o role
+    return authState.user.role === role;
+  }, [authState.user]);
+
   const completeProfile = async (profileData) => {
     try {
       setAuthState(prev => ({ ...prev, loading: true }));
@@ -178,7 +190,7 @@ export const AuthProvider = ({ children }) => {
         error: null
       });
       
-      navigate("/login");
+      navigate("/signin");
     }
   }, [navigate]);
 
@@ -186,13 +198,14 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
     value={{
       ...authState,
-      currentUser: authState.user, // Adicionado alias para compatibilidade
+      currentUser: authState.user,
       login,
       logout,
       checkAuth,
       completeProfile,
       updateProfile,
-      updateUser
+      updateUser,
+      hasRole
     }}
     >
       {children}

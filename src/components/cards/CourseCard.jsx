@@ -1,6 +1,18 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { formatPrice } from '@/utils/formatPrice';
+import BuyButton from '@/components/payment/BuyButton';
+import { CONTENT_TYPES } from '@/constants/contentTypes';
+
+const translateLevel = (level) => {
+    const levelMap = {
+      'beginner': 'Iniciante',
+      'intermediate': 'Intermediário',
+      'advanced': 'Avançado'
+    };
+  
+    return levelMap[level] || level;
+  };
 
 const CourseCard = ({ course }) => {
   return (
@@ -21,7 +33,7 @@ const CourseCard = ({ course }) => {
           }}
         />
         <div className="absolute top-3 right-3 bg-custom-primary text-white text-xs px-3 py-1 rounded-full shadow-md">
-          {course.level}
+          {translateLevel(course.level)}
         </div>
       </div>
       <div className="p-6">
@@ -48,15 +60,12 @@ const CourseCard = ({ course }) => {
           dangerouslySetInnerHTML={{ __html: course.description }} 
         />
         <div className="flex justify-between items-center">
-          <span className="text-indigo-600 dark:text-indigo-400 font-semibold">
-            {formatPrice(course.price)}
-          </span>
-          <Link 
-            to={`/courses/${course.slug}`}
-            className="text-sm px-4 py-2 bg-custom-primary text-white rounded-full hover:bg-custom-primary-hover transition-colors"
-          >
-            Ver curso
-          </Link>
+          <BuyButton 
+            contentType={CONTENT_TYPES.COURSE}
+            content={course}
+            variant='default'
+            withIcon={true}
+          />
         </div>
       </div>
     </motion.div>

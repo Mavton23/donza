@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 import api from '@/services/api';
 import FileUpload from '@/components/common/FileUpload';
 import RichTextEditor from '@/components/common/RichTextEditor';

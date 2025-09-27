@@ -1,7 +1,8 @@
 import { useParams } from 'react-router-dom';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import api from '@/services/api';
+import { useConversationWebSocket, WS_MESSAGE_TYPES } from '@/hooks/useWebSocket';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import ConversationHeader from './ConversationHeader';
 import MessageThread from './MessageThread';
@@ -10,100 +11,107 @@ import MessageComposer from './MessageComposer';
 export default function ConversationView() {
   const { conversationId } = useParams();
   const { user } = useAuth();
-  const [conversations, setConversations] = useState([]);
-  const [activeConversation, setActiveConversation] = useState(null);
+  const [conversation, setConversation] = useState(null);
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isOnline, setIsOnline] = useState(false);
-  const socketRef = useRef(null);
+  const token = localStorage.getItem("token");
 
-  // Função para conectar ao WebSocket
-  const connectWebSocket = () => {
-    if (!conversationId) return;
+  // Configuração do WebSocket
+  const {
+    isConnected,
+    sendTypingStatus
+  } = useConversationWebSocket({
+    entityId: conversationId,
+    token: token,
+    onMessage: useCallback((data) => {
+      console.log("ON MESSAGE: ", data.type)
+      switch (data.type) {
+        case WS_MESSAGE_TYPES.NEW_MESSAGE:
 
-    // Fecha conexão existente
-    if (socketRef.current) {
-      socketRef.current.close();
-    }
+          const normalizedMessage = {
+            messageId: data.message.messageId,
+            content: data.message.content,
+            senderId: data.message.senderId,
+            sender: data.message.sender,
+            timestamp: data.message.timestamp,
+            status: data.message.status || 'sent',
+            contextType: data.message.contextType,
+            contextId: data.message.contextId,
+            ...data.message
+          };
 
-    // Configura a conexão WebSocket
-    const wsUrl = `ws://localhost:5000/ws/conversations/${conversationId}`;
-    socketRef.current = new WebSocket(wsUrl);
+          setMessages(prev => {
+            const messageExists = prev.some(msg => 
+              msg.messageId === normalizedMessage.messageId
+            );
+            
+            if (messageExists) {
+              return prev;
+            }
+            return [...prev, normalizedMessage];
+          });
 
-    socketRef.current.onopen = () => {
-      console.log('WebSocket connected');
-      setIsOnline(true);
-    };
-
-    socketRef.current.onmessage = (event) => {
-      const { type, data } = JSON.parse(event.data);
-      
-      if (type === 'NEW_MESSAGE') {
-        setMessages(prev => [...prev, data]);
-        
-        // Atualiza a última mensagem na conversa ativa
-        if (data.conversationId === conversationId) {
-          setActiveConversation(prev => ({
+          setConversation(prev => ({
             ...prev,
-            lastMessage: data,
-            lastMessageAt: new Date().toISOString()
+            lastMessage: normalizedMessage,
+            lastMessageAt: normalizedMessage.timestamp || normalizedMessage.createdAt
           }));
-        }
+          break;
+          
+        case WS_MESSAGE_TYPES.MESSAGE_UPDATED:
+          setMessages(prev => prev.map(msg => 
+            msg.messageId === data.message.messageId ? data.message : msg
+          ));
+          break;
+          
+        case WS_MESSAGE_TYPES.MESSAGE_DELETED:
+          setMessages(prev => prev.filter(msg => 
+            msg.messageId !== data.messageId
+          ));
+          break;
+          
+        case WS_MESSAGE_TYPES.TYPING_UPDATE:
+          // Implementar indicador de digitação se necessário
+          console.log('Typing update:', data);
+          break;
+          
+        default:
+          console.log('WebSocket message:', data);
       }
-    };
+    }, []),
+    onError: useCallback((error) => {
+      setError(prev => prev || `Erro de conexão: ${error}`);
+    }, [])
+  });
 
-    socketRef.current.onerror = (error) => {
-      console.error('WebSocket error:', error instanceof Error ? error.message : error);
-      setIsOnline(false);
-    };
-
-    socketRef.current.onclose = () => {
-      console.log('WebSocket disconnected - attempting reconnect...');
-      setIsOnline(false);
-      setTimeout(connectWebSocket, 5000);
-    };
-  };
-
+  // Carrega dados da conversa
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchConversationData = async () => {
+      if (!conversationId) return;
+
       try {
         setLoading(true);
-        const [conversationsRes, messagesRes] = await Promise.all([
-          api.get(`/conversation/conversations`),
+        setError(null);
+
+        const [conversationRes, messagesRes] = await Promise.all([
+          api.get(`/conversation/conversations/${conversationId}`),
           api.get(`/conversation/conversations/${conversationId}/messages`)
         ]);
-        
-        // Encontra a conversa específica pelo ID
-        const foundConversation = conversationsRes.data.data.find(
-          conv => conv.conversationId === conversationId
-        );
-        
-        if (!foundConversation) {
-          throw new Error('Conversation not found');
-        }
-        
-        setConversations(conversationsRes.data.data);
-        setActiveConversation(foundConversation);
-        setMessages(messagesRes.data.data);
-        
-        connectWebSocket();
+
+        setConversation(conversationRes.data.data);
+        setMessages(messagesRes.data.data || []);
       } catch (err) {
-        setError(err.response?.data?.message || err.message || 'Failed to load conversation');
+        setError(err.response?.data?.message || err.message || 'Falha ao carregar conversa');
       } finally {
         setLoading(false);
       }
     };
 
-    if (conversationId) fetchData();
-
-    return () => {
-      if (socketRef.current) {
-        socketRef.current.close();
-      }
-    };
+    fetchConversationData();
   }, [conversationId]);
 
+  // Envia mensagem
   const handleSendMessage = async (content, isTicket = false) => {
     try {
       const response = await api.post(
@@ -114,39 +122,47 @@ export default function ConversationView() {
       const newMessage = response.data.data;
       setMessages(prev => [...prev, newMessage]);
       
-      setActiveConversation(prev => ({
+      setConversation(prev => ({
         ...prev,
         lastMessage: newMessage,
         lastMessageAt: new Date().toISOString()
       }));
-      
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to send message');
+      setError(err.response?.data?.message || 'Falha ao enviar mensagem');
     }
+  };
+
+  // Atualiza status de digitação
+  const handleTypingChange = (isTyping) => {
+    sendTypingStatus(isTyping);
   };
 
   if (loading) return <LoadingSpinner />;
   if (error) return <div className="p-4 text-red-500">{error}</div>;
-  if (!activeConversation) return <div>Conversation not found</div>;
+  if (!conversation) return <div>Conversa não encontrada</div>;
 
   return (
     <div className="flex flex-col h-full">
       <ConversationHeader 
-        conversation={activeConversation} 
-        currentUser={user} 
+        conversation={conversation} 
+        currentUser={user}
+        isOnline={isConnected}
       />
+      
       <MessageThread 
         messages={messages} 
         currentUser={user}
-        context={activeConversation.contextType}
+        context={conversation?.type}
       />
+      
       <MessageComposer 
         onSend={handleSendMessage}
-        context={activeConversation.contextType}
-        disabled={!isOnline}
-        isOnline={isOnline}
+        onTypingChange={handleTypingChange}
+        context={conversation?.type}
+        disabled={!isConnected}
+        isOnline={isConnected}
         conversationId={conversationId}
-        onMarkAsRead={() => {}}
+        // onMarkAsRead={handleMarkAsRead}
       />
     </div>
   );

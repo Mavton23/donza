@@ -28,7 +28,7 @@ import {
                   onClick={() => onTabChange(tab.id)}
                   className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors duration-150 ${
                     activeTab === tab.id
-                      ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-100'
+                      ? 'bg-custom-primary/30 text-indigo-700 dark:bg-custom-primary/30 dark:text-indigo-100'
                       : 'text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700'
                   }`}
                   aria-current={activeTab === tab.id ? "page" : undefined}

@@ -8,7 +8,7 @@ import ActivityFeed from '../components/dashboard/ActivityFeed';
 import CourseProgress from '../components/dashboard/CourseProgress';
 import UpcomingEvents from '../components/dashboard/UpcomingEvents';
 import QuickActions from '../components/dashboard/QuickActions';
-import RecentResources from '../components/dashboard/RecentResources';
+// import RecentResources from '../components/dashboard/RecentResources';
 import PersonalizedRecommendations from '../components/dashboard/PersonalizedRecommendations';
 import { toast } from 'sonner';
 
@@ -46,8 +46,9 @@ export default function Dashboard() {
         
         setDashboardData(normalizedData);
       } catch (err) {
-        setError('Ocorreu um erro ao carregar os dados');
-        toast.error('Ocorreu um erro ao carregar os dados. Por favor, tente novamente mais tarde.');
+        setError('Falha ao carregar dados do dashboard');
+        toast.error('Falha ao carregar dados do dashboard. Por favor, tente novamente mais tarde.');
+        console.error('Erro no dashboard:', err);
       } finally {
         setLoading(false);
       }
@@ -80,21 +81,21 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Gradient Header */}
+      {/* Cabeçalho com Gradiente */}
       <div className="bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-gray-800 dark:to-gray-900 pb-32">
         <DashboardHeader user={dashboardData.user} />
       </div>
 
-      {/* Main Content */}
+      {/* Conteúdo Principal */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-24">
-        {/* Stats Overview */}
+        {/* Visão Geral de Estatísticas */}
         <StatsOverview stats={dashboardData.stats} role={user.role} />
 
-        {/* Main Grid */}
+        {/* Grade Principal */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-          {/* Left Column */}
+          {/* Coluna Esquerda */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Course Progress for Students / Teaching Stats for Instructors */}
+            {/* Progresso do Curso para Estudantes / Estatísticas de Ensino para Instrutores */}
             {user.role === 'student' ? (
               <CourseProgress 
                 courses={dashboardData.courseProgress} 
@@ -104,12 +105,12 @@ export default function Dashboard() {
               <div className="bg-white dark:bg-gray-800 rounded-xl shadow overflow-hidden">
                 <div className="p-6">
                   <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-                    Teaching Overview
+                    Visão Geral do Ensino
                   </h2>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="bg-indigo-50 dark:bg-gray-700 p-4 rounded-lg">
                       <p className="text-sm font-medium text-indigo-800 dark:text-indigo-200">
-                        Active Courses
+                        Cursos Ativos
                       </p>
                       <p className="text-2xl font-bold text-indigo-600 dark:text-indigo-400 mt-1">
                         {dashboardData.teachingStats.activeCourses || 0}
@@ -117,7 +118,7 @@ export default function Dashboard() {
                     </div>
                     <div className="bg-green-50 dark:bg-gray-700 p-4 rounded-lg">
                       <p className="text-sm font-medium text-green-800 dark:text-green-200">
-                        Total Students
+                        Total de Alunos
                       </p>
                       <p className="text-2xl font-bold text-green-600 dark:text-green-400 mt-1">
                         {dashboardData.teachingStats.totalStudents || 0}
@@ -125,7 +126,7 @@ export default function Dashboard() {
                     </div>
                     <div className="bg-yellow-50 dark:bg-gray-700 p-4 rounded-lg">
                       <p className="text-sm font-medium text-yellow-800 dark:text-yellow-200">
-                        Avg. Rating
+                        Avaliação Média
                       </p>
                       <p className="text-2xl font-bold text-yellow-600 dark:text-yellow-400 mt-1">
                         {(dashboardData.teachingStats.averageRating || 0).toFixed(1)}/5
@@ -136,22 +137,22 @@ export default function Dashboard() {
               </div>
             ) : null}
 
-            {/* Activity Feed */}
+            {/* Feed de Atividades */}
             <ActivityFeed activities={dashboardData.recentActivities} />
 
-            {/* Recent Resources */}
-            <RecentResources resources={dashboardData.recentResources} />
+            {/* Recursos Recentes */}
+            {/* <RecentResources resources={dashboardData.recentResources} /> */}
           </div>
 
-          {/* Right Column */}
+          {/* Coluna Direita */}
           <div className="space-y-6">
-            {/* Quick Actions */}
+            {/* Ações Rápidas */}
             <QuickActions role={user.role} />
 
-            {/* Upcoming Events */}
+            {/* Eventos Próximos */}
             <UpcomingEvents events={dashboardData.upcomingEvents} />
 
-            {/* Personalized Recommendations */}
+            {/* Recomendações Personalizadas */}
             <PersonalizedRecommendations 
               recommendations={dashboardData.recommendations} 
               role={user.role}

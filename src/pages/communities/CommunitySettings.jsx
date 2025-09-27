@@ -2,7 +2,10 @@ import { useState } from 'react';
 import { FiSave, FiLock, FiGlobe } from 'react-icons/fi';
 import { Button } from '@/components/ui/button';
 import ErrorMessage from '@/components/common/ErrorMessage';
-import { TagsInput } from 'react-tag-input-component';
+import TagInput from '@/components/common/TagInput';
+import api from '@/services/api';
+import { toast } from 'sonner';
+import RichTextEditor from '@/components/common/RichTextEditor';
 
 export default function CommunitySettings({ community, onUpdate }) {
   const [formData, setFormData] = useState({
@@ -22,27 +25,38 @@ export default function CommunitySettings({ community, onUpdate }) {
       setError('');
 
       if (!formData.name.trim()) {
-        throw new Error('Community name is required');
+        throw new Error('O nome da comunidade é obrigatório');
       }
-      onUpdate(formData);
+
+      const response = await api.put(`/community/${community.communityId}/settings`, formData);
+      
+      if (response.data.success) {
+        onUpdate(response.data.data.community);
+
+        toast.success('Configurações atualizadas com sucesso!');
+      }
       
     } catch (err) {
-      setError(err.response?.data?.message || err.message || 'Failed to update community');
+      setError(err.response?.data?.message || err.message || 'Falha ao atualizar a comunidade');
     } finally {
       setLoading(false);
     }
   };
 
+  const handleTagsChange = (tags) => {
+    setFormData(prev => ({ ...prev, tags }));
+  };
+
   return (
     <div className="space-y-6">
-      <h2 className="text-xl font-bold text-gray-900 dark:text-white">Community Settings</h2>
+      <h2 className="text-xl font-bold text-gray-900 dark:text-white">Configurações</h2>
 
       {error && <ErrorMessage message={error} className="mb-4" />}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Community Name *
+            Nome da Comunidade *
           </label>
           <input
             type="text"
@@ -57,27 +71,29 @@ export default function CommunitySettings({ community, onUpdate }) {
 
         <div>
           <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Description
+            Descrição
           </label>
-          <textarea
-            id="description"
+          <RichTextEditor
             value={formData.description}
-            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            rows={4}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800"
+            onChange={(html) => setFormData({ ...formData, description: html })}
+            placeholder="Descreva a comunidade..."
             maxLength={500}
+            className="min-h-[120px]"
           />
+          <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+            <span>Máximo de 500 caracteres</span>
+            <span>{formData.description.replace(/<[^>]*>/g, '').length}/500</span>
+          </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Tags
-          </label>
-          <TagsInput
+          <TagInput
             tags={formData.tags}
-            onChange={(tags) => setFormData({ ...formData, tags })}
+            onTagsChange={handleTagsChange}
             maxTags={10}
             maxLength={20}
+            label="Tags da Comunidade"
+            placeholder="Digite uma tag e pressione Enter"
           />
         </div>
 
@@ -93,7 +109,7 @@ export default function CommunitySettings({ community, onUpdate }) {
             />
             <label htmlFor="public" className="ml-2 flex items-center text-sm text-gray-700 dark:text-gray-300">
               <FiGlobe className="mr-1" />
-              Public - Anyone can view content
+              Público - Qualquer pessoa pode ver o conteúdo
             </label>
           </div>
 
@@ -108,14 +124,14 @@ export default function CommunitySettings({ community, onUpdate }) {
             />
             <label htmlFor="private" className="ml-2 flex items-center text-sm text-gray-700 dark:text-gray-300">
               <FiLock className="mr-1" />
-              Private - Only members can view content
+              Privado - Apenas membros podem ver o conteúdo
             </label>
           </div>
         </div>
 
         <div>
           <label htmlFor="membershipType" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Membership Type *
+            Tipo de Associação *
           </label>
           <select
             id="membershipType"
@@ -124,9 +140,9 @@ export default function CommunitySettings({ community, onUpdate }) {
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800"
             required
           >
-            <option value="open">Open - Anyone can join</option>
-            <option value="approval">Approval Required - Members must be approved</option>
-            <option value="invite">Invite Only - Only by invitation</option>
+            <option value="open">Aberta - Qualquer pessoa pode entrar</option>
+            <option value="approval">Aprovação Necessária - Membros devem ser aprovados</option>
+            <option value="invite">Somente Convite - Apenas por convite</option>
           </select>
         </div>
 
@@ -136,10 +152,10 @@ export default function CommunitySettings({ community, onUpdate }) {
             variant="primary"
             disabled={loading}
           >
-            {loading ? 'Saving...' : (
+            {loading ? 'Salvando...' : (
               <>
                 <FiSave className="mr-2" />
-                Save Settings
+                Salvar
               </>
             )}
           </Button>

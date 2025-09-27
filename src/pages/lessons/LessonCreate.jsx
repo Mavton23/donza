@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
-import api from '../../services/api';
-import FormStepper from '../../components/common/FormStepper';
-import LoadingSpinner from '../../components/common/LoadingSpinner';
-import LessonFormBasic from '../../components/lessons/LessonFormBasic';
-import LessonFormContent from '../../components/lessons/LessonFormContent';
-import LessonFormPublishing from '../../components/lessons/LessonFormPublishing';
+import { useAuth } from '@/contexts/AuthContext';
+import api from '@/services/api';
+import FormStepper from '@/components/common/FormStepper';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
+import LessonFormBasic from '@/components/lessons/LessonFormBasic';
+import LessonFormContent from '@/components/lessons/LessonFormContent';
+import LessonFormPublishing from '@/components/lessons/LessonFormPublishing';
 import useUserStatusCheck from '@/hooks/useUserStatusCheck';
 
 const steps = [
@@ -25,11 +25,14 @@ export default function LessonCreate() {
   const [lessonData, setLessonData] = useState({
     title: '',
     content: '',
-    videoUrl: '',
+    mediaFile: null,
+    mediaUrl: '',
     duration: 0,
     order: 0,
     lessonType: 'video',
-    isFree: false,
+    level: 'beginner',
+    isFree: true,
+    price: 0,
     isPublished: false,
     moduleId: moduleId || '',
     courseId: courseId || ''
@@ -38,16 +41,17 @@ export default function LessonCreate() {
   const [error, setError] = useState('');
   const [modules, setModules] = useState([]);
   const [isIndependent, setIsIndependent] = useState(!moduleId);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   if (!isAllowed) {
-      return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden p-6 text-center">
-            <LoadingSpinner fullScreen={false} />
-          </div>
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden p-6 text-center">
+          <LoadingSpinner fullScreen={false} />
         </div>
-      );
-    }
+      </div>
+    );
+  }
 
   useEffect(() => {
     const fetchModules = async () => {
@@ -82,14 +86,80 @@ export default function LessonCreate() {
         throw new Error('Seleção de módulo é obrigatória para aulas de curso');
       }
 
-      // Prepara os dados para envio
-      const payload = { ...lessonData };
-      if (isIndependent) {
-        delete payload.moduleId;
-        delete payload.courseId;
+      // Validações específicas por tipo de aula
+      if (lessonData.lessonType === 'video' && !lessonData.mediaFile && !lessonData.mediaUrl) {
+        throw new Error('É necessário fornecer um arquivo de vídeo ou URL para aulas em vídeo');
       }
 
-      const response = await api.post(`/lessons/${courseId}/modules/${moduleId}/lessons`, payload);
+      if (lessonData.lessonType === 'pdf' && !lessonData.mediaFile) {
+        throw new Error('É necessário fornecer um arquivo PDF para aulas em PDF');
+      }
+
+      if (lessonData.lessonType === 'audio' && !lessonData.mediaFile) {
+        throw new Error('É necessário fornecer um arquivo de áudio para aulas em áudio');
+      }
+
+      if (lessonData.lessonType === 'text' && !lessonData.content) {
+        throw new Error('Conteúdo é obrigatório para aulas em texto');
+      }
+
+      // Validação de preço para aulas pagas
+    if (!lessonData.isFree) {
+      const price = parseFloat(lessonData.price);
+      if (isNaN(price) || price <= 0) {
+        throw new Error('Preço deve ser maior que 0 para aulas pagas');
+      }
+      if (price > 10000) {
+        throw new Error('Preço máximo é 10.000 MZN');
+      }
+    }
+
+      // Criar FormData para envio do arquivo
+      const formData = new FormData();
+      
+      // Adicionar campos básicos
+      formData.append('title', lessonData.title);
+      formData.append('content', lessonData.content);
+      formData.append('lessonType', lessonData.lessonType);
+      formData.append('level', lessonData.level);
+      formData.append('duration', lessonData.duration);
+      formData.append('order', lessonData.order);
+      formData.append('isFree', lessonData.isFree); 
+      formData.append('price', lessonData.price); 
+      formData.append('isPublished', lessonData.isPublished);
+      formData.append('mediaUrl', lessonData.mediaUrl);
+      
+      // Adicionar arquivo de mídia se existir
+      if (lessonData.mediaFile) {
+        formData.append('mediaFile', lessonData.mediaFile);
+      }
+      
+      // Adicionar informações de módulo/curso se não for independente
+      if (!isIndependent) {
+        formData.append('moduleId', lessonData.moduleId);
+        if (lessonData.courseId) {
+          formData.append('courseId', lessonData.courseId);
+        }
+      }
+
+      // Configuração para acompanhar progresso do upload
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        onUploadProgress: (progressEvent) => {
+          const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          setUploadProgress(percentCompleted);
+        }
+      };
+
+      const endpoint = isIndependent 
+        ? '/lessons/independent' 
+        : `/courses/${courseId}/modules/${moduleId}/lessons`;
+
+      const response = await api.post(endpoint, formData, config);
       
       navigate(`/instructor/lessons/${response.data.data.lessonId}/edit`, {
         state: { successMessage: 'Aula criada com sucesso!' }
@@ -98,6 +168,7 @@ export default function LessonCreate() {
       setError(err.response?.data?.message || err.message || 'Falha ao criar aula');
     } finally {
       setLoading(false);
+      setUploadProgress(0);
     }
   };
 
@@ -140,6 +211,7 @@ export default function LessonCreate() {
           <LessonFormContent
             lessonData={lessonData}
             setLessonData={setLessonData}
+            uploadProgress={uploadProgress}
           />
         );
       case 2:
@@ -170,23 +242,35 @@ export default function LessonCreate() {
             </div>
           )}
 
-          {loading ? (
-            <LoadingSpinner fullScreen={false} />
-          ) : (
-            renderFormStep()
+          {loading && (
+            <div className="mb-6">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-medium">Enviando arquivo...</span>
+                <span className="text-sm text-gray-500">{uploadProgress}%</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2.5">
+                <div 
+                  className="bg-indigo-600 h-2.5 rounded-full" 
+                  style={{ width: `${uploadProgress}%` }}
+                ></div>
+              </div>
+            </div>
           )}
+
+          {renderFormStep()}
 
           <div className="mt-8 flex justify-between">
             <button
               onClick={handleBack}
-              disabled={currentStep === 0}
+              disabled={currentStep === 0 || loading}
               className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50"
             >
               Voltar
             </button>
             <button
               onClick={handleNext}
-              className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+              disabled={loading}
+              className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:opacity-50"
             >
               {currentStep === steps.length - 1 ? 'Criar Aula' : 'Próximo'}
             </button>

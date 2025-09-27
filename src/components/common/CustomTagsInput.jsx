@@ -33,6 +33,7 @@ export default function CustomTagsInput({ value, onChange, maxTags = 10, maxLeng
               type="button"
               onClick={() => removeTag(index)}
               className="ml-1.5 text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-200"
+              aria-label={`Remover tag ${tag}`}
             >
               &times;
             </button>
@@ -45,7 +46,7 @@ export default function CustomTagsInput({ value, onChange, maxTags = 10, maxLeng
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
             onBlur={addTag}
-            placeholder={value.length === 0 ? 'Type a tag and press Enter' : ''}
+            placeholder={value.length === 0 ? 'Digite uma tag e pressione Enter' : ''}
             className="flex-1 bg-transparent border-none outline-none dark:text-white min-w-[100px]"
             maxLength={maxLength}
           />

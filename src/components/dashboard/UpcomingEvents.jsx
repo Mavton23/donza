@@ -9,13 +9,13 @@ export default function UpcomingEvents({ events }) {
       <div className="p-6">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-            Eventos próximos
+            Eventos Próximos
           </h2>
           <Link
             to="/events"
             className="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300"
           >
-            Ver todos
+            Ver Todos
           </Link>
         </div>
 
@@ -36,7 +36,7 @@ export default function UpcomingEvents({ events }) {
                   </p>
                   <div className="flex items-center text-xs text-gray-500 dark:text-gray-400 mt-1">
                     {event.isOnline ? (
-                      <span>Online Event</span>
+                      <span>Evento Online</span>
                     ) : (
                       <>
                         <MapPin className="h-3 w-3 mr-1" />
@@ -45,7 +45,7 @@ export default function UpcomingEvents({ events }) {
                     )}
                   </div>
                   <div className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                    {new Date(event.date).toLocaleDateString()} • {new Date(event.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    {new Date(event.date).toLocaleDateString('pt-BR')} • {new Date(event.date).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
                   </div>
                 </div>
               </div>

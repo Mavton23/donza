@@ -55,7 +55,7 @@ export default function InterestsSelector({ selectedInterests = [], onSave }) {
       </h3>
       
       <div className="mb-6">
-        <div className="flex flex-wrap gap-2 mb-4">
+        <div className="flex flex-col sm:flex-row gap-2 mb-4">
           {defaultInterests.map(interest => (
             <button
               key={interest}

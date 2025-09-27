@@ -183,7 +183,7 @@ export default function CompleteProfile() {
     setFormData(prev => ({ ...prev, avatarUrl: url }));
   };
 
-  if (authLoading) return <LoadingSpinner fullScreen />;
+  if (authLoading) return <LoadingSpinner withText text='Carregando...' fullScreen />;
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
@@ -524,13 +524,13 @@ export default function CompleteProfile() {
                   className="inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600 disabled:opacity-50"
                 >
                   {loading ? 
-                    <LoadingSpinner 
-                      size="small" 
-                      withText
-                      text='Salvando...'
-                      inline
-                    /> 
-                    : 'Salvar como rascunho'}
+                  <LoadingSpinner 
+                    size="small" 
+                    withText
+                    text='Salvando...'
+                    inline
+                  /> 
+                  : 'Salvar como rascunho'}
                 </button>
               </div>
               <div className="flex space-x-3">

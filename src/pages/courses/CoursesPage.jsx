@@ -7,6 +7,7 @@ import LoadingSpinner from '@/components/common/LoadingSpinner';
 import EmptyState from '@/components/common/EmptyState';
 import Tabs from '@/components/common/Tabs';
 import api from '../../services/api';
+import { Plus } from 'lucide-react';
 
 // Status possíveis para os cursos
 const COURSE_STATUS = {
@@ -49,6 +50,9 @@ export default function CoursesPage() {
 
   // Verifica se o usuário atual é o dono dos cursos
   const isOwner = user?.userId === userId || user?.role === 'admin';
+
+  // Valida a role
+  const isInstructor = user?.role === 'instructor';
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -116,12 +120,13 @@ export default function CoursesPage() {
           )}
         </div>
         
-        {isOwner && (
+        {isOwner || isInstructor && (
           <Link
             to="/instructor/courses/new"
-            className="mt-4 md:mt-0 px-4 py-2 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 transition-colors"
+            className="mt-4 md:mt-0 flex items-center px-4 py-2 bg-custom-primary text-white font-medium rounded-md hover:bg-custom-primary-hover transition-colors"
           >
-            Criar Novo Curso
+            <Plus className="h-4 w-4 mr-1" />
+            Novo curso
           </Link>
         )}
       </div>
@@ -148,10 +153,10 @@ export default function CoursesPage() {
         <EmptyState
           title={`Nenhum curso ${getStatusLabel(activeTab).toLowerCase()} encontrado`}
           action={
-            isOwner && activeTab !== COURSE_STATUS.DRAFT ? (
+            isOwner || isInstructor && activeTab !== COURSE_STATUS.DRAFT ? (
               <Link
                 to="/instructor/courses/new"
-                className="mt-4 px-4 py-2 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 transition-colors"
+                className="mt-4 px-4 py-2 bg-custom-primary text-white font-medium rounded-md hover:bg-custom-primary-hover transition-colors"
               >
                 Criar Novo Curso
               </Link>

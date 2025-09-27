@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import Footer from "@/components/common/Footer";
 import { motion } from "framer-motion";
 import { FiAward, FiUsers, FiGlobe, FiBookOpen, FiLayers, FiClock, FiTrendingUp } from "react-icons/fi";
 import { useMediaQuery } from "react-responsive";
 import PlatformLoader from "@/components/common/PlatformLoader";
 import ThemeToggle from "@/components/common/ThemeToggle";
 import { useEffect, useState } from "react";
+import Footer from "../components/common/Footer";
 import api from "@/services/api";
 import StatCard from "@/components/cards/StatCard";
 

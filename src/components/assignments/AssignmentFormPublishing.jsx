@@ -22,10 +22,10 @@ export default function AssignmentFormPublishing({ assignmentData, setAssignment
         </div>
         <div className="ml-3 text-sm">
           <label htmlFor="isPublished" className="font-medium text-gray-700 dark:text-gray-300">
-            Publish Immediately
+            Publicar Imediatamente
           </label>
           <p className="text-gray-500 dark:text-gray-400">
-            Make this assignment visible to students right away. If unchecked, the assignment will be saved as a draft.
+            Tornar esta tarefa visível para os estudantes imediatamente. Se desmarcado, a tarefa será salva como rascunho.
           </p>
         </div>
       </div>
@@ -40,11 +40,11 @@ export default function AssignmentFormPublishing({ assignmentData, setAssignment
             </div>
             <div className="ml-3">
               <h3 className="text-sm font-medium text-blue-800 dark:text-blue-200">
-                Publishing Notice
+                Aviso de Publicação
               </h3>
               <div className="mt-2 text-sm text-blue-700 dark:text-blue-300">
                 <p>
-                  Once published, students enrolled in the course will be able to see and submit work for this assignment.
+                  Uma vez publicada, os estudantes matriculados no curso poderão visualizar e enviar trabalhos para esta tarefa.
                 </p>
               </div>
             </div>

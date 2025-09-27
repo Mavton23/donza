@@ -5,10 +5,12 @@ import UserDropdown from "./UserDropdown";
 import { useEffect, useState } from "react";
 import { SearchIcon, Menu, Plus } from "lucide-react";
 import { toast } from "sonner";
+import { X } from "lucide-react";
 
 export default function Header({ toggleSidebar }) {
   const { isAuthenticated, user, logout } = useAuth();
   const [scrolled, setScrolled] = useState(false);
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
@@ -25,8 +27,16 @@ export default function Header({ toggleSidebar }) {
     if (searchQuery.trim()) {
       navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
       setSearchQuery("");
+      setIsMobileSearchOpen(false);
     }
   };
+
+  const toggleMobileSearch = () => {
+    setIsMobileSearchOpen(!isMobileSearchOpen);
+    if (!isMobileSearchOpen) {
+      setSearchQuery("")
+    }
+  }
 
   const handleCreateCourseClick = (e) => {
     if (user?.status === 'pending') {
@@ -95,6 +105,18 @@ export default function Header({ toggleSidebar }) {
 
           {/* Área de Conta e Tema */}
           <div className="flex items-center space-x-3">
+            {/* Botão de Pesquisa Mobile */}
+            <button
+              onClick={toggleMobileSearch}
+              className="md:hidden p-2 text-gray-500 bg-gray-50/20 rounded-md hover:text-custom-primary dark:text-custom-primary transition-colors"
+            >
+              {isMobileSearchOpen ? (
+                <X className="h-5 w-5"/>
+              ) : (
+                <SearchIcon className="h-5 w-5" />
+              )}
+            </button>
+
             {/* Botão de Ação Rápida para Instrutores */}
             {isAuthenticated && user?.role === 'instructor' && (
               <Link
@@ -140,26 +162,28 @@ export default function Header({ toggleSidebar }) {
         </div>
 
         {/* Barra de Pesquisa Mobile */}
-        <div className="mt-3 md:hidden">
-          <form onSubmit={handleSearch}>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <SearchIcon className="h-5 w-5 text-gray-400" />
+        {isMobileSearchOpen && (
+          <div className="mt-3 md:hidden">
+            <form onSubmit={handleSearch}>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <SearchIcon className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  type="text"
+                  placeholder={
+                    user?.role === 'instructor' ? 'Buscar meus cursos...' :
+                    user?.role === 'institution' ? 'Buscar eventos...' :
+                    'Buscar cursos...'
+                  }
+                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-800 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-custom-primary focus:border-custom-primary text-gray-900 dark:text-white"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
               </div>
-              <input
-                type="text"
-                placeholder={
-                  user?.role === 'instructor' ? 'Buscar meus cursos...' :
-                  user?.role === 'institution' ? 'Buscar eventos...' :
-                  'Buscar cursos...'
-                }
-                className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-800 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-custom-primary focus:border-custom-primary text-gray-900 dark:text-white"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-          </form>
-        </div>
+            </form>
+          </div>
+        )}
       </div>
     </header>
   );

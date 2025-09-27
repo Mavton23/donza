@@ -12,9 +12,7 @@ import {
   
 } from 'react-icons/fi';
 import { Info } from 'lucide-react';
-import { Alert } from '@/components/ui/alert';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
-import ErrorAlert from '@/components/common/ErrorAlert';
 import Avatar from '@/components/common/Avatar';
 import { Badge } from '@/components/ui/badge';
 import TimeAgo from '@/components/common/TimeAgo';
@@ -27,7 +25,7 @@ import ContentUploader from '@/components/community/groups/ContentUploader';
 import ContentGallery from '@/components/community/groups/sharedcontent/ContentGallery';
 import ContentPreviewModal from '@/components/community/groups/sharedcontent/ContentPreviewModal';
 import EditContentModal from '@/components/community/groups/sharedcontent/EditContentModal';
-// import LeaderBoard from '@/components/community/groups/gamification/LeaderBoard';
+import LeaderBoard from '@/components/community/groups/gamification/LeaderBoard';
 import UserStatsCard from '@/components/community/groups/gamification/UserStatCard';
 import DebateChat from '@/components/community/groups/chat/DebateChat';
 import ReportFilters from '@/components/community/groups/report/ReportFilters';
@@ -38,6 +36,8 @@ import CalendarView from '@/components/community/groups/calendar/CalendarView';
 import CalendarSyncButton from '@/components/community/groups/calendar/CalendarSyncButton';
 import { useRequireGroupMembership } from '@/hooks/useRequireGroupMembership';
 import { useGroupContent } from '@/hooks/useGroupContent';
+import ConfirmationModal from '@/components/common/ConfirmationModal';
+import { getErrorMessage } from '@/hooks/getErrorMessage';
 import { toast } from 'sonner';
 
 const StudyGroupDetail = () => {
@@ -47,7 +47,6 @@ const StudyGroupDetail = () => {
   
   const [group, setGroup] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('overview');
   const [isMember, setIsMember] = useState(false);
   const [userRole, setUserRole] = useState(null);
@@ -63,6 +62,9 @@ const StudyGroupDetail = () => {
   });
   const [activityData, setActivityData] = useState([]);
   const [isExporting, setIsExporting] = useState(false);
+  const [isLeaving, setIsLeaving] = useState(false);
+  const [showLeaveModal, setShowLeaveModal] = useState(false);
+
   const { 
   contents, 
   isLoading, 
@@ -78,7 +80,6 @@ const StudyGroupDetail = () => {
     const fetchGroupData = async () => {
       try {
         setLoading(true);
-        setError(null);
         
         const [groupRes, groupMeets, membershipRes] = await Promise.all([
           api.get(`/groups/${communityId}/groups/${groupId}`),
@@ -103,7 +104,7 @@ const StudyGroupDetail = () => {
           setUserRole(null);
         }
       } catch (err) {
-        setError(err.response?.data?.message || 'Failed to load group data');
+        toast.error(getErrorMessage(err));
       } finally {
         setLoading(false);
       }
@@ -132,14 +133,21 @@ const { shouldRedirect } = useRequireGroupMembership({
     );
   }
 
+  const openLeaveModal = () => {
+    setShowLeaveModal(true);
+  };
+
+  const closeLeaveModal = () => {
+    setShowLeaveModal(false);
+  };
+
   // Função para exportar relatório
   const handleExportReport = async () => {
     try {
       setIsExporting(true);
       await exportReportData(reportPeriod);
     } catch (err) {
-      console.error('Export failed:', err);
-      setError('Export failed. Please try again.');
+      toast.error(getErrorMessage(err));
     } finally {
       setIsExporting(false);
     }
@@ -162,15 +170,15 @@ const { shouldRedirect } = useRequireGroupMembership({
         }]
       }));
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to join group');
+      toast.error(getErrorMessage(err));
     }
   };
 
   const handleLeave = async () => {
-    if (!window.confirm('Tem certeza que deseja sair deste grupo de estudos?')) return;
+    setIsLeaving(true);
     
     try {
-      await api.delete(`/groups/groups/${groupId}/leave`);
+      await api.post(`/groups/group/${groupId}/leave`);
       setIsMember(false);
       setUserRole(null);
       setGroup(prev => ({
@@ -179,7 +187,9 @@ const { shouldRedirect } = useRequireGroupMembership({
         members: prev.members.filter(m => m.userId !== currentUser.userId)
       }));
     } catch (err) {
-      setError(err.response?.data?.message || 'Falha ao sair do grupo');
+      toast.error(getErrorMessage(err));
+    } finally {
+      setIsLeaving(false);
     }
   };
 
@@ -192,7 +202,7 @@ const { shouldRedirect } = useRequireGroupMembership({
         state: { message: 'Grupo de estudos excluído com sucesso' } 
       });
     } catch (err) {
-      setError(err.response?.data?.message || 'Falha ao excluir grupo');
+      toast.error(getErrorMessage(err));
     }
   };
 
@@ -206,17 +216,16 @@ const { shouldRedirect } = useRequireGroupMembership({
       }));
       setShowScheduleModal(false);
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to schedule meeting');
+      toast.error(getErrorMessage(err));
     }
   };
 
   const handleTabChange = (tab) => {
     if (!group.isPublic && !isMember && tab !== 'overview') {
-      setError('Join the group to access this content');
+      toast.error('Junte-se ao grupo para acessar esse conteúdo');
       return;
     }
     setActiveTab(tab);
-    setError(null);
   };
 
   const handleUpload = async (files) => {
@@ -274,8 +283,6 @@ const handleDownload = async (contentId) => {
 };
 
   if (loading) return <LoadingSpinner fullScreen />;
-  if (error) return <ErrorAlert message={error} onRetry={() => window.location.reload()} />;
-  if (!group) return <ErrorAlert message="Study group not found" />;
 
   // Permissões baseadas no modelo do backend
   const isLeader = userRole === 'leader';
@@ -354,7 +361,7 @@ const handleDownload = async (contentId) => {
               {group.creator?.username}
             </Link>
             <div className="text-sm text-gray-500 dark:text-gray-400">
-              Created <TimeAgo date={group.createdAt} />
+              Criado <TimeAgo date={group.createdAt} />
             </div>
           </div>
         </div>
@@ -363,7 +370,7 @@ const handleDownload = async (contentId) => {
       {/* Tabs */}
       <TabNavigation
           tabs={[
-            { id: 'overview', label: 'Visão Geral', icon: FiBook },
+            { id: 'overview', label: 'Geral', icon: FiBook },
             { id: 'members', label: 'Membros', icon: FiUsers },
             { id: 'tasks', label: 'Tarefas', icon: FiCheckCircle },
             { id: 'chat', label: 'Chat', icon: FiMessageCircle },
@@ -379,12 +386,6 @@ const handleDownload = async (contentId) => {
 
       {/* Content */}
       <div className="mt-6">
-          {error && (
-            <div className="mb-4">
-              <ErrorAlert message={error} />
-            </div>
-          )}
-
           {!isMember && activeTab !== 'overview' && (
             <div className="bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-400 dark:border-yellow-600 p-4 mb-6">
               <div className="flex items-center">
@@ -406,7 +407,7 @@ const handleDownload = async (contentId) => {
                         size="sm"
                         onClick={handleJoin}
                       >
-                        Entrar no Grupo
+                        Juntar-se ao Grupo
                       </Button>
                     )}
                   </div>
@@ -459,12 +460,16 @@ const handleDownload = async (contentId) => {
                       <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Status</h3>
                       <div className="mt-1 flex items-center gap-2">
                         {isMember ? (
-                          <Badge color="green">Membro</Badge>
+                          <Badge className="bg-green-500 text-white hover:bg-green-600">Membro</Badge>
                         ) : (
-                          <Badge color="gray">Não é membro</Badge>
+                          <Badge className="bg-gray-400 text-black hover:bg-gray-500">Não é membro</Badge>
                         )}
                         {userRole && (
-                          <Badge color={userRole === 'leader' ? 'purple' : 'blue'}>
+                          <Badge className={
+                            userRole === "leader"
+                              ? "bg-purple-500 text-white hover:bg-purple-600"
+                              : "bg-blue-500 text-white hover:bg-blue-600"
+                          }>
                             {userRole === 'leader' ? 'Líder' : 'Co-líder'}
                           </Badge>
                         )}
@@ -492,9 +497,16 @@ const handleDownload = async (contentId) => {
                           <Button 
                             variant="danger" 
                             className="w-full"
-                            onClick={handleLeave}
+                            disabled={isLeaving}
+                            onClick={openLeaveModal}
                           >
-                            Sair do Grupo
+                            {isLeaving ? (
+                              <>
+                                <LoadingSpinner size='sm' withText text='Processando...' />                       
+                              </>
+                            ) : (
+                              'Deixar o grupo'
+                            )}
                           </Button>
                         </div>
                       ) : (
@@ -505,8 +517,8 @@ const handleDownload = async (contentId) => {
                           disabled={group.maxMembers && group.membersCount >= group.maxMembers}
                         >
                           {group.maxMembers && group.membersCount >= group.maxMembers 
-                            ? 'Grupo está cheio' 
-                            : 'Entrar no Grupo'}
+                            ? 'Grupo está lotado' 
+                            : 'Juntar-se ao Grupo'}
                         </Button>
                       )}
                     </div>
@@ -603,12 +615,6 @@ const handleDownload = async (contentId) => {
 
           {activeTab === 'content' && (
             <div>
-              {errorOccured && (
-                <Alert variant="danger" onClose={() => setError(null)} dismissible>
-                  {error}
-                </Alert>
-              )}
-              
               <ContentUploader
                 onUpload={handleUpload}
                 onLinkSubmit={handleLinkSubmit}
@@ -657,7 +663,7 @@ const handleDownload = async (contentId) => {
                   </h2>
                   {canManageMembers && (
                     <Button 
-                      variant="secondary" 
+                      variant="secondary"
                       size="sm"
                       onClick={() => navigate('manage-members')}
                     >
@@ -668,7 +674,7 @@ const handleDownload = async (contentId) => {
                 
                 <div className="space-y-3">
                   {group.members?.map(member => (
-                    <div key={member.userId} className="flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-gray-750 rounded-lg transition-colors">
+                    <div key={member.userId} className="flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-lg transition-colors">
                       <div className="flex items-center gap-3">
                         <Avatar src={member.avatarUrl} alt={member.username} size="md" />
                         <div>
@@ -690,9 +696,12 @@ const handleDownload = async (contentId) => {
                         {member.role === 'leader' && (
                           <FiAward className="text-yellow-500 dark:text-yellow-400" />
                         )}
-                        <Badge color={
-                          member.role === 'leader' ? 'purple' : 
-                          member.role === 'co-leader' ? 'blue' : 'gray'
+                        <Badge className={
+                          member.role === "leader"
+                            ? "bg-purple-500 text-white hover:bg-purple-600"
+                            : member.role === "co-leader"
+                            ? "bg-blue-500 text-white hover:bg-blue-600"
+                            : "bg-gray-300 text-black hover:bg-gray-400"
                         }>
                           {member.role === 'leader' ? 'Líder' : member.role === 'co-leader' ? 'Co-líder' : 'Membro'}
                         </Badge>
@@ -709,7 +718,7 @@ const handleDownload = async (contentId) => {
               <div className="lg:col-span-2">
                 <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                   <h2 className="text-xl font-semibold mb-4">Classificação do Grupo</h2>
-                  {/* <LeaderBoard members={group.members || []} /> */}
+                  <LeaderBoard members={group.members || []} />
                 </div>
               </div>
               <div>
@@ -852,6 +861,17 @@ const handleDownload = async (contentId) => {
           defaultSchedule={group.meetingSchedule}
         />
       )}
+
+      <ConfirmationModal
+          isOpen={showLeaveModal}
+          onClose={closeLeaveModal}
+          onConfirm={handleLeave}
+          title="Saindo do grupo de estudo"
+          message={`Tem certeza de que deseja deixar o grupo "${group.name}"?`}
+          confirmText={isLeaving ? "Processando..." : "Deixar o grupo"}
+          cancelText="Cancelar"
+          variant="danger"
+        />
     </div>
   );
 };

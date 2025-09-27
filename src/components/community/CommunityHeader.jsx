@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import api from '@/services/api';
 import Icon from '../common/Icon';
 import Dropdown from '../common/Dropdown';
 import LoadingSpinner from '../common/LoadingSpinner';
 
-export default function CommunityHeader({ community, isMember, onJoin, onUpdate }) {
+export default function CommunityHeader({ community, userRole, onJoin, onLeave }) {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -15,9 +14,10 @@ export default function CommunityHeader({ community, isMember, onJoin, onUpdate 
   const handleLeaveCommunity = async () => {
     try {
       setLoading(true);
-      await api.post(`/community/communities/${community.communityId}/leave`);
-      onUpdate({ membersCount: community.membersCount - 1 });
-      navigate('/communities');
+    
+      // Chamar onLeave do componente pai
+      await onLeave();
+
     } catch (err) {
       setError(err.response?.data?.message || 'Não foi possível sair da comunidade');
     } finally {
@@ -180,7 +180,7 @@ export default function CommunityHeader({ community, isMember, onJoin, onUpdate 
           </div>
 
           <div className="flex flex-col gap-3">
-            {!isMember ? (
+            {!userRole && userRole != '' ? (
               <button
                 onClick={onJoin}
                 disabled={loading}

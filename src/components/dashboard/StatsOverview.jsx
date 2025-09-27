@@ -144,7 +144,7 @@ export default function StatsOverview({ stats, role }) {
       value: stats.totalInstructors || 0,
       change: stats.instructorsChange,
       isPositive: stats.instructorsChange >= 0,
-      description: 'Professores associados'
+      description: 'Instrutores associados'
     },
     {
       icon: Calendar,

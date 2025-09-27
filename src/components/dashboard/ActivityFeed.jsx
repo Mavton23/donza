@@ -49,7 +49,7 @@ export default function ActivityFeed({ activities }) {
         </div>
         <div className="mt-4 text-center">
           <button className="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300">
-            Ver todas atividades
+            Ver toda a atividade
           </button>
         </div>
       </div>
