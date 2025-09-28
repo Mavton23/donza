@@ -35,16 +35,16 @@ import { Globe } from "lucide-react";
 import { BellIcon } from "lucide-react";
 import { UserCog2 } from "lucide-react";
 import { SidebarBadge } from "../ui/sidebar-badge";
-// import { useUnreadStatus } from "@/hooks/useUnreadStatus";
+import { useUnreadStatus } from "@/hooks/useUnreadStatus";
 
 export default function Sidebar({ isMobileOpen, setIsMobileOpen }) {
   const { user, loading: authLoading, logout } = useAuth();
-  // const { 
-  //   hasUnreadMessages, 
-  //   hasUnreadNotifications, 
-  //   unreadMessagesCount,
-  //   unreadNotificationsCount
-  // } = useUnreadStatus();
+  const { 
+    hasUnreadMessages, 
+    hasUnreadNotifications, 
+    unreadMessagesCount,
+    unreadNotificationsCount
+  } = useUnreadStatus();
   const location = useLocation();
   const navigate = useNavigate();
   const [expandedMenus, setExpandedMenus] = useState({});
@@ -109,15 +109,15 @@ export default function Sidebar({ isMobileOpen, setIsMobileOpen }) {
       name: "Mensagens", 
       href: "/messages", 
       icon: MessageSquare,
-      // badge: hasUnreadMessages ? true : null,
-      // count: unreadMessagesCount
+      badge: hasUnreadMessages ? true : null,
+      count: unreadMessagesCount
     },
     {
       name: "Notificações",
       href: "/notifications",
       icon: BellIcon,
-      // badge: hasUnreadNotifications ? true : null,
-      // count: unreadNotificationsCount
+      badge: hasUnreadNotifications ? true : null,
+      count: unreadNotificationsCount
     },
     { 
       name: "Comunidades", 
