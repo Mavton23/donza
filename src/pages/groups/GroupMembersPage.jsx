@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 import api from '@/services/api';
 import Avatar from '@/components/common/Avatar';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/Input';
+import { Input } from '@/components/ui/input';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import InviteModal from '@/utils/InviteModal';
 import {
