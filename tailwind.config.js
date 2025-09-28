@@ -8,7 +8,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        custom: ['Poppins', 'sans-serif'],
+        custom: ['Inter', 'sans-serif'],
       },
       borderRadius: {
         lg: 'var(--radius)',
