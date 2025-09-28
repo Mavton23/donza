@@ -10,6 +10,7 @@ export function useUnreadStatus() {
   const [unreadNotificationsCount, setUnreadNotificationsCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [forceUpdate, setForceUpdate] = useState(0);
 
   useEffect(() => {
     if (!user) {
@@ -60,10 +61,12 @@ export function useUnreadStatus() {
 
     checkUnreadStatus();
 
-    const interval = setInterval(checkUnreadStatus, 30000);
+    const interval = setInterval(checkUnreadStatus, 180000);
 
     return () => clearInterval(interval);
-  }, [user]);
+  }, [user, forceUpdate]);
+
+  const forceRefresh = () => setForceUpdate(prev => prev + 1);  
 
   return {
     hasUnreadMessages,
@@ -71,6 +74,7 @@ export function useUnreadStatus() {
     unreadMessagesCount,
     unreadNotificationsCount,
     loading,
-    error
+    error,
+    forceRefresh
   };
 }

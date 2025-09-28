@@ -10,8 +10,6 @@ import {
   GraduationCap,
   BarChart2,
   Award,
-  Video,
-  FileText,
   ClipboardList,
   DollarSign,
   User2Icon,
