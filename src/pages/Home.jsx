@@ -4,6 +4,7 @@ import Footer from "@/components/common/Footer";
 import { useEffect, useState } from "react";
 import { useNotification } from "@/contexts/NotificationContext";
 import api from "@/services/api";
+import axios from "axios";
 import StatCard from "@/components/cards/StatCard";
 import EventCard from "@/components/events/EventCard";
 import CourseCard from "@/components/cards/CourseCard";
@@ -34,15 +35,16 @@ export default function Home() {
   });
   const isMobile = useMediaQuery({ maxWidth: 768 });
   const { show } = useNotification();
+  const BackendUrl = import.meta.env.VITE_BACKEND_API_BASE_URL || "https://donza-api.onrender.com/api";
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [coursesRes, eventsRes, statsRes, testiRes] = await Promise.all([
-          api.get('/courses?limit=4'),
-          api.get('/events?limit=3'),
-          api.get('/users/stats'),
-          api.get('/testimonial', {
+          axios.get(`${BackendUrl}/courses?limit=4`),
+          axios.get(`${BackendUrl}/events?limit=3`),
+          axios.get(`${BackendUrl}/users/stats`),
+          axios.get(`${BackendUrl}/testimonial`, {
             params: {
               status: 'approved',
               featured: true,
