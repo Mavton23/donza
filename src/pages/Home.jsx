@@ -160,13 +160,13 @@ export default function Home() {
               ) : (
                 <>
                   <Link
-                    to="/register?as=student"
+                    to="/signup?as=student"
                     className="px-8 py-4 bg-custom-primary text-white font-semibold rounded-full hover:bg-custom-primary-hover transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
                   >
                     Começar a aprender
                   </Link>
                   <Link
-                    to="/register?as=instructor"
+                    to="/signup?as=instructor"
                     className="px-8 py-4 border-2 border-white text-white font-semibold rounded-full hover:bg-white hover:text-custom-primary transition-all transform hover:scale-105"
                   >
                     Ensinar na plataforma
@@ -527,13 +527,13 @@ export default function Home() {
             ) : (
               <>
                 <Link
-                  to="/register?as=student"
+                  to="/signup?as=student"
                   className="px-8 py-4 bg-custom-primary text-white font-semibold rounded-full hover:bg-custom-primary-hover transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
                 >
                   Criar Conta Gratuita
                 </Link>
                 <Link
-                  to="/register?as=instructor"
+                  to="/signup?as=instructor"
                   className="px-8 py-4 border-2 border-white text-white font-semibold rounded-full hover:bg-white hover:text-custom-primary transition-all transform hover:scale-105"
                 >
                   Tornar-se Instrutor
