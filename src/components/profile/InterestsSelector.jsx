@@ -55,12 +55,12 @@ export default function InterestsSelector({ selectedInterests = [], onSave }) {
       </h3>
       
       <div className="mb-6">
-        <div className="flex flex-col sm:flex-row gap-2 mb-4">
+        <div className="flex flex-wrap gap-2 mb-4">
           {defaultInterests.map(interest => (
             <button
               key={interest}
               onClick={() => toggleInterest(interest)}
-              className={`px-3 py-1 rounded-full text-sm font-medium ${
+              className={`px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap ${
                 interests.includes(interest)
                   ? 'bg-indigo-600 text-white'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
@@ -71,7 +71,7 @@ export default function InterestsSelector({ selectedInterests = [], onSave }) {
           ))}
         </div>
         
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
           <input
             type="text"
             value={customInterest}
@@ -82,7 +82,7 @@ export default function InterestsSelector({ selectedInterests = [], onSave }) {
           />
           <button
             onClick={addCustomInterest}
-            className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+            className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition whitespace-nowrap"
           >
             Adicionar
           </button>
@@ -98,7 +98,7 @@ export default function InterestsSelector({ selectedInterests = [], onSave }) {
             {interests.map(interest => (
               <span
                 key={interest}
-                className="px-3 py-1 bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-100 rounded-full text-sm flex items-center"
+                className="px-3 py-1 bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-100 rounded-full text-sm flex items-center whitespace-nowrap"
               >
                 {interest}
                 <button
