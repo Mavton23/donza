@@ -1,8 +1,11 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Icon from '../common/Icon';
 
 export default function RoleSelectionStep({ onSelect, initialRole }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const roles = [
     {
       id: 'student',
@@ -28,6 +31,14 @@ export default function RoleSelectionStep({ onSelect, initialRole }) {
     }
   ];
 
+  const handleRoleSelect = (roleId) => {
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.set('as', roleId);
+    
+    navigate(`${location.pathname}?${searchParams.toString()}`, { replace: true });
+    onSelect(roleId);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -52,7 +63,7 @@ export default function RoleSelectionStep({ onSelect, initialRole }) {
             whileTap={{ scale: 0.98 }}
           >
             <div
-              onClick={() => onSelect(role.id)}
+              onClick={() => handleRoleSelect(role.id)}
               className={`p-5 border rounded-xl cursor-pointer transition-all flex items-start gap-4 ${
                 initialRole === role.id
                   ? 'border-indigo-500 bg-indigo-50 dark:bg-gray-700'

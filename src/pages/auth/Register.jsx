@@ -24,7 +24,7 @@ export default function Register() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
-  const [selectedRole, setSelectedRole] = useState(null);
+  const [selectedRole, setSelectedRole] = useState('student');
   const [verificationToken, setVerificationToken] = useState(searchParams.get('token') || '');
   const [isCompletingStudentRegistration, setIsCompletingStudentRegistration] = useState(false);
   const [loading, setLoading] = useState(false);

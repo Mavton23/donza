@@ -538,6 +538,13 @@ export default function Home() {
                 >
                   Tornar-se Instrutor
                 </Link>
+
+                <Link
+                  to="/signup?as=institution"
+                  className="px-8 py-4 border-2 border-white text-white font-semibold rounded-full hover:bg-white hover:text-custom-primary transition-all transform hover:scale-105"
+                >
+                  Cadastrar Instituição
+                </Link>
               </>
             )}
           </motion.div>
