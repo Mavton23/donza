@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import AvatarUpload from '@/components/profile/AvatarUpload';
 import RoleSpecificFields from '@/components/profile/RoleSpecificFields';
+import { PhoneInput } from '@/components/auth/PhoneInput';
 
 export default function CompleteProfile() {
   const { currentUser, completeProfile, loading: authLoading, user } = useAuth();
@@ -177,6 +178,13 @@ export default function CompleteProfile() {
     });
     }
   };
+
+  const handlePhoneChange = (phoneValue) => {
+    setFormData(prev => ({
+      ...prev,
+      contactPhone: phoneValue
+    }));
+    };
 
   const handleAvatarUpload = (url) => {
     setAvatarError(null);
@@ -491,25 +499,18 @@ export default function CompleteProfile() {
                 {/* Telefone */}
                 {['instructor', 'institution'].includes(currentUser?.role) && (
                   <div>
-                    <label htmlFor="contactPhone" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Telefone para Contato
-                    </label>
-                    <input
-                      type="tel"
+                    <PhoneInput 
                       id="contactPhone"
-                      name="contactPhone"
+                      label="Telefone para Contato"
                       value={formData.contactPhone}
-                      onChange={handleChange}
-                      className={`mt-1 block w-full border ${
-                        formErrors.contactPhone ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
-                      } rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white`}
-                      placeholder="(00) 00000-0000"
-                    />
-                    <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                      {currentUser?.role === 'instructor' 
+                      onChange={handlePhoneChange}
+                      description={
+                        currentUser?.role === 'instructor' 
                         ? 'Número para contato profissional (opcional)' 
-                        : 'Telefone institucional (opcional)'}
-                    </p>
+                        : 'Telefone institucional (opcional)'
+                      }
+                      className="w-full"
+                    />
                   </div>
                 )}
               </div>
