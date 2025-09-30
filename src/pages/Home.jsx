@@ -389,7 +389,7 @@ export default function Home() {
             className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              O que nossos <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-500">alunos</span> dizem
+              O que nossos <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-500">estudantes</span> dizem
             </h2>
             <p className="max-w-2xl mx-auto text-gray-600 dark:text-gray-400 text-lg">
               Depoimentos de quem já transformou sua carreira

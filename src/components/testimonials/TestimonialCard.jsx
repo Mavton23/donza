@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Star, BadgeCheck, Quote } from 'lucide-react';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import Avatar from '../common/Avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
 
@@ -16,18 +16,12 @@ const TestimonialCard = ({ testimonial, index }) => {
       <Card className="h-full flex flex-col hover:shadow-lg transition-shadow duration-300 group dark:bg-gray-900/50">
         <CardHeader className="flex flex-row items-start space-y-0 pb-4">
           <div className="relative">
-            <Avatar className="w-12 h-12 mr-4 border-2 border-primary/10 group-hover:border-custom-primary-hover/30 transition-colors">
-              <AvatarImage 
-                src={testimonial.avatar} 
-                alt={testimonial.name}
-                onError={(e) => {
-                  e.target.src = '/images/avatar-placeholder.svg';
-                }}
-              />
-              <AvatarFallback>
-                {testimonial?.name?.split(' ').map(n => n[0]).join('')}
-              </AvatarFallback>
-            </Avatar>
+            <Avatar 
+              src={testimonial.avatar || '/images/placeholder.png'}
+              alt={testimonial.name}
+              size="md"
+              className="mb-1"
+            />
             
             {testimonial?.featured && (
               <Badge variant="premium" className="absolute -top-2 -right-2 px-2 py-1 text-xs bg-gray-50/20">
