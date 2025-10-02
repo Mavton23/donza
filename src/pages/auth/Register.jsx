@@ -11,6 +11,7 @@ import * as yup from 'yup';
 
 import RoleSelectionStep from '@/components/auth/RoleSelectionStep';
 import EmailPasswordStep from '@/components/auth/EmailPasswordStep';
+import SpamWarningAlert from '@/components/auth/SpamWarningAlert';
 import DocumentUploadStep from '@/components/auth/DocumentUploadStep';
 import ProgressSteps from '@/components/common/ProgressSteps';
 
@@ -26,6 +27,7 @@ export default function Register() {
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedRole, setSelectedRole] = useState('student');
   const [verificationToken, setVerificationToken] = useState(searchParams.get('token') || '');
+  const [showSpamWarning, setShowSpamWarning] = useState(false);
   const [isCompletingStudentRegistration, setIsCompletingStudentRegistration] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -104,6 +106,7 @@ export default function Register() {
   const onSubmitInit = async (data) => {
     try {
       setLoading(true);
+      setShowSpamWarning(false);
 
       const initData = {
         email: data.email,
@@ -118,6 +121,10 @@ export default function Register() {
       
       if (response.data?.token) {
         setVerificationToken(response.data.token);
+      }
+
+      if (response.success) {
+        setShowSpamWarning(true);
       }
       
       toast.success(response.data?.message || 'Email de verificação enviado! Por favor verifique seu email.');
@@ -424,6 +431,13 @@ export default function Register() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
+        {showSpamWarning && (
+          <SpamWarningAlert 
+            email={watchInit('email')} 
+            onClose={() => setShowSpamWarning(false)}
+          />
+        )}
+
         {currentStep !== 1 && (
           <div className="space-y-6">
             <div className="text-center">
