@@ -36,6 +36,7 @@ export default function Home() {
   const isMobile = useMediaQuery({ maxWidth: 768 });
   const { show } = useNotification();
   const BackendUrl = import.meta.env.VITE_BACKEND_API_BASE_URL || "https://donza-api.onrender.com/api";
+  const shouldShowStats = stats.students >= 5;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -199,16 +200,18 @@ export default function Home() {
       </section>
 
       {/* Stats Section - Animações em cascata */}
-      <section className="py-16 bg-white dark:bg-gray-800 relative z-10 -mt-1">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <StatCard value={stats.students} label="Estudantes Ativos" delay={0.1} />
-            <StatCard value={stats.courses} label="Cursos Disponíveis" delay={0.3} />
-            <StatCard value={stats.institutions} label="Instituições de ensino" delay={0.5} />
-            <StatCard value={stats.instructors} label="Instrutores Especialistas" delay={0.5} />
+      {shouldShowStats && (
+        <section className="py-16 bg-white dark:bg-gray-800 relative z-10 -mt-1">
+          <div className="container mx-auto px-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <StatCard value={stats.students} label="Estudantes Ativos" delay={0.1} />
+              <StatCard value={stats.courses} label="Cursos Disponíveis" delay={0.3} />
+              <StatCard value={stats.institutions} label="Instituições de ensino" delay={0.5} />
+              <StatCard value={stats.instructors} label="Instrutores Especialistas" delay={0.5} />
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Featured Courses - Layout moderno */}
       <section className="py-20 relative">
