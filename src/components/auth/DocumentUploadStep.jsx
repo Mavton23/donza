@@ -76,10 +76,14 @@ const InstitutionDocuments = ({ register, errors, setValue }) => {
                         Alvará de Funcionamento *
                     </label>
                     <FileUpload
+                        fileType='document'
                         accept=".pdf,.jpg,.jpeg,.png"
                         onFileUpload={(file) => setValue('alvara', file)}
                         maxSize={5}
                     />
+                    <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                        PDF, JPG, JPEG, PNG (até 5MB)
+                    </p>
                     </div>
 
                     <div>
@@ -87,10 +91,14 @@ const InstitutionDocuments = ({ register, errors, setValue }) => {
                         Documento de Credenciamento Institucional *
                     </label>
                     <FileUpload
+                        fileType="document"
                         accept=".pdf,.jpg,.jpeg,.png"
                         onFileUpload={(file) => setValue('credenciamento', file)}
                         maxSize={5}
                     />
+                    <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                        PDF, JPG, JPEG, PNG (até 5MB)
+                    </p>
                     </div>
 
                     <div>
@@ -98,10 +106,14 @@ const InstitutionDocuments = ({ register, errors, setValue }) => {
                         Estatutos/Contrato Social *
                     </label>
                     <FileUpload
+                        fileType="document"
                         accept=".pdf,.jpg,.jpeg,.png"
                         onFileUpload={(file) => setValue('estatutos', file)}
                         maxSize={5}
                     />
+                    <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                        PDF, JPG, JPEG, PNG (até 5MB)
+                    </p>
                     </div>
 
                     <div>
@@ -109,10 +121,14 @@ const InstitutionDocuments = ({ register, errors, setValue }) => {
                         Comprovante de Endereço Institucional *
                     </label>
                     <FileUpload
+                        fileType="document"
                         accept=".pdf,.jpg,.jpeg,.png"
                         onFileUpload={(file) => setValue('endereco', file)}
                         maxSize={5}
                     />
+                    <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                        PDF, JPG, JPEG, PNG (até 5MB)
+                    </p>
                     </div>
                 </div>
             </div>
@@ -210,10 +226,14 @@ const InstructorDocuments = ({ register, errors, setValue }) => {
                     Certificados Acadêmicos (Diplomas) *
                 </label>
                 <FileUpload
+                    fileType="document"
                     accept=".pdf,.jpg,.jpeg,.png"
                     onFileUpload={(file) => setValue('diplomas', file)}
                     maxSize={5}
                 />
+                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                    PDF, JPG, JPEG, PNG (até 5MB)
+                </p>
                 <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                     Pode enviar vários arquivos simultaneamente
                 </p>
@@ -224,10 +244,14 @@ const InstructorDocuments = ({ register, errors, setValue }) => {
                     Comprovantes de Experiência Profissional *
                 </label>
                 <FileUpload
+                    fileType="document"
                     accept=".pdf,.jpg,.jpeg,.png"
                     onFileUpload={(file) => setValue('experiencia', file)}
                     maxSize={5}
                 />
+                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                    PDF, JPG, JPEG, PNG (até 5MB)
+                </p>
             </div>
 
             <div>
@@ -235,10 +259,14 @@ const InstructorDocuments = ({ register, errors, setValue }) => {
                     Certificações Específicas da Área
                 </label>
                 <FileUpload
+                    fileType="document"
                     accept=".pdf,.jpg,.jpeg,.png"
                     onFileUpload={(file) => setValue('certificacoes', file)}
                     maxSize={5}
                 />
+                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                    PDF, JPG, JPEG, PNG (até 5MB)
+                </p>
             </div>
 
             <div>
@@ -246,10 +274,14 @@ const InstructorDocuments = ({ register, errors, setValue }) => {
                     Documentos de Identidade Profissional (CREA, OAB, etc.)
                 </label>
                 <FileUpload
+                    fileType="document"
                     accept=".pdf,.jpg,.jpeg,.png"
                     onFileUpload={(file) => setValue('registroProfissional', file)}
                     maxSize={5}
                 />
+                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                    PDF, JPG, JPEG, PNG (até 5MB)
+                </p>
                 </div>
             </div>
         </div>
