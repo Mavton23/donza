@@ -123,7 +123,7 @@ export default function Register() {
         setVerificationToken(response.data.token);
       }
 
-      if (response.success) {
+      if (response.data.success) {
         setShowSpamWarning(true);
       }
       
