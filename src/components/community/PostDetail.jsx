@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -48,6 +49,7 @@ export default function PostDetail() {
   const [userReaction, setUserReaction] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
   const [showEditHistory, setShowEditHistory] = useState(false);
+  usePageTitle();
 
   useEffect(() => {
     const fetchPost = async () => {

@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -9,6 +10,8 @@ import api from '@/services/api';
 import { useAuth } from '@/contexts/AuthContext';
 import { motion } from 'framer-motion';
 import PasswordStrengthBar from 'react-password-strength-bar';
+
+usePageTitle();
 
 // Esquema de validação
 const adminRegisterSchema = yup.object().shape({

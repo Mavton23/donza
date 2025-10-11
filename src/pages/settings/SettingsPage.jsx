@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import SettingsSidebar from '../../components/settings/SettingsSidebar';
@@ -5,6 +6,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 
 export default function SettingsPage() {
+  usePageTitle();
   const { currentUser, updateUser, loading } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('account');

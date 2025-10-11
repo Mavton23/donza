@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import api from '@/services/api';
@@ -7,6 +8,7 @@ import LoadingSpinner from '@/components/common/LoadingSpinner';
 import ErrorAlert from '@/components/common/ErrorAlert';
 
 export default function Reviews({ entityId, entityType, canReview, isOrganizer }) {
+  usePageTitle();
   const queryClient = useQueryClient();
   const [replyingTo, setReplyingTo] = useState(null);
   

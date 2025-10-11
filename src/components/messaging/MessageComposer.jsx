@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { Button } from '../ui/button';
 import { HelpCircle, Wifi, WifiOff } from 'lucide-react';
@@ -11,6 +12,7 @@ export default function MessageComposer({
   conversationId, 
   onMarkAsRead 
 }) {
+  usePageTitle();
   const [message, setMessage] = useState('');
   const [isTicket, setIsTicket] = useState(false);
   const typingTimeoutRef = useRef(null);

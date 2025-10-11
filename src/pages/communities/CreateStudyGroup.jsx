@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -11,6 +12,7 @@ import CustomTagsInput from '@/components/common/CustomTagsInput';
 import { toast } from 'sonner';
 
 export default function CreateStudyGroup() {
+  usePageTitle();
   const { communityId } = useParams();
   const { user } = useAuth();
   const navigate = useNavigate();

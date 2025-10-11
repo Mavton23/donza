@@ -1,7 +1,9 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState } from 'react';
 import { Lock, Globe, Check, X } from 'lucide-react';
 
 export default function PrivacySettings({ isPrivate, onPrivacyChange }) {
+  usePageTitle();
   const [isUpdating, setIsUpdating] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [newPrivacy, setNewPrivacy] = useState(isPrivate);

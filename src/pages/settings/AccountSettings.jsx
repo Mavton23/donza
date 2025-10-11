@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -37,10 +38,12 @@ const createAccountSchema = (role) => {
 };
 
 export default function AccountSettings() {
+  usePageTitle();
   const { user, role, updateUser } = useOutletContext();
   const { showNotification } = useNotification();
   const [isUpdating, setIsUpdating] = useState(false);
   const [avatarUploading, setAvatarUploading] = useState(false);
+  usePageTitle();
 
   const {
     register,

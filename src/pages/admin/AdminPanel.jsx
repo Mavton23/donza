@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -17,6 +18,7 @@ import AdminVerifications from './AdminVerifications';
 import { toast } from 'sonner';
 
 export default function AdminPanel() {
+  usePageTitle();
   const { user } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -27,6 +29,24 @@ export default function AdminPanel() {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Fechar sidebar quando mudar de aba em dispositivos móveis
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setSidebarOpen(true);
+      } else {
+        setSidebarOpen(false);
+      }
+    };
+
+    // Definir estado inicial baseado na largura da tela
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     if (user?.role !== 'admin') {
@@ -64,6 +84,15 @@ export default function AdminPanel() {
     } else {
       setActiveTab(tabId)
     }
+    
+    // Fechar sidebar em dispositivos móveis após clicar em uma aba
+    if (window.innerWidth < 768) {
+      setSidebarOpen(false);
+    }
+  }
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
   }
 
   if (user?.role !== 'admin') {
@@ -76,10 +105,19 @@ export default function AdminPanel() {
 
   return (
     <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Sidebar atualizada com novas opções */}
+      {/* Overlay para mobile */}
+      {sidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-20 md:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+      
       <AdminSidebar 
         activeTab={activeTab} 
         onTabChange={handleTabChange}
+        sidebarOpen={sidebarOpen}
+        onToggleSidebar={toggleSidebar}
         extendedOptions={[
           { id: 'dashboard', label: 'Dashboard', icon: 'home' },
           { id: 'verifications', label: 'Verificações', icon: 'shield-check', badge: adminData.pendingVerifications },
@@ -93,10 +131,13 @@ export default function AdminPanel() {
         ]}
       />
       
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <AdminHeader title={getTabTitle(activeTab)} />
+      <div className="flex-1 flex flex-col overflow-hidden min-w-0">
+        <AdminHeader 
+          title={getTabTitle(activeTab)} 
+          onToggleSidebar={toggleSidebar}
+        />
         
-        <main className="flex-1 overflow-y-auto p-6">
+        <main className="flex-1 overflow-y-auto p-4 md:p-6">
           {error && (
             <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 dark:bg-red-900 dark:border-red-700 dark:text-red-100">
               {error}

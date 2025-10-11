@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -9,6 +10,7 @@ import Pagination from '@/components/common/Pagination';
 import api from '@/services/api';
 
 export default function LessonList() {
+  usePageTitle();
   const { user } = useAuth();
   const [searchParams] = useSearchParams();
   const [lessons, setLessons] = useState([]);

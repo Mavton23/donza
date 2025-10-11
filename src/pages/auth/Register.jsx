@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
@@ -22,6 +23,7 @@ import {
  } from '@/schemas/registrationSchemas';
 
 export default function Register() {
+  usePageTitle();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);

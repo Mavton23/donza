@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FiUserPlus, FiSearch, FiUserX, FiMail, FiChevronDown } from 'react-icons/fi';
@@ -27,6 +28,7 @@ export default function GroupMembersPage() {
   const [selectedMember, setSelectedMember] = useState(null);
   const [actionModalOpen, setActionModalOpen] = useState(false);
   const [pendingRequests, setPendingRequests] = useState([]);
+  usePageTitle();
 
   // Função para normalizar os dados recebidos da API
   const normalizeApiData = (data) => {

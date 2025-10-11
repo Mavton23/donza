@@ -9,6 +9,7 @@ import { CourseProvider } from './contexts/CourseContext';
 import { TooltipProvider } from './components/ui/tooltip';
 import { NotificationProvider } from './contexts/NotificationContext';
 import { ReactQueryProvider } from './contexts/ReactQueryProvider';
+import { HelmetProvider } from 'react-helmet-async';
 import { Toaster } from "sonner";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -19,7 +20,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <ReactQueryProvider>
               <TooltipProvider>
                 <CourseProvider>
-                  <App />
+                  <HelmetProvider>
+                    <App />
+                  </HelmetProvider>
                 </CourseProvider>
               </TooltipProvider>
             </ReactQueryProvider>

@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -15,6 +16,7 @@ import TabNavigation from '@/components/profile/TabNavigation';
 import { FiUsers, FiMessageSquare, FiBook, FiShield, FiSettings, FiMessageCircle } from 'react-icons/fi';
 
 export default function CommunityDetail() {
+  usePageTitle();
   const { communityId } = useParams();
   const { user } = useAuth();
   const navigate = useNavigate();

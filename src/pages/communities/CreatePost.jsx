@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -49,6 +50,7 @@ const INITIAL_POST_STATE = {
 };
 
 export default function CreatePost() {
+  usePageTitle();
   const { communityId } = useParams();
   const { user } = useAuth();
   const navigate = useNavigate();

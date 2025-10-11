@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import api from '@/services/api';
@@ -25,6 +26,7 @@ import LoadingSpinner from '@/components/common/LoadingSpinner';
 import TimeAgo from '@/components/common/TimeAgo';
 
 export default function GroupJoinPage() {
+  usePageTitle();
   const { communityId, groupId } = useParams();
   const navigate = useNavigate();
   

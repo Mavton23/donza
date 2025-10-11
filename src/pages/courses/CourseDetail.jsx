@@ -1,16 +1,18 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
-import api from '../../services/api';
-import LoadingSpinner from '../../components/common/LoadingSpinner';
-import CourseHeader from '../../components/courses/CourseHeader';
-import CourseTabs from '../../components/courses/CourseTabs';
+import { useAuth } from '@/contexts/AuthContext';
+import api from '@/services/api';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
+import CourseHeader from '@/components/courses/CourseHeader';
+import CourseTabs from '@/components/courses/CourseTabs';
 import Reviews from '../Review';
-import ModuleList from '../../components/courses/ModuleList';
-import CourseSidebar from '../../components/courses/CourseSidebar';
-import EnrollmentButton from '../../components/courses/EnrollmentButton';
+import ModuleList from '@/components/courses/ModuleList';
+import CourseSidebar from '@/components/courses/CourseSidebar';
+import EnrollmentButton from '@/components/courses/EnrollmentButton';
 
 export default function CourseDetail() {
+  usePageTitle();
   const { slug } = useParams();
   const { user } = useAuth();
   const navigate = useNavigate();

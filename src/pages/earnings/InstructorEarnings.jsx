@@ -1,10 +1,12 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState, useEffect } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
-import LoadingSpinner from '../../components/common/LoadingSpinner';
-import EmptyState from '../../components/common/EmptyState';
-import api from '../../services/api';
+import { useAuth } from '@/contexts/AuthContext';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
+import EmptyState from '@/components/common/EmptyState';
+import api from '@/services/api';
 
 export default function InstructorEarnings() {
+  usePageTitle();
   const { user } = useAuth();
   const [earnings, setEarnings] = useState(null);
   const [transactions, setTransactions] = useState([]);

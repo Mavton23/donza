@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 import api from '@/services/api';
@@ -9,6 +10,7 @@ import InstitutionReviewFilters from '@/components/reviews/InstitutionReviewFilt
 import Pagination from '@/components/common/Pagination';
 
 export default function InstitutionReviewsDashboard() {
+  usePageTitle();
   const [filters, setFilters] = useState({
     dateRange: null,
     minRating: null,

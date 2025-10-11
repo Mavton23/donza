@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -16,6 +17,7 @@ const securitySchema = z.object({
 });
 
 export default function SecuritySettings() {
+  usePageTitle();
   const { user } = useOutletContext();
   const [isLoading, setIsLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');

@@ -20,11 +20,7 @@ import {
   MessageSquare,
   FileText,
   User,
-  Calendar,
-  X,
-  Check,
-  Circle,
-  ChevronsUpDown
+  Calendar
 } from 'lucide-react';
 
 export default function AdminFeedback() {
@@ -75,9 +71,8 @@ export default function AdminFeedback() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="flex items-center gap-2">
-          <MessageSquare className="w-6 h-6 text-primary" />
           <h2 className="text-2xl font-bold">Gerenciamento de Feedbacks</h2>
         </div>
       </div>

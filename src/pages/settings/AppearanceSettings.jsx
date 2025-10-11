@@ -1,8 +1,10 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState, useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { SunIcon, MoonIcon, MonitorIcon, CheckIcon } from 'lucide-react';
 
 export default function AppearanceSettings() {
+  usePageTitle();
   const { user } = useOutletContext();
   const [theme, setTheme] = useState('system');
   const [accentColor, setAccentColor] = useState('indigo');

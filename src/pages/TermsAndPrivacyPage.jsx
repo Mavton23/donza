@@ -1,7 +1,9 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { Helmet } from 'react-helmet';
 import { Container, Typography, Box, List, ListItem, ListItemText } from '@mui/material';
 
 const TermsAndPrivacyPage = () => {
+  usePageTitle();
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
       <Helmet>

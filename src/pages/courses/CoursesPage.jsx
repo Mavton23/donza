@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState, useEffect } from 'react';
 import { FileEdit, CheckCircle, Archive } from 'lucide-react';
 import { useParams, Link } from 'react-router-dom';
@@ -8,6 +9,8 @@ import EmptyState from '@/components/common/EmptyState';
 import Tabs from '@/components/common/Tabs';
 import api from '../../services/api';
 import { Plus } from 'lucide-react';
+
+usePageTitle();
 
 // Status possíveis para os cursos
 const COURSE_STATUS = {

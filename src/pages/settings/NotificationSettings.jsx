@@ -1,8 +1,10 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { BellIcon } from 'lucide-react';
 
 export default function NotificationSettings() {
+  usePageTitle();
   const { user } = useOutletContext();
   const [notificationSettings, setNotificationSettings] = useState({
     email: {

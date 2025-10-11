@@ -100,20 +100,27 @@ export default function AdminVerificationDetail() {
 
   const downloadDocument = async (docId, originalName) => {
     try {
-      const response = await api.get(`/admin/documents/${docId}/download`, {
-        responseType: 'blob'
-      });
+      const response = await api.get(`/admin/documents/${docId}/download`);
       
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', originalName);
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
+      if (response.data && response.data.downloadUrl) {
+        const downloadUrl = response.data.downloadUrl;
+        
+        // Criar link e disparar download
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = originalName || response.data.fileName;
+        link.target = '_blank';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+      } else {
+        throw new Error('URL de download não disponível');
+      }
+      
     } catch (err) {
+      console.error('Erro no download:', err);
       toast.error('Falha ao baixar documento');
-      console.error('Erro:', err);
     }
   };
 

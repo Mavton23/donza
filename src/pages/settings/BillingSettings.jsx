@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState, useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { 
@@ -21,6 +22,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 
 export default function BillingSettings() {
+  usePageTitle();
   const { user } = useOutletContext();
   const { hasRole } = useAuth();
   const [paymentMethods, setPaymentMethods] = useState([]);

@@ -1,9 +1,11 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import api from '../../services/api';
 
 export default function ResetPassword() {
+  usePageTitle();
   const { token } = useParams();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');

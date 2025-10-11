@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState, useEffect } from 'react';
 import { CreditCard, Search, Filter, ChevronDown, ChevronUp, Download, FileText, RefreshCw } from 'lucide-react';
 import api from '@/services/api';
@@ -17,6 +18,7 @@ import { toast } from 'sonner';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 export default function InstitutionBilling() {
+  usePageTitle();
   const { user } = useAuth();
   const [transactions, setTransactions] = useState([]);
   const [filteredTransactions, setFilteredTransactions] = useState([]);

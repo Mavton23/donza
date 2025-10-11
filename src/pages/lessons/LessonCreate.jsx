@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -16,6 +17,7 @@ const steps = [
 ];
 
 export default function LessonCreate() {
+  usePageTitle();
   const { user } = useAuth();
   const navigate = useNavigate();
   const { isAllowed } = useUserStatusCheck(['approved']);

@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { React, useState, useEffect, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { 
@@ -23,6 +24,7 @@ import EmptyState from '../common/EmptyState';
 import Tabs from '../common/Tabs';
 
 const SearchResults = () => {
+  usePageTitle();
   const location = useLocation();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');

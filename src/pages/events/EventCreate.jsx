@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
@@ -14,6 +15,7 @@ const steps = [
 ];
 
 export default function EventCreate() {
+  usePageTitle();
   const { user } = useAuth();
   const navigate = useNavigate();
   const { isAllowed } = useUserStatusCheck(['approved']);

@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
@@ -25,6 +26,7 @@ import {
 } from '@/components/ui/collapsible';
 
 export default function CommunitiesList() {
+  usePageTitle();
   const { user } = useAuth();
   const [communities, setCommunities] = useState(null);
   const [loading, setLoading] = useState(true);

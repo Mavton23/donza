@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
@@ -11,6 +12,7 @@ import api from "@/services/api";
 import StatCard from "@/components/cards/StatCard";
 
 export default function AboutPage() {
+  usePageTitle();
   const { isAuthenticated, user } = useAuth();
   const [stats, setStats] = useState({
     students: 0,

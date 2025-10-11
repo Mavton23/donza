@@ -110,9 +110,8 @@ export default function AdminHelpCenter() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="flex items-center space-x-2">
-          <FileText className="w-6 h-6 text-primary" />
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
             Gerenciamento da Central de Ajuda
           </h2>

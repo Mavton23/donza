@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
@@ -11,6 +12,7 @@ import HelpCard from './HelpCard';
 import Icon from '@/components/common/Icon';
 
 const HelpCenter = () => {
+  usePageTitle();
   const [searchQuery, setSearchQuery] = useState('');
   const [articles, setArticles] = useState([]);
   const [popularTopics, setPopularTopics] = useState([]);

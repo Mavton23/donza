@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import AuthForm from "@/components/auth/AuthForm";
@@ -7,6 +8,7 @@ import LoadingSpinner from "@/components/common/LoadingSpinner";
 import { toast } from "sonner";
 
 export default function Login() {
+  usePageTitle();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);

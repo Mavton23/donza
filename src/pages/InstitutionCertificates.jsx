@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FileText, Search, Filter, ChevronDown, ChevronUp, Download, FileUp, RefreshCw } from 'lucide-react';
@@ -17,6 +18,7 @@ import { Separator } from '@/components/ui/separator';
 import { toast } from 'sonner';
 
 export default function InstitutionCertificates() {
+  usePageTitle();
   const [certificates, setCertificates] = useState([]);
   const [filteredCertificates, setFilteredCertificates] = useState([]);
   const [loading, setLoading] = useState(true);

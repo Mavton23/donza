@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
@@ -11,6 +12,7 @@ import InstitutionInstructors from '@/components/institution/InstitutionInstruct
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 
 export default function InstitutionDashboard() {
+  usePageTitle();
   const { user } = useAuth();
   const [dashboardData, setDashboardData] = useState({
     stats: {},

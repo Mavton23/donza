@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import api from '../services/api';
@@ -13,6 +14,7 @@ import PersonalizedRecommendations from '../components/dashboard/PersonalizedRec
 import { toast } from 'sonner';
 
 export default function Dashboard() {
+  usePageTitle();
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [dashboardData, setDashboardData] = useState({

@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -8,6 +9,7 @@ import RoleSpecificFields from '@/components/profile/RoleSpecificFields';
 import { PhoneInput } from '@/components/auth/PhoneInput';
 
 export default function CompleteProfile() {
+  usePageTitle();
   const { currentUser, completeProfile, loading: authLoading, user } = useAuth();
   const location = useLocation();
   const [formData, setFormData] = useState({

@@ -1,12 +1,14 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { useAuth } from '../../contexts/AuthContext';
-import LoadingSpinner from '../../components/common/LoadingSpinner';
-import EmptyState from '../../components/common/EmptyState';
+import { useAuth } from '@/contexts/AuthContext';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
+import EmptyState from '@/components/common/EmptyState';
 import MetricCard from '@/components/common/MetricCard';
-import api from '../../services/api';
+import api from '@/services/api';
 
 export default function InstructorAnalytics() {
+  usePageTitle();
   const { user } = useAuth();
   const [analytics, setAnalytics] = useState(null);
   const [timeRange, setTimeRange] = useState('30days');

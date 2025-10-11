@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '@/services/api';
@@ -16,6 +17,7 @@ import { toast } from 'sonner';
 import { FileText, User, Building2, Check, X } from 'lucide-react';
 
 export default function AdminVerifications() {
+  usePageTitle();
   const [pendingVerifications, setPendingVerifications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedTab, setSelectedTab] = useState('all');
@@ -64,7 +66,7 @@ export default function AdminVerifications() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
           Verificação de Cadastros
         </h2>

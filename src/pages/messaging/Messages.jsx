@@ -1,7 +1,8 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState, useEffect, useCallback, useReducer, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { MessagesSquare, MailPlus, Menu, X } from 'lucide-react'; // Adicionei ícones de menu
+import { MessagesSquare, MailPlus, Menu, X } from 'lucide-react';
 import api from '@/services/api';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import EmptyState from '@/components/common/EmptyState';
@@ -14,7 +15,8 @@ import MessageLimitIndicator from '@/components/messaging/MessageLimitIndicator'
 import { useConversationWebSocket, WS_MESSAGE_TYPES } from '@/hooks/useWebSocket';
 import { v4 as uuidv4 } from 'uuid';
 
-// Reducer para gerenciar estado das mensagens (mantido igual)
+usePageTitle();
+
 function messagesReducer(state, action) {
   switch (action.type) {
     case 'ADD_MESSAGE':

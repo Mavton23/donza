@@ -1,9 +1,11 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import api from '../../services/api';
 
 export default function ForgotPassword() {
+  usePageTitle();
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();

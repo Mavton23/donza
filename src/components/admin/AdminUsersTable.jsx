@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import api from '../../services/api';
 import LoadingSpinner from '../common/LoadingSpinner';
 import Table from '../common/Table';
@@ -12,7 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
-import { MoreVertical, Edit, Trash2, Eye } from 'lucide-react';
+import { MoreVertical, Trash2 } from 'lucide-react';
 
 export default function AdminUsersTable() {
   const [users, setUsers] = useState([]);
@@ -22,7 +21,6 @@ export default function AdminUsersTable() {
     totalPages: 1,
     totalItems: 0
   });
-  const navigate = useNavigate();
 
   const fetchUsers = async (page = 1) => {
     try {
@@ -43,6 +41,10 @@ export default function AdminUsersTable() {
       setLoading(false);
     }
   };
+
+  const handleDeleteUser = async (userId) => {
+    console.log("User deleted: ", userId);
+  }
 
   useEffect(() => {
     fetchUsers();
@@ -88,7 +90,7 @@ export default function AdminUsersTable() {
     },
     {
       accessorKey: 'isVerified',
-      header: 'Status',
+      header: 'Verificação',
       cell: ({ row }) => <UserStatusBadge verified={row.original.isVerified} />,
     },
     {
@@ -108,21 +110,7 @@ export default function AdminUsersTable() {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem
-              onClick={() => navigate(`/admin/users/${row.original.userId}`)}
-              className="cursor-pointer"
-            >
-              <Eye className="mr-2 h-4 w-4" />
-              Visualizar
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => navigate(`/admin/users/${row.original.userId}/edit`)}
-              className="cursor-pointer"
-            >
-              <Edit className="mr-2 h-4 w-4" />
-              Editar
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => console.log('Delete user', row.original.userId)}
+              onClick={handleDeleteUser(row.original.userId)}
               className="cursor-pointer text-red-600 dark:text-red-400"
             >
               <Trash2 className="mr-2 h-4 w-4" />
@@ -140,12 +128,6 @@ export default function AdminUsersTable() {
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
           Gerenciamento de Usuários
         </h2>
-        <Button 
-          onClick={() => navigate('/admin/users/new')}
-          className="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-800"
-        >
-          Adicionar Usuário
-        </Button>
       </div>
 
       <div className="rounded-md border dark:border-gray-700">

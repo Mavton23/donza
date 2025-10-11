@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -15,6 +16,7 @@ import { ptBR } from 'date-fns/locale';
 
 // Componente principal
 export default function NotificationsPage() {
+  usePageTitle();
   const { user } = useAuth();
   const navigate = useNavigate();
   const [state, setState] = useState({

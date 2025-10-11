@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useEffect, useState } from 'react';
 import { useParams, Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { 
@@ -16,6 +17,8 @@ import { useCheckout } from '@/hooks/useCheckout';
 import { CONTENT_TYPES } from '@/constants/contentTypes';
 import api from '@/services/api';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
+
+usePageTitle();
 
 // Ícones para cada tipo de conteúdo
 const contentTypeIcons = {

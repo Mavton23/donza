@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
@@ -29,6 +30,7 @@ import { ShieldAlert } from 'lucide-react';
 import { Info } from 'lucide-react';
 
 export default function Profile() {
+  usePageTitle();
   const { username } = useParams();
   const navigate = useNavigate();
   const { user: currentUser, updateUser } = useAuth();

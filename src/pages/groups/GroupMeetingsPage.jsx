@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FiCalendar, FiClock, FiMapPin, FiPlus, FiChevronRight } from 'react-icons/fi';
@@ -20,6 +21,7 @@ export default function GroupMeetingsPage() {
   const [showScheduleModal, setShowScheduleModal] = useState(false);
   const [userRole, setUserRole] = useState(null);
   const [expandedMeeting, setExpandedMeeting] = useState(null);
+  usePageTitle();
 
   // Buscar dados do grupo e reuniões
   useEffect(() => {

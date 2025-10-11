@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState, useEffect } from 'react';
 import { Settings, Users, Lock, Palette, Mail, CreditCard } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
@@ -13,6 +14,7 @@ import LoadingSpinner from '@/components/common/LoadingSpinner';
 import { toast } from 'sonner';
 
 export default function InstitutionSettings() {
+  usePageTitle();
   const { user } = useAuth();
   const [institution, setInstitution] = useState(null);
   const [loading, setLoading] = useState(true);
