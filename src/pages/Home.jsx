@@ -1,4 +1,4 @@
-import usePageTitle from "@/hooks/usePageTitle";
+// import usePageTitle from "@/hooks/usePageTitle";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import Footer from "@/components/common/Footer";
@@ -20,7 +20,7 @@ import { MessageSquarePlus } from "lucide-react";
 
 
 export default function Home() {
-  usePageTitle();
+  // usePageTitle();
   const { isAuthenticated, user } = useAuth();
   const [courses, setCourses] = useState([]);
   const [events, setEvents] = useState([]);
