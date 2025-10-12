@@ -20,9 +20,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <ReactQueryProvider>
               <TooltipProvider>
                 <CourseProvider>
-                  <HelmetProvider>
+                  {/* <HelmetProvider> */}
                     <App />
-                  </HelmetProvider>
+                  {/* </HelmetProvider> */}
                 </CourseProvider>
               </TooltipProvider>
             </ReactQueryProvider>
