@@ -105,7 +105,6 @@ export const AuthProvider = ({ children }) => {
       const response = await axios.put("/api/auth/complete-profile", profileData);
       const updatedUser = updateUser(response.data.user);
       
-      toast.success("Profile updated successfully!");
       return updatedUser;
     } catch (error) {
       const errorMessage = error.response?.data?.message || 
@@ -216,6 +215,7 @@ export const AuthProvider = ({ children }) => {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
+    console.log("useAuth must be used within an AuthProvider");
     throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
