@@ -10,7 +10,7 @@ export default function HelpArticleForm({ initialData, onSubmit, onCancel }) {
   const [formData, setFormData] = useState({
     title: '',
     slug: '',
-    category: 'getting-started',
+    category: 'iniciando',
     content: '',
     excerpt: '',
     status: 'draft'
@@ -47,17 +47,93 @@ export default function HelpArticleForm({ initialData, onSubmit, onCancel }) {
   };
 
   const categories = [
-    { id: 'starting', value: 'getting-started', label: 'Getting Started', description: 'Artigos introdutórios para novos usuários' },
-    { id: 'account', value: 'account', label: 'Account', description: 'Gerenciamento de conta e perfil' },
-    { id: 'courses', value: 'courses', label: 'Courses', description: 'Dúvidas sobre cursos e aprendizagem' },
-    { id: 'payments', value: 'payments', label: 'Payments', description: 'Informações sobre pagamentos e assinaturas' },
-    { id: 'technical', value: 'technical', label: 'Technical', description: 'Problemas técnicos e requisitos do sistema' }
+    { 
+      id: 'getting-started', 
+      value: 'getting-started', 
+      label: 'Primeiros Passos', 
+      description: 'Guia inicial para novos usuários da plataforma' 
+    },
+    { 
+      id: 'account', 
+      value: 'account', 
+      label: 'Conta e Perfil', 
+      description: 'Gerenciamento de conta, perfil e configurações pessoais' 
+    },
+    { 
+      id: 'courses', 
+      value: 'courses', 
+      label: 'Cursos e Aprendizado', 
+      description: 'Dúvidas sobre cursos, aulas, módulos e conteúdo educacional' 
+    },
+    { 
+      id: 'payments', 
+      value: 'payments', 
+      label: 'Pagamentos e Assinaturas', 
+      description: 'Informações sobre planos, pagamentos, faturas e renovação' 
+    },
+    { 
+      id: 'technical', 
+      value: 'technical', 
+      label: 'Suporte Técnico', 
+      description: 'Problemas técnicos, requisitos do sistema e troubleshooting' 
+    },
+    { 
+      id: 'instructor', 
+      value: 'instructor', 
+      label: 'Área do Instrutor', 
+      description: 'Ferramentas e recursos para criadores de conteúdo' 
+    },
+    { 
+      id: 'institution', 
+      value: 'institution', 
+      label: 'Área da Instituição', 
+      description: 'Gestão institucional, analytics e administração' 
+    },
+    { 
+      id: 'community', 
+      value: 'community', 
+      label: 'Comunidade e Grupos', 
+      description: 'Interação social, grupos de estudo e fóruns' 
+    },
+    { 
+      id: 'events', 
+      value: 'events', 
+      label: 'Eventos e Webinars', 
+      description: 'Participação, criação e gestão de eventos ao vivo' 
+    },
+    { 
+      id: 'certificates', 
+      value: 'certificates', 
+      label: 'Certificados e Progresso', 
+      description: 'Emissão de certificados e acompanhamento do progresso' 
+    },
+    { 
+      id: 'mobile-app', 
+      value: 'mobile-app', 
+      label: 'Aplicativo Mobile', 
+      description: 'Uso da plataforma em dispositivos móveis' 
+    }
   ];
 
   const statusOptions = [
-    { id: 'draft', value: 'draft', label: 'Draft', description: 'Rascunho não visível ao público' },
-    { id: 'published', value: 'published', label: 'Published', description: 'Artigo publicado e visível' },
-    { id: 'archived', value: 'archived', label: 'Archived', description: 'Artigo desativado mas mantido no histórico' }
+    { 
+      id: 'draft', 
+      value: 'draft', 
+      label: 'Rascunho', 
+      description: 'Artigo em edição, não visível ao público' 
+    },
+    { 
+      id: 'published', 
+      value: 'published', 
+      label: 'Publicado', 
+      description: 'Artigo disponível para todos os usuários' 
+    },
+    { 
+      id: 'archived', 
+      value: 'archived', 
+      label: 'Arquivado', 
+      description: 'Artigo desativado mas mantido para referência' 
+    }
   ];
 
   const FieldTooltip = ({ content }) => (

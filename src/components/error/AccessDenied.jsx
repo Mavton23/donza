@@ -9,17 +9,17 @@ export default function AccessDenied() {
           <Icon name="lock" className="h-6 w-6 text-red-600 dark:text-red-300" />
         </div>
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-          Access Denied
+          Acesso Negado
         </h2>
         <p className="text-gray-600 dark:text-gray-300 mb-6">
-          You don't have permission to access this page. Please contact your administrator.
+          Você não tem permissão para acessar esta página. Por favor, entre em contato com o administrador.
         </p>
         <Link
           to="/"
           className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 inline-flex items-center"
         >
           <Icon name="arrow-left" className="mr-2" />
-          Return to Home
+          Voltar para o Início
         </Link>
       </div>
     </div>
