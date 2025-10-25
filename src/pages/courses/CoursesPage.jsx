@@ -10,8 +10,6 @@ import Tabs from '@/components/common/Tabs';
 import api from '../../services/api';
 import { Plus } from 'lucide-react';
 
-usePageTitle();
-
 // Status possíveis para os cursos
 const COURSE_STATUS = {
   DRAFT: 'draft',
@@ -39,6 +37,7 @@ const TABS_CONFIG = [
 ];
 
 export default function CoursesPage() {
+  usePageTitle();
   const { userId } = useParams();
   const { user } = useAuth();
   const [courses, setCourses] = useState([]);

@@ -18,8 +18,6 @@ import { CONTENT_TYPES } from '@/constants/contentTypes';
 import api from '@/services/api';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 
-usePageTitle();
-
 // Ícones para cada tipo de conteúdo
 const contentTypeIcons = {
   [CONTENT_TYPES.COURSE]: BookOpen,
@@ -61,6 +59,7 @@ const contentTypeTexts = {
 };
 
 export default function PaymentConfirmation() {
+  usePageTitle();
   const { getContentAccessUrl, getContentTypeLabel } = useCheckout();
   const [searchParams] = useSearchParams();
   const { contentType, contentId } = useParams();

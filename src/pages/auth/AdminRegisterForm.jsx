@@ -11,7 +11,6 @@ import { useAuth } from '@/contexts/AuthContext';
 import { motion } from 'framer-motion';
 import PasswordStrengthBar from 'react-password-strength-bar';
 
-usePageTitle();
 
 // Esquema de validação
 const adminRegisterSchema = yup.object().shape({
@@ -32,6 +31,7 @@ const adminRegisterSchema = yup.object().shape({
 });
 
 export function AdminRegisterForm() {
+  usePageTitle();
   const [showPassword, setShowPassword] = useState(false);
   const [showSecretKey, setShowSecretKey] = useState(false);
   const navigate = useNavigate();

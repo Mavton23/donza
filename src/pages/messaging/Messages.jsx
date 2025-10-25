@@ -15,8 +15,6 @@ import MessageLimitIndicator from '@/components/messaging/MessageLimitIndicator'
 import { useConversationWebSocket, WS_MESSAGE_TYPES } from '@/hooks/useWebSocket';
 import { v4 as uuidv4 } from 'uuid';
 
-usePageTitle();
-
 function messagesReducer(state, action) {
   switch (action.type) {
     case 'ADD_MESSAGE':
@@ -69,6 +67,7 @@ function messagesReducer(state, action) {
 }
 
 export default function Messages() {
+  usePageTitle();
   const { user } = useAuth();
   const { conversationId } = useParams();
   const navigate = useNavigate();

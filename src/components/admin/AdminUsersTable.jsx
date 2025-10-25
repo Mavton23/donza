@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import api from '../../services/api';
+import api from '@/services/api';
 import LoadingSpinner from '../common/LoadingSpinner';
 import Table from '../common/Table';
 import UserStatusBadge from '../common/UserStatusBadge';
+import ConfirmationModal from '../common/ConfirmationModal';
 import Pagination from '../common/Pagination';
 import { Button } from '../ui/button';
 import {
@@ -16,6 +17,8 @@ import { MoreVertical, Trash2 } from 'lucide-react';
 export default function AdminUsersTable() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState(null);
   const [pagination, setPagination] = useState({
     page: 1,
     totalPages: 1,
@@ -42,8 +45,24 @@ export default function AdminUsersTable() {
     }
   };
 
-  const handleDeleteUser = async (userId) => {
-    console.log("User deleted: ", userId);
+  const openDeleteModal = (userId) => {
+    setSelectedUserId(userId);
+    setShowDeleteModal(true);
+  };
+
+  const closeDeleteModal = () => {
+    setShowDeleteModal(false);
+    setSelectedUserId(null);
+  }
+
+  const handleDeleteUser = async () => {
+    if (!selectedUserId) return;
+
+    try {
+      await api.delete(`/admin/users/${selectedUserId}`);
+    } catch (error) {
+      console.error('Falha ao excluir usuário', error);
+    }
   }
 
   useEffect(() => {
@@ -100,26 +119,30 @@ export default function AdminUsersTable() {
     },
     {
       id: 'actions',
-      cell: ({ row }) => (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Abrir menu</span>
-              <MoreVertical className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem
-              onClick={handleDeleteUser(row.original.userId)}
-              className="cursor-pointer text-red-600 dark:text-red-400"
-            >
-              <Trash2 className="mr-2 h-4 w-4" />
-              Excluir
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      ),
-    },
+      cell: ({ row }) => {
+        const user = row.original;
+        
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Abrir menu</span>
+                <MoreVertical className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem
+                onClick={() => openDeleteModal(user.userId)}
+                className="cursor-pointer text-red-600 dark:text-red-400"
+              >
+                <Trash2 className="mr-2 h-4 w-4" />
+                Excluir
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
+    }
   ];
 
   return (
@@ -154,6 +177,17 @@ export default function AdminUsersTable() {
           </>
         )}
       </div>
+
+      <ConfirmationModal
+          isOpen={showDeleteModal}
+          onClose={closeDeleteModal}
+          onConfirm={handleDeleteUser}
+          title="Excluir Usuário"
+          message={`Tem certeza de que deseja excluir o usuário selecionado?`}
+          confirmText="Excluir"
+          cancelText="Cancelar"
+          variant="danger"
+        />
     </div>
   );
 }
