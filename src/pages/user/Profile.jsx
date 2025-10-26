@@ -378,11 +378,11 @@ export default function Profile() {
       {/* Profile Completion Bar */}
       {isOwnProfile && profileCompletion < 100 && (
         <div className="mb-6">
-          <div className="flex items-center justify-between mb-1">
-            <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">
+          <div className="flex flex-col xs:flex-row xs:items-center xs:justify-between gap-2 xs:gap-0 mb-1">
+            <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 text-center xs:text-left">
               Seu perfil está {profileCompletion}% completo
             </h3>
-            <span className="text-xs text-gray-500">
+            <span className="text-xs text-gray-500 text-center xs:text-right">
               {roleSpecificFields[profileData.user.role]?.hint}
             </span>
           </div>
@@ -464,46 +464,48 @@ export default function Profile() {
               />
             </div>
             <div className="text-center md:text-left">
-              <div className="flex items-center justify-center md:justify-start mt-1 space-x-3">
-                <h1 className="text-2xl font-bold text-white">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-center md:justify-start mt-1 gap-2 sm:gap-3">
+                <h1 className="text-xl sm:text-2xl font-bold text-white break-words">
                   {profileData.user.fullName || profileData.user.username}
                 </h1>
-                {profileData.user.isVerified && (
-                  <span className="ml-2 bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-custom-primary/30 dark:text-white flex items-center">
-                    <Shield className="h-3 w-3 mr-1" />
-                    Verificado
-                  </span>
-                )}
+                <div className="flex flex-wrap justify-center sm:justify-start gap-2">
+                  {profileData.user.isVerified && (
+                    <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-custom-primary/30 dark:text-white flex items-center justify-center w-fit mx-auto sm:mx-0">
+                      <Shield className="h-3 w-3 mr-1" />
+                      Verificado
+                    </span>
+                  )}
 
-                {profileData?.user?.status === 'pending' && (
-                  <span className="flex items-center text-yellow-100 bg-yellow-800/50 dark:bg-yellow-900/80 px-2 py-1 rounded-full text-xs">
-                    <svg className="h-3 w-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                    </svg>
-                    Em análise
-                </span>
-                )}
+                  {profileData?.user?.status === 'pending' && (
+                    <span className="flex items-center justify-center text-yellow-100 bg-yellow-800/50 dark:bg-yellow-900/80 px-2 py-1 rounded-full text-xs w-fit mx-auto sm:mx-0">
+                      <svg className="h-3 w-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                      </svg>
+                      Em análise
+                  </span>
+                  )}
+                </div>
               </div>
               
-              <div className="flex items-center justify-center md:justify-start mt-1 space-x-3">
-                <p className="text-indigo-200 dark:text-gray-300 capitalize">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-center md:justify-start mt-1 gap-2 sm:gap-3">
+                <p className="text-indigo-200 dark:text-gray-300 capitalize text-sm sm:text-base">
                   {profileData.user.role === 'institution' ? (
-                    <span className="flex items-center">
+                    <span className="flex items-center justify-center sm:justify-start">
                       <Building className="h-4 w-4 mr-1" />
                       {profileData.user.institutionType || 'Instituição'}
                     </span>
                   ) : profileData.user.role === 'instructor' ? (
-                    <span className="flex items-center">
+                    <span className="flex items-center justify-center sm:justify-start">
                       <GraduationCap className="h-4 w-4 mr-1" />
                       Instrutor
                     </span>
                   ) : profileData.user.role === 'student' ? (
-                    <span className="flex items-center">
+                    <span className="flex items-center justify-center sm:justify-start">
                       <User className="h-4 w-4 mr-1" />
                       Estudante
                     </span>
                   ) : (
-                    <span className="flex items-center">
+                    <span className="flex items-center justify-center sm:justify-start">
                       <ShieldAlert className="h-4 w-4 mr-1" />
                       Administrador
                     </span>
@@ -511,7 +513,7 @@ export default function Profile() {
                 </p>
                 
                 {profileData.user.institutionName && (
-                  <p className="text-indigo-200 dark:text-gray-300 flex items-center">
+                  <p className="text-indigo-200 dark:text-gray-300 flex items-center justify-center sm:justify-start text-sm sm:text-base">
                     <BookOpen className="h-4 w-4 mr-1" />
                     {profileData.user.institutionName}
                   </p>
@@ -519,68 +521,68 @@ export default function Profile() {
               </div>
               
               {profileData.user.bio && (
-                <div className="mt-4 p-4 bg-white/10 dark:bg-gray-800/50 backdrop-blur-sm rounded-xl border border-white/20 dark:border-gray-700/50">
+                <div className="mt-4 p-3 sm:p-4 bg-white/10 dark:bg-gray-800/50 backdrop-blur-sm rounded-xl border border-white/20 dark:border-gray-700/50">
                   <div className="flex items-start gap-3">
                     <div className="flex-shrink-0 mt-0.5">
                       <Info className='w-4 h-4 text-white dark:text-custom-primary' />
                     </div>
-                    <p className="text-indigo-100 dark:text-gray-300 leading-relaxed text-sm font-light">
+                    <p className="text-indigo-100 dark:text-gray-300 leading-relaxed text-xs sm:text-sm font-light break-words">
                       {profileData.user.bio}
                     </p>
                   </div>
                 </div>
               )}
               
-              <div className="mt-3 flex flex-wrap justify-center md:justify-start gap-2">
+              <div className="mt-3 flex flex-col sm:flex-row sm:flex-wrap justify-center md:justify-start gap-2 sm:gap-3">
                 {profileData.user.website && (
                   <a 
                     href={profileData.user.website} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="flex items-center text-sm text-indigo-200 hover:text-white"
+                    className="flex items-center justify-center sm:justify-start text-xs sm:text-sm text-indigo-200 hover:text-white break-all"
                   >
-                    <LinkIcon className="h-4 w-4 mr-1" />
+                    <LinkIcon className="h-4 w-4 mr-1 flex-shrink-0" />
                     {profileData.user.website.replace(/^https?:\/\//, '')}
                   </a>
                 )}
                 
                 {isOwnProfile && profileData.user.email && (
-                  <div className="flex items-center text-sm text-indigo-200">
-                    <Mail className="h-4 w-4 mr-1" />
+                  <div className="flex items-center justify-center sm:justify-start text-xs sm:text-sm text-indigo-200 break-all">
+                    <Mail className="h-4 w-4 mr-1 flex-shrink-0" />
                     {profileData.user.email}
                   </div>
                 )}
                 
                 {profileData.user.contactPhone && (
-                  <div className="flex items-center text-sm text-indigo-200">
-                    <Phone className="h-4 w-4 mr-1" />
+                  <div className="flex items-center justify-center sm:justify-start text-xs sm:text-sm text-indigo-200">
+                    <Phone className="h-4 w-4 mr-1 flex-shrink-0" />
                     {profileData.user.contactPhone}
                   </div>
                 )}
 
-                <div className="flex items-center text-sm text-indigo-200">
-                  <Calendar className="h-4 w-4 mr-1" />
+                <div className="flex items-center justify-center sm:justify-start text-xs sm:text-sm text-indigo-200">
+                  <Calendar className="h-4 w-4 mr-1 flex-shrink-0" />
                   Membro desde {formatDate(profileData.user.createdAt)}
                 </div>
               </div>
               
-              <div className="mt-2 flex space-x-6 justify-center md:justify-start text-indigo-100 dark:text-gray-300">
-                <div className="flex items-center space-x-1">
+              <div className="mt-2 flex flex-wrap justify-center md:justify-start gap-3 sm:gap-6 text-indigo-100 dark:text-gray-300">
+                <div className="flex items-center space-x-1 text-xs sm:text-sm">
                   <User className="h-4 w-4" />
                   <span className='text-sm'><strong>{profileData.stats.followersCount}</strong> acompanhantes</span>
                 </div>
-                <div className="flex items-center space-x-1">
+                <div className="flex items-center space-x-1 text-xs sm:text-sm">
                   <UserPlus className="h-4 w-4" />
                   <span className='text-sm'><strong>{profileData.stats.followingCount}</strong> acompanhando</span>
                 </div>
                 {profileData.user.role === 'instructor' && (
-                  <div className="flex items-center space-x-1">
+                  <div className="flex items-center space-x-1 text-xs sm:text-sm">
                     <BookOpen className="h-4 w-4" />
                     <span className='text-sm'><strong>{profileData.stats.publishedCoursesCount}</strong> cursos</span>
                   </div>
                 )}
                 {profileData.user.role === 'student' && (
-                  <div className="flex items-center space-x-1">
+                  <div className="flex items-center space-x-1 text-xs sm:text-sm">
                     <Award className="h-4 w-4" />
                     <span className='text-sm'><strong>{profileData.stats.completedCourses}</strong> concluídos</span>
                   </div>

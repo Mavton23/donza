@@ -138,7 +138,7 @@ export default function CoursesPage() {
         tabs={tabsWithCounts} 
         activeTab={activeTab} 
         onChange={handleTabChange}
-        className="mb-8"
+        className="mb-8 overflow-x-auto"
       />
 
       {/* Mensagem de erro */}
