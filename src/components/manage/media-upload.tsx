@@ -30,7 +30,7 @@ export function MediaUpload({ courseId, kind, value, onUploaded, onClear, signPa
         const x = new XMLHttpRequest(); xhr.current = x;
         x.open('POST', sig.uploadUrl);
         x.upload.onprogress = (e) => { if (e.lengthComputable) setProgress(Math.round((e.loaded / e.total) * 100)); };
-        x.onload = () => { try { const j = JSON.parse(x.responseText); x.status < 300 ? resolve(j) : reject(new Error(j.error?.message ?? 'Falha no envio')); } catch { reject(new Error('Resposta inválida do serviço de ficheiros')); } };
+        x.onload = () => { try { const j = JSON.parse(x.responseText); if (x.status < 300) resolve(j); else reject(new Error(j.error?.message ?? 'Falha no envio')); } catch { reject(new Error('Resposta inválida do serviço de ficheiros')); } };
         x.onerror = () => reject(new Error('Sem ligação ao serviço de ficheiros'));
         x.onabort = () => reject(new Error('Envio cancelado'));
         x.send(form);

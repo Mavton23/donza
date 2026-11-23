@@ -1,4 +1,5 @@
 import { Check } from 'lucide-react';
+import { BrandArcs } from '@/components/layout/brand-arcs';
 import { Logo } from '@/components/layout/logo';
 import { ThemeToggle } from '@/components/layout/theme-toggle';
 
@@ -11,10 +12,9 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         <p className="text-center text-xs text-muted-foreground">© {new Date().getFullYear()} Donza</p>
       </div>
       <aside className="relative hidden overflow-hidden bg-sidebar p-12 text-sidebar-foreground lg:flex lg:flex-col lg:justify-between" aria-hidden>
-        <div className="absolute -top-32 -right-32 size-[34rem] rounded-full bg-primary/35 blur-3xl" />
-        <div className="absolute -bottom-40 -left-24 size-[28rem] rounded-full bg-accent/20 blur-3xl" />
-        <div className="relative" />
-        <div className="relative max-w-md">
+        <BrandArcs tone="light" className="absolute inset-x-0 bottom-0 translate-y-[2%]" rings={6} />
+        <div className="relative"><Logo href="/" light /></div>
+        <div className="relative z-10 max-w-md pb-40">
           <h2 className="text-4xl leading-tight font-bold text-white">O conhecimento que o leva mais longe.</h2>
           <ul className="mt-8 grid gap-4 text-[15px]">
             {['Milhares de aulas em vídeo, áudio e texto', 'Comunidades e grupos de estudo', 'Certificados com código de verificação público', 'Pagamento por M-Pesa, e-Mola ou cartão'].map((t) => (
@@ -22,7 +22,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
             ))}
           </ul>
         </div>
-        <p className="relative text-sm text-sidebar-muted">Aprenda. Ensine. Cresça.</p>
+        <p className="relative z-10 font-display text-sm font-medium tracking-wide text-sidebar-muted">Aprenda. Ensine. Cresça.</p>
       </aside>
     </div>
   );

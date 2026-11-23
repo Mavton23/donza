@@ -24,7 +24,6 @@ export const STATE: Record<string, { label: string; variant: 'success' | 'second
   pending: { label: 'Por entregar', variant: 'outline' }, overdue: { label: 'Em atraso', variant: 'destructive' },
   draft: { label: 'Rascunho', variant: 'secondary' }, submitted: { label: 'Entregue', variant: 'secondary' }, late: { label: 'Entregue fora de prazo', variant: 'warning' }, graded: { label: 'Avaliado', variant: 'success' },
 };
-const msg = (e: unknown) => (e instanceof ApiError ? e.message : 'Sem ligação ao servidor.');
 
 export function MyAssignments() {
   const { user } = useAuth();

@@ -22,7 +22,7 @@ export function CommunityCard({ c }: { c: Community }) {
         {!c.isPublic && <Lock className="ml-auto size-4 shrink-0 text-muted-foreground" aria-label="Privada" />}
       </div>
       <p className="line-clamp-2 min-h-10 text-sm text-muted-foreground">{c.shortDescription ?? c.description}</p>
-      <div className="mt-auto flex flex-wrap items-center gap-2 text-xs text-muted-foreground"><span className="inline-flex items-center gap-1"><Users className="size-3.5" />{c.stats.members}</span><span>· {c.stats.posts} tópicos</span>{c.viewer?.isMember && <Badge variant="success" className="ml-auto">Membro</Badge>}{c.viewer?.status === 'pending' && <Badge variant="secondary" className="ml-auto">Pedido enviado</Badge>}</div>
+      <div className="mt-auto flex flex-wrap items-center gap-2 text-xs text-muted-foreground"><span className="inline-flex items-center gap-1"><Users className="size-3.5" />{c.stats.members}</span><span>· {c.stats.posts} tópicos</span>{c.viewer.isMember && <Badge variant="success" className="ml-auto">Membro</Badge>}{c.viewer.status === 'pending' && <Badge variant="secondary" className="ml-auto">Pedido enviado</Badge>}</div>
     </Link>
   );
 }

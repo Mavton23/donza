@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ArrowRight, Award, BookOpenCheck, CalendarDays, Check, GraduationCap, MessagesSquare, Search, Sparkles, Users } from 'lucide-react';
+import { BrandArcs } from '@/components/layout/brand-arcs';
 import { CourseCard } from '@/components/courses/course-card';
 import { TestimonialCard } from '@/components/help/testimonial-card';
 import { Button } from '@/components/ui/button';
@@ -25,7 +26,8 @@ export default async function HomePage() {
       {/* Hero */}
       <section className="relative isolate overflow-hidden border-b">
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(60%_50%_at_75%_0%,color-mix(in_oklch,var(--primary)_14%,transparent),transparent),radial-gradient(40%_40%_at_0%_100%,color-mix(in_oklch,var(--accent)_16%,transparent),transparent)]" />
-        <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 md:py-24 lg:grid-cols-[1.1fr_0.9fr]">
+        <BrandArcs className="pointer-events-none absolute -right-32 -bottom-px -z-10 hidden w-[46rem] opacity-[0.55] lg:block" rings={6} />
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-4 py-16 sm:px-6 md:py-24 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
             <span className="inline-flex items-center gap-2 rounded-full border bg-card px-3 py-1 text-xs font-medium text-muted-foreground shadow-xs"><Sparkles className="size-3.5 text-accent" />Ensino online para Moçambique e além</span>
             <h1 className="mt-5 text-4xl leading-[1.08] font-bold sm:text-5xl lg:text-6xl">Aprenda no seu ritmo.<br /><span className="text-primary">Ensine com impacto.</span></h1>
@@ -49,7 +51,7 @@ export default async function HomePage() {
         <section aria-label="A Donza em números" className="border-b bg-card">
           <dl className="mx-auto grid max-w-7xl grid-cols-2 gap-y-6 px-4 py-8 sm:px-6 md:grid-cols-4">
             {([['Cursos publicados', s.courses], ['Alunos', s.students], ['Instrutores', s.instructors], ['Certificados emitidos', s.certificatesIssued]] as const).map(([l, v]) => (
-              <div key={l} className="text-center"><dd className="text-3xl font-bold tracking-tight text-primary">{nf.format(v)}</dd><dt className="mt-1 text-sm text-muted-foreground">{l}</dt></div>
+              <div key={l} className="text-center"><dd className="font-display text-3xl font-bold tracking-tight text-primary">{nf.format(v)}</dd><dt className="mt-1 text-sm text-muted-foreground">{l}</dt></div>
             ))}
           </dl>
         </section>
@@ -132,7 +134,7 @@ function HeroVisual() {
     <div className="relative mx-auto hidden w-full max-w-md lg:block" aria-hidden>
       <div className="absolute -inset-6 rounded-[2rem] bg-gradient-to-br from-primary/20 via-transparent to-accent/25 blur-2xl" />
       <div className="relative rotate-2 rounded-2xl border bg-card p-4 shadow-xl">
-        <div className="aspect-video rounded-xl bg-gradient-to-br from-teal-600 to-emerald-400 p-4"><div className="h-full rounded-lg bg-white/10 ring-1 ring-white/25" /></div>
+        <div className="aspect-video rounded-xl bg-gradient-to-br from-primary to-brand-claro p-4"><div className="h-full rounded-lg bg-white/10 ring-1 ring-white/25" /></div>
         <div className="mt-4 grid gap-2.5"><div className="h-3 w-3/4 rounded-full bg-foreground/80" /><div className="h-2.5 w-1/2 rounded-full bg-muted-foreground/30" /></div>
         <div className="mt-4 h-2 overflow-hidden rounded-full bg-secondary"><div className="h-full w-2/3 rounded-full bg-primary" /></div>
       </div>

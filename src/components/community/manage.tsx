@@ -30,7 +30,7 @@ const Pager = ({ page, total, onPage }: { page: number; total: number; onPage: (
 /** Lista de membros (todos os membros vêem; quem gere tem controlos). */
 export function MembersPanel({ community, canManage }: { community: Community; canManage: boolean }) {
   const { user } = useAuth(); const qc = useQueryClient(); const id = community.communityId;
-  const isAdmin = user?.role === 'admin' || community?.viewer?.role === 'admin';
+  const isAdmin = user?.role === 'admin' || community.viewer.role === 'admin';
   const [q, setQ] = React.useState(''); const [term, setTerm] = React.useState(''); const [page, setPage] = React.useState(1);
   React.useEffect(() => { const t = setTimeout(() => { setTerm(q.trim()); setPage(1); }, 300); return () => clearTimeout(t); }, [q]);
   const list = useQuery({ queryKey: ['community-members', id, term, page], queryFn: () => api.page<CommunityMemberRow>(`/communities/${id}/members`, { limit: 20, page, search: term || undefined }) });

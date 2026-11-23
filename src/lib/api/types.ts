@@ -93,7 +93,7 @@ export interface Community {
   coverImage: string | null; thumbnailImage: string | null; tags: string[]; membershipType: MembershipType; status: string; createdAt: string;
   creator: { userId: string; username: string; avatarUrl: string | null };
   stats: { members: number; posts: number; studyGroups: number };
-  viewer?: { isMember: boolean; role: string | null; status: string | null } | null;
+  viewer: { isMember: boolean; role: string | null; status: string | null };
 }
 export interface PostAuthor { userId: string; username: string; avatarUrl: string | null; fullName?: string | null }
 export interface PostStats { reactions: Record<ReactionType, number>; reactionsTotal: number; viewCount: number; commentCount: number }

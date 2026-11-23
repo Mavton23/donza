@@ -3,8 +3,8 @@ import { BookOpen, Calculator, Code2, FlaskConical, Globe2, Languages, Palette, 
 import { cn } from '@/lib/utils';
 
 const PALETTES = [
-  'from-teal-700 to-teal-500', 'from-cyan-800 to-cyan-600', 'from-amber-600 to-amber-500', 'from-indigo-700 to-indigo-500',
-  'from-rose-700 to-rose-500', 'from-emerald-800 to-emerald-600', 'from-slate-700 to-slate-500',
+  'from-[#0E6B63] to-[#2FA397]', 'from-[#0A2E2D] to-[#0E6B63]', 'from-[#B8481F] to-[#E0833B]',
+  'from-[#2A6AAE] to-[#5FA0D8]', 'from-[#0B4F4A] to-[#3E9C8F]', 'from-[#8A5A00] to-[#D9962A]',
 ];
 const hash = (s: string) => [...s].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
 function iconFor(cat?: string | null) {

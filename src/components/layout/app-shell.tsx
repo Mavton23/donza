@@ -70,8 +70,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const path = usePathname();
   const [open, setOpen] = React.useState(false);
   const unread = useUnread().data?.count ?? 0;
-  const { status } = useAuth(); const liveMsg = useLiveInterval(15_000);
-  const msgUnread = useQuery({ queryKey: ['msg-unread'], enabled: status === 'authenticated', refetchInterval: liveMsg, queryFn: () => api.get<{ unread: number }>('/messages/unread-count') }).data?.unread ?? 0;
   React.useEffect(() => setOpen(false), [path]);
   if (!user) return null;
   const name = displayName(user);

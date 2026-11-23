@@ -1,7 +1,6 @@
 'use client';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import * as React from 'react';
 import { ArrowLeft, Award, CalendarPlus, ExternalLink, MapPin, Pencil, Users, Video } from 'lucide-react';
 import { toast } from 'sonner';
@@ -23,7 +22,7 @@ import { STATUS_LABEL } from '../events';
 const msg = (e: unknown) => (e instanceof ApiError ? e.message : 'Sem ligação ao servidor.');
 
 export function EventView({ eventId }: { eventId: string }) {
-  const qc = useQueryClient(); const router = useRouter();
+  const qc = useQueryClient();
   const q = useQuery({ queryKey: ['event', eventId], queryFn: () => api.get<DonzaEvent>(`/events/${eventId}`) });
   const [checkout, setCheckout] = React.useState(false); const [edit, setEdit] = React.useState(false);
   const refresh = () => { qc.invalidateQueries({ queryKey: ['event', eventId] }); qc.invalidateQueries({ queryKey: ['events'] }); qc.invalidateQueries({ queryKey: ['calendar'] }); };
