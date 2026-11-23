@@ -31,17 +31,17 @@ export function CommunityView({ slug }: { slug: string }) {
   React.useEffect(() => { const t = setTimeout(() => setQ(search.trim()), 300); return () => clearTimeout(t); }, [search]);
   const [compose, setCompose] = React.useState(false);
   const id = c.data?.communityId;
-  const posts = useQuery({ queryKey: ['posts', id, type, sort, q], enabled: !!id && (c.data?.isPublic || c.data?.viewer.status === 'active'), queryFn: () => api.page<Post>(`/communities/${id}/posts`, { limit: 30, postType: type === 'all' ? undefined : type, sort, search: q || undefined }) });
+  const posts = useQuery({ queryKey: ['posts', id, type, sort, q], enabled: !!id && (c.data?.isPublic || c.data?.viewer?.status === 'active'), queryFn: () => api.page<Post>(`/communities/${id}/posts`, { limit: 30, postType: type === 'all' ? undefined : type, sort, search: q || undefined }) });
   const refresh = () => { qc.invalidateQueries({ queryKey: ['community', slug] }); qc.invalidateQueries({ queryKey: ['communities'] }); qc.invalidateQueries({ queryKey: ['posts', id] }); };
   const join = useMutation({ mutationFn: () => api.post<{ status: string }>(`/communities/${id}/join`), onSuccess: (r) => { refresh(); toast.success(r?.status === 'pending' ? 'Pedido enviado. Aguarde aprovação.' : 'Bem-vindo à comunidade!'); }, onError: (e) => toast.error(msg(e)) });
   const leave = useMutation({ mutationFn: () => api.del(`/communities/${id}/membership`), onSuccess: () => { refresh(); toast.success('Saiu da comunidade'); }, onError: (e) => toast.error(msg(e)) });
 
   if (c.isLoading) return <div className="grid gap-4"><Skeleton className="h-32 rounded-2xl" /><Skeleton className="h-40 rounded-2xl" /></div>;
   if (c.isError || !c.data) return <EmptyState title="Comunidade não encontrada" description={c.error instanceof ApiError ? c.error.message : undefined} action={<Button asChild><Link href="/comunidades">Voltar</Link></Button>} />;
-  const com = c.data; const active = com.viewer.status === 'active'; const pending = com.viewer.status === 'pending';
+  const com = c.data; const active = com.viewer?.status === 'active'; const pending = com.viewer?.status === 'pending';
   const canSee = com.isPublic || active;
-  const isCommunityAdmin = user?.role === 'admin' || com.viewer.role === 'admin';
-  const canManage = isCommunityAdmin || com.viewer.role === 'moderator';
+  const isCommunityAdmin = user?.role === 'admin' || com.viewer?.role === 'admin';
+  const canManage = isCommunityAdmin || com.viewer?.role === 'moderator';
   return (
     <>
       <header className="mb-6 flex flex-wrap items-start gap-4 rounded-2xl border bg-card p-6">
